@@ -11,18 +11,8 @@ namespace AudioDeviceCmdlets
     }
 
     [Cmdlet(VerbsCommon.Get, "DefaultAudioDevice")]
-    class GetDefaultAudioDevice : Cmdlet
+    public class GetDefaultAudioDevice : Cmdlet
     {
-        [Alias("DeviceIndex")]
-        [ValidateRange(0, 9)]
-        [Parameter(Mandatory = true, Position = 0)]
-        public int Index
-        {
-            get { return index; }
-            set { index = value; }
-        }
-        private int index;
-
         protected override void ProcessRecord()
         {
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
@@ -40,8 +30,35 @@ namespace AudioDeviceCmdlets
         }
     }
 
+    [Cmdlet(VerbsCommon.Set, "DefaultAudioDevice")]
+    public class SetDefaultAudioDevice : Cmdlet
+    {
+        [Alias("DeviceIndex")]
+        [ValidateRange(0, 9)]
+        [Parameter(Mandatory = true, Position = 0)]
+        public int Index
+        {
+            get { return index; }
+            set { index = value; }
+        }
+        private int index;
+
+        protected override void ProcessRecord()
+        {
+            MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
+            MMDeviceCollection devices = DevEnum.EnumerateAudioEndPoints(EDataFlow.eRender, EDeviceState.DEVICE_STATE_ACTIVE);
+            
+            PolicyConfigClient client = new PolicyConfigClient();
+
+            client.SetDefaultEndpoint(devices[index].ID, ERole.eCommunications);
+            client.SetDefaultEndpoint(devices[index].ID, ERole.eMultimedia);
+
+            WriteObject(devices[index]);
+        }
+    }
+
     [Cmdlet(VerbsCommon.Get, "AudioDeviceList")]
-    class GetAudioDeviceList : Cmdlet
+    public class GetAudioDeviceList : Cmdlet
     {
         protected override void ProcessRecord()
         {
