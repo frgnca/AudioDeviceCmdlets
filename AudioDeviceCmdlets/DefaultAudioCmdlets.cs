@@ -2,6 +2,11 @@
 using CoreAudioApi;
 using System.Collections.Generic;
 
+// Based on code posed to Code Project
+// http://www.codeproject.com/Articles/18520/Vista-Core-Audio-API-Master-Volume-Control
+// by Ray M.
+// and comments and suggestions by MadMidi
+
 namespace AudioDeviceCmdlets
 {
     class ReturnObject
