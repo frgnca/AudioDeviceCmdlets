@@ -1,6 +1,10 @@
 
-## Install
-    Import-Module AudioDeviceCmdlets.dll
+## Install.
+
+1 Mkdir C:\Users\%currentuser%\Documents\WindowsPowerShell\Modules\AudioDeviceCmdlets
+2 Copy CoreAudioApi.dll, AudioDeviceCmdlets.dll and AudioDeviceCmdlets.dll-Help.xml
+3 Import the binary module. This can go into your profile.
+        Import-Module AudioDeviceCmdlets
 
 ## Suggested Aliases. I may set these in the module in the future.
     New-Alias -Name mute -Value Set-DefaultAudioDeviceMute
