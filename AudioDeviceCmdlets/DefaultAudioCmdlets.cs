@@ -100,8 +100,19 @@ namespace AudioDeviceCmdlets
             MMDevice defaultDevice = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
 
             defaultDevice.AudioEndpointVolume.MasterVolumeLevelScalar = volume / 100.0f;
-
         }
     }
 
+    [Cmdlet(VerbsCommon.Set, "DefaultAudioDeviceMute")]
+    public class SetDefaultAudioDeviceMute : Cmdlet
+    {
+        protected override void ProcessRecord()
+        {
+            MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
+            MMDeviceCollection devices = DevEnum.EnumerateAudioEndPoints(EDataFlow.eRender, EDeviceState.DEVICE_STATE_ACTIVE);
+            MMDevice defaultDevice = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
+
+            defaultDevice.AudioEndpointVolume.Mute = !defaultDevice.AudioEndpointVolume.Mute;
+        }
+    }
 }
