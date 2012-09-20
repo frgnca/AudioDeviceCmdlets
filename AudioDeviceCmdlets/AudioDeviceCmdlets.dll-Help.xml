@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<helpItems xmlns="http://msh" schema="maml">
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Get-DefaultAudioDevice</command:name>
+      <maml:description>
+        <maml:para>Get Default MMDevice</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>DefaultAudioDevice</command:noun>
+      <dev:version>0.1</dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>Get the default audio playback device.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-DefaultAudioDevice</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Object</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>
+              Indexed list of MMDevice objects.
+            </maml:para>
+          </maml:description>
+        </dev:type>
+      </command:returnValue>
+    </command:returnValues>    
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Get-AudioDeviceList</command:name>
+      <maml:description>
+        <maml:para>Get list of MMDevices</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>AudioDeviceList</command:noun>
+      <dev:version>0.1</dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>Get an indexed list ofaudio playback devices. The index value is used in Set-DefaultAudioDevice.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-AudioDeviceList</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>Object[]</maml:name>
+          <maml:uri />
+          <maml:description>
+            <maml:para>
+              Indexed list of MMDevice objects.
+            </maml:para>
+          </maml:description>
+        </dev:type>
+      </command:returnValue>
+    </command:returnValues>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Set-DefaultAudioDevice</command:name>
+      <maml:description>
+        <maml:para>Set which audio device is default playback device.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>DefaultAudioDevice</command:noun>
+      <dev:version>0.1</dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>Set which audio device is default playback device. Change what device Windows uses for sound playback.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-DefaultAudioDevice</maml:name>     
+        <command:parameter required="true" position="1">
+          <maml:name>Index</maml:name>
+          <maml:description>
+            <maml:para>Index of device.</maml:para>
+          </maml:description>
+          <command:parameterValue>Int</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Set-DefaultAudioDeviceVolume</command:name>
+      <maml:description>
+        <maml:para>Set which audio device is default playback device.</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>DefaultAudioDeviceVolume</command:noun>
+      <dev:version>0.1</dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>Set the master volume of default playback device.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-DefaultAudioDeviceVolume</maml:name>
+        <command:parameter required="true" position="1">
+          <maml:name>Volume</maml:name>
+          <maml:description>
+            <maml:para>Volume level between 0 and 100.</maml:para>
+          </maml:description>
+          <command:parameterValue>Float</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>  
+    </command:syntax>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Set-DefaultAudioDeviceMute</command:name>
+      <maml:description>
+        <maml:para>Toggle mute</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Set</command:verb>
+      <command:noun>DefaultAudioDeviceMute</command:noun>
+      <dev:version>0.1</dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>Toggle mute on the default playback device.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Set-DefaultAudioDeviceMute</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
+      <command:name>Write-DefaultAudioDeviceValue</command:name>
+      <maml:description>
+        <maml:para>Display audio meter information</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Write</command:verb>
+      <command:noun>DefaultAudioDeviceValue</command:noun>
+      <dev:version>0.1</dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>Display a PowerShell progress bar that udpates with the MasterPeakValue.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Write-DefaultAudioDeviceValue</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+  </command:command>
+</helpItems>
