@@ -1,6 +1,7 @@
 ﻿using System.Management.Automation;
 using CoreAudioApi;
 using System.Collections.Generic;
+using System.Threading;
 
 // Based on code posed to Code Project
 // http://www.codeproject.com/Articles/18520/Vista-Core-Audio-API-Master-Volume-Control
@@ -113,6 +114,32 @@ namespace AudioDeviceCmdlets
             MMDevice defaultDevice = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
 
             defaultDevice.AudioEndpointVolume.Mute = !defaultDevice.AudioEndpointVolume.Mute;
+        }
+    }
+
+    [Cmdlet(VerbsCommunications.Write, "DefaultAudioDeviceValue")]
+    public class WriteDefaultAudioDeviceValue : Cmdlet
+    {
+        protected override void ProcessRecord()
+        {
+            MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
+            MMDeviceCollection devices = DevEnum.EnumerateAudioEndPoints(EDataFlow.eRender, EDeviceState.DEVICE_STATE_ACTIVE);
+            MMDevice defaultDevice = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
+
+            ProgressRecord pr = new ProgressRecord(0, defaultDevice.FriendlyName, "Peak Value");
+            
+            pr.PercentComplete = 0;
+
+            WriteProgress(pr);
+            
+            do{
+                pr.PercentComplete = System.Convert.ToInt32( defaultDevice.AudioMeterInformation.MasterPeakValue * 100);
+                
+                Thread.Sleep(100);
+
+                WriteProgress(pr);
+
+            } while (!Stopping);
         }
     }
 }
