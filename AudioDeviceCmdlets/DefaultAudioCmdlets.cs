@@ -14,6 +14,11 @@ namespace AudioDeviceCmdlets
     {
         public int Index;
         public MMDevice Device;
+
+        public override string ToString()
+        {
+            return string.Format("{0}, {1}", Index, Device.FriendlyName);
+        }
     }
 
     [Cmdlet(VerbsCommon.Get, "DefaultAudioDevice")]
@@ -71,14 +76,10 @@ namespace AudioDeviceCmdlets
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
             MMDeviceCollection devices = DevEnum.EnumerateAudioEndPoints(EDataFlow.eRender, EDeviceState.DEVICE_STATE_ACTIVE);
 
-            List<ReturnObject> resultObjectList = new List<ReturnObject>();
-
             for (int i = 0; i < devices.Count; i++)
             {
-                resultObjectList.Add(new ReturnObject{Index = i, Device = devices[i]});
+                WriteObject(new ReturnObject{Index = i, Device = devices[i]});
             }
-
-            WriteObject(resultObjectList);
         }
     }
 
@@ -134,10 +135,10 @@ namespace AudioDeviceCmdlets
             
             do{
                 pr.PercentComplete = System.Convert.ToInt32( defaultDevice.AudioMeterInformation.MasterPeakValue * 100);
-                
-                Thread.Sleep(100);
 
                 WriteProgress(pr);
+                
+                Thread.Sleep(100);
 
             } while (!Stopping);
         }
