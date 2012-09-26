@@ -1,4 +1,5 @@
-﻿using System.Management.Automation;
+﻿using System;
+using System.Management.Automation;
 using CoreAudioApi;
 using System.Collections.Generic;
 using System.Threading;
@@ -10,14 +11,22 @@ using System.Threading;
 
 namespace AudioDeviceCmdlets
 {
-    class ReturnObject
+    public class AudioDevice
     {
         public int Index;
+        public string DeviceFriendlyname;
         public MMDevice Device;
+
+        public AudioDevice(int Index, MMDevice BaseDevice)
+        {
+            this.Index = Index;
+            this.DeviceFriendlyname = BaseDevice.FriendlyName;
+            this.Device = BaseDevice;
+        }
 
         public override string ToString()
         {
-            return string.Format("{0}, {1}", Index, Device.FriendlyName);
+            return string.Format("{0}, {1}", Index, DeviceFriendlyname);
         }
     }
 
@@ -34,7 +43,7 @@ namespace AudioDeviceCmdlets
             {
                 if (devices[i].ID == DefaultDevice.ID)
                 {
-                    WriteObject(new ReturnObject { Index = i, Device = devices[i] });
+                    WriteObject(new AudioDevice(i, devices[i]));
                     return;
                 }
             }
@@ -46,13 +55,31 @@ namespace AudioDeviceCmdlets
     {
         [Alias("DeviceIndex")]
         [ValidateRange(0, 9)]
-        [Parameter(Mandatory = true, Position = 0)]
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName="Index")]
         public int Index
         {
             get { return index; }
             set { index = value; }
         }
         private int index;
+
+        [Alias("DeviceName", "FriendlyName")]
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "Name")]
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+        private string name;
+
+        [Parameter(Mandatory=true, ParameterSetName="InputObject", ValueFromPipeline=true)]
+        public AudioDevice InputObject 
+        {
+            get { return inputObject;}
+            set { inputObject = value; }
+        
+        }
+        private AudioDevice inputObject;
 
         protected override void ProcessRecord()
         {
@@ -61,10 +88,34 @@ namespace AudioDeviceCmdlets
             
             PolicyConfigClient client = new PolicyConfigClient();
 
+            if (!string.IsNullOrEmpty(name))
+            {
+                for (int i = 0; i < devices.Count; i++)
+                {
+                    if (string.Compare(devices[i].FriendlyName, name, StringComparison.CurrentCultureIgnoreCase) == 0)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+            }
+
+            if (inputObject != null)
+            {
+                for (int i = 0; i < devices.Count; i++)
+                {
+                    if (devices[i].ID == inputObject.Device.ID)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+            }
+
             client.SetDefaultEndpoint(devices[index].ID, ERole.eCommunications);
             client.SetDefaultEndpoint(devices[index].ID, ERole.eMultimedia);
 
-            WriteObject(devices[index]);
+            WriteObject(new AudioDevice(index, devices[index]));
         }
     }
 
@@ -78,7 +129,7 @@ namespace AudioDeviceCmdlets
 
             for (int i = 0; i < devices.Count; i++)
             {
-                WriteObject(new ReturnObject{Index = i, Device = devices[i]});
+                WriteObject(new AudioDevice(i, devices[i]));
             }
         }
     }

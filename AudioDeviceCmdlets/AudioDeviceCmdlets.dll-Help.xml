@@ -33,7 +33,7 @@
           </maml:description>
         </dev:type>
       </command:returnValue>
-    </command:returnValues>    
+    </command:returnValues>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
@@ -88,13 +88,33 @@
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
-        <maml:name>Set-DefaultAudioDevice</maml:name>     
+        <maml:name>Set-DefaultAudioDevice</maml:name>
         <command:parameter required="true" position="1">
           <maml:name>Index</maml:name>
           <maml:description>
             <maml:para>Index of device.</maml:para>
           </maml:description>
           <command:parameterValue>Int</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-DefaultAudioDevice</maml:name>
+        <command:parameter required="true" position="1">
+          <maml:name>Name</maml:name>
+          <maml:description>
+            <maml:para>FriendlyName of device.</maml:para>
+          </maml:description>
+          <command:parameterValue>String</command:parameterValue>
+        </command:parameter>
+      </command:syntaxItem>
+      <command:syntaxItem>
+        <maml:name>Set-DefaultAudioDevice</maml:name>
+        <command:parameter required="true" position="1">
+          <maml:name>InputObject</maml:name>
+          <maml:description>
+            <maml:para>InputObject</maml:para>
+          </maml:description>
+          <command:parameterValue>AudioDeviceCmdlets.AudioDevice</command:parameterValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -125,7 +145,7 @@
           </maml:description>
           <command:parameterValue>Float</command:parameterValue>
         </command:parameter>
-      </command:syntaxItem>  
+      </command:syntaxItem>
     </command:syntax>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">

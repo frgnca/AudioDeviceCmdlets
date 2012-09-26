@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("AudioDeviceCmdlets")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Vovici")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AudioDeviceCmdlets")]
-[assembly: AssemblyCopyright("Copyright © Vovici 2012")]
+[assembly: AssemblyCopyright("Copyright © Chris Hunt 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
