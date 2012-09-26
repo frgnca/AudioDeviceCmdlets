@@ -1,4 +1,6 @@
-Basic audio device control from Powershell including Nuget Package Manager Console.
+Basic command-line audio device control from Powershell including Nuget Package Manager Console.
+
+Features: Set Volume and toggle Mute on the Default Playback Device. Get a list of devices and set the Default Audio Device.
 
 ## Install.
 
@@ -13,8 +15,8 @@ Basic audio device control from Powershell including Nuget Package Manager Conso
         Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
 
 ## Suggested Aliases. I may set these in the module in the future.
-    New-Alias -Name mute -Value Set-DefaultAudioDeviceMute
-    New-Alias -Name vol -Value set-DefaultAudioDeviceVolume
+    New-Alias -Name Mute -Value Set-DefaultAudioDeviceMute
+    New-Alias -Name Vol -Value set-DefaultAudioDeviceVolume
 
 ## Exposed Cmdlets
 * Get-DefaultAudioDevice
