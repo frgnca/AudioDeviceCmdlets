@@ -133,6 +133,19 @@ namespace AudioDeviceCmdlets
             }
         }
     }
+    
+    [Cmdlet(VerbsCommon.Get, "DefaultAudioDeviceVolume")]
+    public class GetDefaultAudioDeviceVolume : Cmdlet
+    {
+        protected override void ProcessRecord()
+        {
+            MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
+            MMDeviceCollection devices = DevEnum.EnumerateAudioEndPoints(EDataFlow.eRender, EDeviceState.DEVICE_STATE_ACTIVE);
+            MMDevice defaultDevice = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
+
+            WriteObject(string.Format("{0}%", defaultDevice.AudioEndpointVolume.MasterVolumeLevelScalar * 100));
+        }
+    }
 
     [Cmdlet(VerbsCommon.Set, "DefaultAudioDeviceVolume")]
     public class SetDefaultAudioDeviceVolume : Cmdlet
@@ -172,6 +185,14 @@ namespace AudioDeviceCmdlets
     [Cmdlet(VerbsCommunications.Write, "DefaultAudioDeviceValue")]
     public class WriteDefaultAudioDeviceValue : Cmdlet
     {
+        [Parameter(Position=0)]
+        public SwitchParameter StreamValue
+        {
+            get { return streamValue; }
+            set { streamValue = value; }
+        }
+        private bool streamValue;
+
         protected override void ProcessRecord()
         {
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
@@ -179,19 +200,26 @@ namespace AudioDeviceCmdlets
             MMDevice defaultDevice = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
 
             ProgressRecord pr = new ProgressRecord(0, defaultDevice.FriendlyName, "Peak Value");
-            
             pr.PercentComplete = 0;
 
-            WriteProgress(pr);
+            if (streamValue)
+                WriteObject(0);
+            else
+                WriteProgress(pr);
             
             do{
                 pr.PercentComplete = System.Convert.ToInt32( defaultDevice.AudioMeterInformation.MasterPeakValue * 100);
 
-                WriteProgress(pr);
+                if (streamValue)
+                    WriteObject(System.Convert.ToInt32(defaultDevice.AudioMeterInformation.MasterPeakValue * 100));
+                else
+                    WriteProgress(pr);
                 
                 Thread.Sleep(100);
 
             } while (!Stopping);
         }
     }
+
+
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>AudioDeviceCmdlets</id>
+    <version>0.1</version>
+    <title>AudioDeviceCmdlets</title>
+    <authors>Chris Hunt</authors>
+    <owners>Chris Hunt</owners>
+    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
+    <projectUrl>http://PROJECT_URL_HERE_OR_DELETE_THIS_LINE</projectUrl>
+    <iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Powershell Cmdlets for manipulating Windows Audio Devices</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>Tag1 Tag2</tags>
+  </metadata>
+</package>
