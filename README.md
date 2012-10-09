@@ -26,8 +26,9 @@ Features: Set Volume and toggle Mute on the Default Playback Device. Get a list 
 * Set-DefaultAudioDevice [-Name] &lt;String&gt;
 * Set-DefaultAudioDevice [-InputObject] &lt;AudioDevice&gt;
 * Set-DefaultAudioDeviceVolume -Volume &lt;float&gt;
+* Get-DefaultAudioDeviceVolume
 * Set-DefaultAudioDeviceMute
-* Write-DefaultAudioDeviceValue
+* Write-DefaultAudioDeviceValue [-StreamValue]
 
 ## Attribution
 Based on work done by Ray M. <a href="http://www.codeproject.com/Articles/18520/Vista-Core-Audio-API-Master-Volume-Control">hosted</a> on The Code Project
