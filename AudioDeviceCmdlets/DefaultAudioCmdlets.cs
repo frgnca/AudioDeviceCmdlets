@@ -172,13 +172,21 @@ namespace AudioDeviceCmdlets
     [Cmdlet(VerbsCommon.Set, "DefaultAudioDeviceMute")]
     public class SetDefaultAudioDeviceMute : Cmdlet
     {
+        [Parameter]
+        public SwitchParameter NoToggle
+        {
+            get { return noToggle; }
+            set { noToggle = value; }
+        }
+        private bool noToggle;
+
         protected override void ProcessRecord()
         {
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
             MMDeviceCollection devices = DevEnum.EnumerateAudioEndPoints(EDataFlow.eRender, EDeviceState.DEVICE_STATE_ACTIVE);
             MMDevice defaultDevice = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
 
-            defaultDevice.AudioEndpointVolume.Mute = !defaultDevice.AudioEndpointVolume.Mute;
+            defaultDevice.AudioEndpointVolume.Mute = NoToggle || !defaultDevice.AudioEndpointVolume.Mute;
         }
     }
 
