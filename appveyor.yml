@@ -8,13 +8,13 @@ environment:
   ApiKey:
     secure: y/mde3ZPuhXbecazSePa37KA2pNPUlZ6l+e+9uTMDebiQvEjkC1JqPXQ7Zrm541E
 build:
-  verbosity: normal
+  verbosity: minimal
 skip_commits:
   message: /updated readme.*/
 deploy_script:
 - ps: >-
     $PublishParams = @{
-        Path = $(Join-Path -Path $ENV:APPVEYOR_BUILD_FOLDER -Childpath AudioDeviceCmdlets\bin)
+        Path = $(Join-Path -Path $ENV:APPVEYOR_BUILD_FOLDER -Childpath AudioDeviceCmdlets\bin\Release)
         NuGetApiKey = $ENV:ApiKey
     }
 
@@ -35,4 +35,4 @@ deploy_script:
     
     #Publish!
 
-    #Publish-Module @PublishParams
+    Publish-Module @PublishParams
