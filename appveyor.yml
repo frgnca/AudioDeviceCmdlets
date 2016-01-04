@@ -14,8 +14,13 @@ skip_commits:
   message: /updated readme.*/
 deploy_script:
 - ps: >-
+    $release = Join-Path -Path $ENV:APPVEYOR_BUILD_FOLDER -Childpath AudioDeviceCmdlets\bin\Release\*
+    
+    New-Item -Path C:\ -Name AudioDeviceCmdlets -Type Directory
+    Copy-Item -path $release -destination C:\AudioDeviceCmdlets
+
     $PublishParams = @{
-        Path = $(Join-Path -Path $ENV:APPVEYOR_BUILD_FOLDER -Childpath AudioDeviceCmdlets\bin\Release)
+        Path = C:\AudioDeviceCmdlets
         NuGetApiKey = $ENV:ApiKey
     }
 
