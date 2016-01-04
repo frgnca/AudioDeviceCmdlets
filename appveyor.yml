@@ -16,12 +16,12 @@ deploy_script:
 - ps: >-
     $release = Join-Path -Path $ENV:APPVEYOR_BUILD_FOLDER -Childpath AudioDeviceCmdlets\bin\Release\*
     
-    New-Item -Path C:\ -Name AudioDeviceCmdlets -Type Directory
+    New-Item -Path C:\ -Name AudioDeviceCmdlets -Type Directory | out-null
     
     Copy-Item -path $release -destination C:\AudioDeviceCmdlets
 
     $PublishParams = @{
-        Path = C:\AudioDeviceCmdlets
+        Path = "C:\AudioDeviceCmdlets"
         NuGetApiKey = $ENV:ApiKey
     }
 
