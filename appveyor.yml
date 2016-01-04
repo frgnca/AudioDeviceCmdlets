@@ -1,0 +1,37 @@
+version: 1.1.{build}
+os: Unstable
+environment:
+  ModuleName: WindowsAudioDevice-Powershell-Cmdlet
+  LicenseUri: https://github.com/cdhunt/WindowsAudioDevice-Powershell-Cmdlet/blob/master/LICENSE
+  ProjectUri: https://github.com/cdhunt/WindowsAudioDevice-Powershell-Cmdlet
+  Tags: sound,audio
+  ApiKey:
+    secure: y/mde3ZPuhXbecazSePa37KA2pNPUlZ6l+e+9uTMDebiQvEjkC1JqPXQ7Zrm541E
+build:
+  verbosity: minimal
+skip_commits:
+  message: /updated readme.*/
+deploy_script:
+- ps: >-
+    $PublishParams = @{
+        Path = $ENV:APPVEYOR_BUILD_FOLDER
+        NuGetApiKey = $ENV:ApiKey
+    }
+
+    if($ENV:ReleaseNotes) { $PublishParams.ReleaseNotes = $ENV:ReleaseNotes }
+
+    if($ENV:LicenseUri) { $PublishParams.LicenseUri = $ENV:LicenseUri }
+
+    if($ENV:ProjectUri) { $PublishParams.ProjectUri = $ENV:ProjectUri }
+
+    if($ENV:Tags)
+
+    {
+        # split it up, remove whitespace
+        $PublishParams.Tags = $ENV:Tags -split ',' | where { $_ } | foreach {$_.trim()}
+    }
+
+    $PublishParams
+    #Publish!
+
+    //Publish-Module @PublishParams
