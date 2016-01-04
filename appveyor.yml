@@ -17,6 +17,7 @@ deploy_script:
     $release = Join-Path -Path $ENV:APPVEYOR_BUILD_FOLDER -Childpath AudioDeviceCmdlets\bin\Release\*
     
     New-Item -Path C:\ -Name AudioDeviceCmdlets -Type Directory
+    
     Copy-Item -path $release -destination C:\AudioDeviceCmdlets
 
     $PublishParams = @{
