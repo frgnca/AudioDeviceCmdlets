@@ -4,6 +4,12 @@ Features: Set Volume and toggle Mute on the Default Playback Device. Get a list 
 
 ## Install.
 
+### From WMF5+
+
+    Install-Module -Name AudioDeviceCmdlets
+    
+### Manual Install
+
 * Download https://github.com/cdhunt/WindowsAudioDevice-Powershell-Cmdlet/blob/master/AudioDeviceCmdlets.zip
 * `New-Item "$($profile | split-path)\Modules\AudioDeviceCmdlets" -Type directory -Force`
 * Copy CoreAudioApi.dll, AudioDeviceCmdlets.dll and AudioDeviceCmdlets.dll-Help.xml to the above location.
