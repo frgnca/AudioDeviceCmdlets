@@ -16,7 +16,7 @@ Features: Set Volume and toggle Mute on the Default Playback Device. Get a list 
 * Open a PowerShell console *As Administrator*.
 
 ```powershell
-Set-Location "$profile\Modules\AudioDeviceCmdlets"
+Set-Location "$($profile | Split-Path)\Modules\AudioDeviceCmdlets"
 Get-ChildItem | Unblock-File
 ```
 
