@@ -8,7 +8,7 @@ environment:
 install:
 - ps: >-
 
-    Get-PackageProvider -Name NuGet -ForceBootstrap    
+    #Get-PackageProvider -Name NuGet -ForceBootstrap    
 build:
   verbosity: minimal
 skip_commits:
