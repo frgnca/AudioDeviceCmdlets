@@ -135,6 +135,7 @@ namespace AudioDeviceCmdlets
     }
     
     [Cmdlet(VerbsCommon.Get, "DefaultAudioDeviceVolume")]
+    [Alias("vol","volume")]
     public class GetDefaultAudioDeviceVolume : Cmdlet
     {
         protected override void ProcessRecord()
@@ -148,6 +149,7 @@ namespace AudioDeviceCmdlets
     }
 
     [Cmdlet(VerbsCommon.Set, "DefaultAudioDeviceVolume")]
+    [Alias("setvol","setvolume")]
     public class SetDefaultAudioDeviceVolume : Cmdlet
     {      
         [ValidateRange(0, 100.0f)]
@@ -170,6 +172,7 @@ namespace AudioDeviceCmdlets
     }
 
     [Cmdlet(VerbsCommon.Set, "DefaultAudioDeviceMute")]
+    [Alias("mute")]
     public class SetDefaultAudioDeviceMute : Cmdlet
     {
         protected override void ProcessRecord()

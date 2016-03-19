@@ -20,12 +20,14 @@ deploy_script:
     
     New-Item -Path C:\ -Name AudioDeviceCmdlets -Type Directory | out-null
     
-    Copy-Item -path $release -destination C:\AudioDeviceCmdlets
+    Copy-Item -path $release\* -destination C:\AudioDeviceCmdlets
 
     $PublishParams = @{
         Path = "C:\AudioDeviceCmdlets"
         NuGetApiKey = $ENV:ApiKey
     }
+    
+    ls C:\AudioDeviceCmdlets
 
     $PublishParams
     
