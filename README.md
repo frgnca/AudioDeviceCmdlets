@@ -47,7 +47,7 @@ New-Alias -Name Vol -Value set-DefaultAudioDeviceVolume
 * Set-DefaultAudioDevice [-InputObject] &lt;AudioDevice&gt;
 * Set-DefaultAudioDeviceVolume -Volume &lt;float&gt;
 * Get-DefaultAudioDeviceVolume
-* Set-DefaultAudioDeviceMute [-Force]
+* Set-DefaultAudioDeviceMute [-Force] &lt;Bool&gt;
 * Write-DefaultAudioDeviceValue [-StreamValue]
 
 ## Attribution
