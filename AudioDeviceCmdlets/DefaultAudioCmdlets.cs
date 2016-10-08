@@ -175,13 +175,32 @@ namespace AudioDeviceCmdlets
     [Alias("mute")]
     public class SetDefaultAudioDeviceMute : Cmdlet
     {
+        [Parameter(Position = 0, ParameterSetName = "Force")]
+        public bool? Force
+        {
+            get { return force; }
+            set { force = value; }
+        }
+        private bool? force;
+
         protected override void ProcessRecord()
         {
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
             MMDeviceCollection devices = DevEnum.EnumerateAudioEndPoints(EDataFlow.eRender, EDeviceState.DEVICE_STATE_ACTIVE);
             MMDevice defaultDevice = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
 
-            defaultDevice.AudioEndpointVolume.Mute = !defaultDevice.AudioEndpointVolume.Mute;
+            if (force==true)
+            {
+               defaultDevice.AudioEndpointVolume.Mute = true;
+            }
+            if (force==false)
+            {
+                defaultDevice.AudioEndpointVolume.Mute = false;
+            }
+            if (force==null)
+            {
+                defaultDevice.AudioEndpointVolume.Mute = !defaultDevice.AudioEndpointVolume.Mute;
+            }
         }
     }
 
