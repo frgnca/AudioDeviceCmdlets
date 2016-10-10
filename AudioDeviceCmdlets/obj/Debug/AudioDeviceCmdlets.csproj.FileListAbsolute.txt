@@ -1,7 +1,0 @@
-C:\Users\chunt\Documents\GitHub\WindowsAudioDevice-Powershell-Cmdlet\AudioDeviceCmdlets\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\chunt\Documents\GitHub\WindowsAudioDevice-Powershell-Cmdlet\AudioDeviceCmdlets\bin\Debug\AudioDeviceCmdlets.dll
-C:\Users\chunt\Documents\GitHub\WindowsAudioDevice-Powershell-Cmdlet\AudioDeviceCmdlets\bin\Debug\AudioDeviceCmdlets.pdb
-C:\Users\chunt\Documents\GitHub\WindowsAudioDevice-Powershell-Cmdlet\AudioDeviceCmdlets\bin\Debug\CoreAudioApi.dll
-C:\Users\chunt\Documents\GitHub\WindowsAudioDevice-Powershell-Cmdlet\AudioDeviceCmdlets\bin\Debug\CoreAudioApi.pdb
-C:\Users\chunt\Documents\GitHub\WindowsAudioDevice-Powershell-Cmdlet\AudioDeviceCmdlets\obj\Debug\AudioDeviceCmdlets.dll
-C:\Users\chunt\Documents\GitHub\WindowsAudioDevice-Powershell-Cmdlet\AudioDeviceCmdlets\obj\Debug\AudioDeviceCmdlets.pdb
