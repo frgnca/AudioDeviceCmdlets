@@ -150,6 +150,28 @@
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
     <command:details>
+      <command:name>Get-DefaultAudioDeviceMute</command:name>
+      <maml:description>
+        <maml:para>Get mute state</maml:para>
+      </maml:description>
+      <maml:copyright>
+        <maml:para></maml:para>
+      </maml:copyright>
+      <command:verb>Get</command:verb>
+      <command:noun>DefaultAudioDeviceMute</command:noun>
+      <dev:version>0.1</dev:version>
+    </command:details>
+    <maml:description>
+      <maml:para>Get mute state of default playback device as a boolean value.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>Get-DefaultAudioDeviceMute</maml:name>
+      </command:syntaxItem>
+    </command:syntax>
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10">
+    <command:details>
       <command:name>Set-DefaultAudioDeviceMute</command:name>
       <maml:description>
         <maml:para>Toggle mute or force mute state</maml:para>

@@ -171,6 +171,20 @@ namespace AudioDeviceCmdlets
         }
     }
 
+    [Cmdlet(VerbsCommon.Get, "DefaultAudioDeviceMute")]
+    [Alias("getmute")]
+    public class GetDefaultAudioDeviceMute : Cmdlet
+    {
+        protected override void ProcessRecord()
+        {
+            MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
+            MMDeviceCollection devices = DevEnum.EnumerateAudioEndPoints(EDataFlow.eRender, EDeviceState.DEVICE_STATE_ACTIVE);
+            MMDevice defaultDevice = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
+
+            WriteObject(defaultDevice.AudioEndpointVolume.Mute);
+        }
+    }
+
     [Cmdlet(VerbsCommon.Set, "DefaultAudioDeviceMute")]
     [Alias("mute")]
     public class SetDefaultAudioDeviceMute : Cmdlet
