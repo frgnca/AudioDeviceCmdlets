@@ -56,11 +56,11 @@ Write-DefaultAudioDeviceValue -StreamValue
 
 ## Build Cmdlet from source
 
-1. Using Visual Studio Community, create new project from AudioDeviceCmdlets folder  
+1. Using Visual Studio Community, create new project from SOURCE folder  
     File -> New -> Project From Existing Code...
     
 		Type of project: Visual C#
-		Folder: AudioDeviceCmdlets
+		Folder: SOURCE
 		Name: AudioDeviceCmdlets
 		Output type: Class Library
 
