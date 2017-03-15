@@ -1,16 +1,17 @@
 ## Description
-AudioDeviceCmdlets is a PowerShell Cmdlet to control audio devices on Windows
+AudioDeviceCmdlets is a suite of PowerShell Cmdlets to control audio devices on Windows
 
 
-## Features  
-Get list of audio devices (playback/recording)  
-Set default audio device (playback/recording)  
+## Features
+Get list of all audio devices  
+Get default audio device (playback/recording)  
 Get volume and mute state of default audio device (playback/recording)  
-Set volume and mute state of default audio device (playback/recording)
+Set default audio device (playback/recording)  
+Set volume and mute state of default audio device (playback/recording)  
 
 
 ## Import Cmdlet to PowerShell
-Download <a href="https://github.com/frgnca/AudioDeviceCmdlets/raw/master/AudioDeviceCmdlets.dll">AudioDeviceCmdlets.dll</a>
+dev_v3.0
 ```powershell
 New-Item "$($profile | split-path)\Modules\AudioDeviceCmdlets" -Type directory -Force
 Copy-Item "C:\Path\to\AudioDeviceCmdlets.dll" "$($profile | split-path)\Modules\AudioDeviceCmdlets\AudioDeviceCmdlets.dll"
@@ -22,35 +23,32 @@ Import-Module AudioDeviceCmdlets
 
 ## Usage
 ```PowerShell
-Get-AudioDeviceList
-Get-AudioDeviceDefaultList
-Get-AudioDevicePlaybackList
-Get-AudioDeviceRecordingList
+Get-AudioDevice -List             # Outputs a list of all devices as <AudioDevice>
+                -ID <string>      # Outputs the device with the ID corresponding to the given <string>
+                -Index <int>      # Outputs the device with the Index corresponding to the given <int>
+		-Playback         # Outputs the default playback device as <AudioDevice>
+                -PlaybackMute     # Outputs the default playback device's mute state as <bool>
+                -PlaybackVolume   # Outputs the default playback device's volume level on 100 as <float>
+                -Recording        # Outputs the default recording device as <AudioDevice>
+                -RecordingMute    # Outputs the default recording device's mute state as <bool>
+                -RecordingVolume  # Outputs the default recording device's volume level on 100 as <float>
 ```
 ```PowerShell
-Get-AudioDevicePlaybackDefault
-Get-AudioDevicePlaybackDefaultMute
-Get-AudioDevicePlaybackDefaultVolume
-Get-AudioDeviceRecordingDefault
-Get-AudioDeviceRecordingDefaultMute
-Get-AudioDeviceRecordingDefaultVolume
+Set-AudioDevice <AudioDevice>             # Sets the default playback/recording device to the given <AudioDevice>, can be piped
+                -ID <string>              # Sets the default playback/recording device to the device with the ID corresponding to the given <string>
+                -Index <int>              # Sets the default playback/recording device to the device with the Index corresponding to the given <int>
+                -PlaybackMute <bool>      # Sets the default playback device's mute state to the given <bool>
+                -PlaybackMuteToggle       # Toggles the default playback device's mute state
+                -PlaybackVolume <float>   # Sets the default playback device's volume level on 100 to the given <float>
+                -RecordingMute <bool>     # Sets the default recording device's mute state to the given <bool>
+                -RecordingMuteToggle      # Toggles the default recording device's mute state
+                -RecordingVolume <float>  # Sets the default recording device's volume level on 100 to the given <float>
 ```
 ```PowerShell
-Set-AudioDevicePlaybackDefault -Index <Int>
-Set-AudioDevicePlaybackDefault -Name <String>
-Set-AudioDevicePlaybackDefault -InputObject <AudioDevice>
-Set-AudioDevicePlaybackDefaultMute <Bool>
-Set-AudioDevicePlaybackDefaultMute #Toggle
-Set-AudioDevicePlaybackDefaultVolume -Volume <Float>
-Set-AudioDeviceRecordingDefault -Index <Int>
-Set-AudioDeviceRecordingDefault -Name <String>
-Set-AudioDeviceRecordingDefault  -InputObject <AudioDevice>
-Set-AudioDeviceRecordingDefaultMute <Bool>
-Set-AudioDeviceRecordingDefaultMute #Toggle
-Set-AudioDeviceRecordingDefaultVolume -Volume <Float>
-```
-```PowerShell
-Write-DefaultAudioDeviceValue -StreamValue
+Write-AudioDevice -PlaybackMeter  # Writes the default playback device's power output on 100 as a meter
+                  -PlaybackSteam  # Writes the default playback device's power output on 100 as a stream of <int>
+                  -RecordingMeter # Writes the default recording device's power output on 100 as a meter
+                  -RecordingSteam # Writes the default recording device's power output on 100 as a stream of <int>
 ```
 
 

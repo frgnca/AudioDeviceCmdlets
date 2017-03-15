@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AudioDeviceCmdlets")]
-[assembly: AssemblyDescription("AudioDeviceCmdlets is a PowerShell Cmdlet to control audio devices on Windows.")]
+[assembly: AssemblyDescription("AudioDeviceCmdlets is a suite of PowerShell Cmdlets to control audio devices on Windows")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("frgn.ca")]
 [assembly: AssemblyProduct("AudioDeviceCmdlets")]
-[assembly: AssemblyCopyright("Copyright (c) 2016 Francois Gendron")]
+[assembly: AssemblyCopyright("Copyright (c) 2016-2017 Francois Gendron fg@frgn.ca")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.0.0")]
+[assembly: AssemblyVersion("3.0.0.0")]
+[assembly: AssemblyFileVersion("3.0.0.0")]
