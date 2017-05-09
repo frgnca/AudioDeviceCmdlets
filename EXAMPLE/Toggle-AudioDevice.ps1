@@ -2,7 +2,10 @@
 Copyright (c) 2016-2017 Francois Gendron <fg@frgn.ca>
 MIT License
 
-AudioDeviceCmdlets is a suite of PowerShell Cmdlets to control audio devices on Windows
+This file is a script that toggles between two playback audio devices using 
+AudioDeviceCmdlets then plays a sound for confirmation
+AudioDeviceCmdlets is a suite of PowerShell Cmdlets to control audio devices 
+on Windows
 https://github.com/frgnca/AudioDeviceCmdlets
 #>
 
