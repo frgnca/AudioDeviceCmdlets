@@ -2,6 +2,7 @@
 Copyright (c) 2016-2017 Francois Gendron <fg@frgn.ca>
 MIT License
 
+This file contains AudioDeviceCmdlets
 AudioDeviceCmdlets is a suite of PowerShell Cmdlets to control audio devices on Windows
 */
 
