@@ -1,56 +1,93 @@
-Basic command-line audio device control from Powershell including Nuget Package Manager Console.
+## Description
+AudioDeviceCmdlets is a suite of PowerShell Cmdlets to control audio devices on Windows
 
-Features: Set Volume and toggle Mute on the Default Playback Device. Get a list of devices and set the Default Audio Device.
 
-## Install.
+## Features
+Get list of all audio devices  
+Get default audio device (playback/recording)  
+Get volume and mute state of default audio device (playback/recording)  
+Set default audio device (playback/recording)  
+Set volume and mute state of default audio device (playback/recording)  
 
-### From WMF5+
 
-    Install-Module -Name AudioDeviceCmdlets
-    
-### Manual Install
-
-* Download https://github.com/cdhunt/WindowsAudioDevice-Powershell-Cmdlet/blob/master/AudioDeviceCmdlets.zip
-* `New-Item "$($profile | split-path)\Modules\AudioDeviceCmdlets" -Type directory -Force`
-* Copy CoreAudioApi.dll, AudioDeviceCmdlets.dll and AudioDeviceCmdlets.dll-Help.xml to the above location.
-* Open a PowerShell console *As Administrator*.
-
+## Import Cmdlet to PowerShell
+Download <a href="https://github.com/frgnca/AudioDeviceCmdlets/releases/download/v3.0/AudioDeviceCmdlets.dll">AudioDeviceCmdlets.dll</a>
 ```powershell
+New-Item "$($profile | split-path)\Modules\AudioDeviceCmdlets" -Type directory -Force
+Copy-Item "C:\Path\to\AudioDeviceCmdlets.dll" "$($profile | split-path)\Modules\AudioDeviceCmdlets\AudioDeviceCmdlets.dll"
 Set-Location "$($profile | Split-Path)\Modules\AudioDeviceCmdlets"
 Get-ChildItem | Unblock-File
-```
-
-* Import the binary module. This can go into your profile.
-        
-```powershell
 Import-Module AudioDeviceCmdlets
 ```
 
-* You may need to set the execution policy.
 
-```powershell
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+## Usage
+```PowerShell
+Get-AudioDevice -List             # Outputs a list of all devices as <AudioDevice>
+                -ID <string>      # Outputs the device with the ID corresponding to the given <string>
+                -Index <int>      # Outputs the device with the Index corresponding to the given <int>
+		-Playback         # Outputs the default playback device as <AudioDevice>
+                -PlaybackMute     # Outputs the default playback device's mute state as <bool>
+                -PlaybackVolume   # Outputs the default playback device's volume level on 100 as <float>
+                -Recording        # Outputs the default recording device as <AudioDevice>
+                -RecordingMute    # Outputs the default recording device's mute state as <bool>
+                -RecordingVolume  # Outputs the default recording device's volume level on 100 as <float>
+```
+```PowerShell
+Set-AudioDevice <AudioDevice>             # Sets the default playback/recording device to the given <AudioDevice>, can be piped
+                -ID <string>              # Sets the default playback/recording device to the device with the ID corresponding to the given <string>
+                -Index <int>              # Sets the default playback/recording device to the device with the Index corresponding to the given <int>
+                -PlaybackMute <bool>      # Sets the default playback device's mute state to the given <bool>
+                -PlaybackMuteToggle       # Toggles the default playback device's mute state
+                -PlaybackVolume <float>   # Sets the default playback device's volume level on 100 to the given <float>
+                -RecordingMute <bool>     # Sets the default recording device's mute state to the given <bool>
+                -RecordingMuteToggle      # Toggles the default recording device's mute state
+                -RecordingVolume <float>  # Sets the default recording device's volume level on 100 to the given <float>
+```
+```PowerShell
+Write-AudioDevice -PlaybackMeter  # Writes the default playback device's power output on 100 as a meter
+                  -PlaybackSteam  # Writes the default playback device's power output on 100 as a stream of <int>
+                  -RecordingMeter # Writes the default recording device's power output on 100 as a meter
+                  -RecordingSteam # Writes the default recording device's power output on 100 as a stream of <int>
 ```
 
-## Suggested Aliases. I may set these in the module in the future.
 
-```powershell
-New-Alias -Name Mute -Value Set-DefaultAudioDeviceMute
-New-Alias -Name Vol -Value set-DefaultAudioDeviceVolume
-```
+## Build Cmdlet from source
 
-## Exposed Cmdlets
-* Get-DefaultAudioDevice
-* Get-AudioDeviceList
-* Set-DefaultAudioDevice [-Index] &lt;Int&gt;
-* Set-DefaultAudioDevice [-Name] &lt;String&gt;
-* Set-DefaultAudioDevice [-InputObject] &lt;AudioDevice&gt;
-* Set-DefaultAudioDeviceVolume -Volume &lt;float&gt;
-* Get-DefaultAudioDeviceVolume
-* Set-DefaultAudioDeviceMute &lt;Bool&gt;
-* Set-DefaultAudioDeviceMute #Toggle
-* Get-DefaultAudioDeviceMute
-* Write-DefaultAudioDeviceValue [-StreamValue]
+1. Using Visual Studio Community, create new project from SOURCE folder  
+    File -> New -> Project From Existing Code...
+    
+		Type of project: Visual C#
+		Folder: SOURCE
+		Name: AudioDeviceCmdlets
+		Output type: Class Library
+
+2. Install System.Management.Automation NuGet package  
+    Project -> Manage NuGet Packages...
+
+		Browse: System.Management.Automation
+		Install: v6.3+
+
+3. Set project properties  
+	Project -> AudioDeviceCmdlets Properties...
+
+		Assembly name: AudioDeviceCmdlets
+		Target framework: .NET Framework 4.5+
+
+4. Set solution configuration  
+    Build -> Configuration Manager...
+
+		Active solution configuration: Release
+
+5. Build Cmdlet  
+    Build -> Build AudioDeviceCmdlets
+
+        AudioDeviceCmdlets\bin\Release\AudioDeviceCmdlets.dll
+
 
 ## Attribution
-Based on work done by Ray M. <a href="http://www.codeproject.com/Articles/18520/Vista-Core-Audio-API-Master-Volume-Control">hosted</a> on The Code Project
+
+Based on code posted to Code Project by Ray Molenkamp with comments and suggestions by MadMidi  
+http://www.codeproject.com/Articles/18520/Vista-Core-Audio-API-Master-Volume-Control  
+Based on code posted to GitHub by Chris Hunt  
+https://github.com/cdhunt/WindowsAudioDevice-Powershell-Cmdlet  
