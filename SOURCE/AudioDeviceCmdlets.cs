@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2016-2017 Francois Gendron <fg@frgn.ca>
+Copyright (c) 2016-2018 Francois Gendron <fg@frgn.ca>
 MIT License
 
 This file contains AudioDeviceCmdlets
