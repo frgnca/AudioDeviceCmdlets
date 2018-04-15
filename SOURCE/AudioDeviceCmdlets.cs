@@ -1,9 +1,10 @@
 /*
-Copyright (c) 2016-2018 Francois Gendron <fg@frgn.ca>
-MIT License
+  Copyright (c) 2016-2018 Francois Gendron <fg@frgn.ca>
+  MIT License
 
-This file contains AudioDeviceCmdlets
-AudioDeviceCmdlets is a suite of PowerShell Cmdlets to control audio devices on Windows
+  AudioDeviceCmdlets.cs
+  AudioDeviceCmdlets is a suite of PowerShell Cmdlets to control audio devices on Windows
+  https://github.com/frgnca/AudioDeviceCmdlets
 */
 
 // To interact with MMDevice
