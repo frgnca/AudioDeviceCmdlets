@@ -7,7 +7,7 @@
 	<releaseNotes>Package v3.0 for NuGet publication</releaseNotes>
 	<authors>Francois Gendron</authors>
 	<projectUrl>https://github.com/frgnca/AudioDeviceCmdlets</projectUrl>
-	<copyright>Copyright (c) 2016-2018 Francois Gendron <fg@frgn.ca></copyright>
+	<copyright>Copyright (c) 2016-2018 Francois Gendron</copyright>
 	<licenseUrl>https://github.com/frgnca/AudioDeviceCmdlets/blob/master/LICENSE</licenseUrl>
 	<requireLicenseAcceptance>false</requireLicenseAcceptance>
 	<tags>audio default playback recording device session volume mute mixer toggle switch set</tags>
