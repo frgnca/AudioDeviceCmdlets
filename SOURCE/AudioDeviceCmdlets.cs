@@ -163,8 +163,25 @@ namespace AudioDeviceCmdlets
         {
             // Create a new MMDeviceEnumerator
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
-            // Create a MMDeviceCollection of every devices that are enabled
-            MMDeviceCollection DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+
+            // Create a MMDeviceCollection
+            MMDeviceCollection DeviceCollection;
+
+            // If the ShowDisabled parameter was called
+            if (showdisabled)
+            {
+                // The ShowDisabled parameter was called
+
+                // Get MMDeviceCollection of every devices
+                DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATEMASK_ALL);
+            }
+            else
+            {
+                // The ShowDisabled parameter was not called
+
+                // Get MMDeviceCollection of every devices that are enabled
+                DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+            }
 
             // If the List switch parameter was called
             if (list)
