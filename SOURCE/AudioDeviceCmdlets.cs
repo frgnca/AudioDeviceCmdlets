@@ -149,6 +149,15 @@ namespace AudioDeviceCmdlets
         }
         private bool recordingvolume;
 
+        // Parameter called to consider disabled devices
+        [Parameter(Mandatory = false, ParameterSetName = "ShowDisabled")]
+        public SwitchParameter ShowDisabled
+        {
+            get { return showdisabled; }
+            set { showdisabled = value; }
+        }
+        private bool showdisabled;
+
         // Cmdlet execution
         protected override void ProcessRecord()
         {
