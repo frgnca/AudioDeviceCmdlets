@@ -11,7 +11,7 @@ Set volume and mute state of default audio device (playback/recording)
 
 
 ## Import Cmdlet to PowerShell
-Download <a href="https://github.com/frgnca/AudioDeviceCmdlets/releases/download/v3.0/AudioDeviceCmdlets.dll">AudioDeviceCmdlets.dll</a>
+Download <a href="https://github.com/frgnca/AudioDeviceCmdlets/releases/download/v3.0.1/AudioDeviceCmdlets.dll">AudioDeviceCmdlets.dll</a>
 ```powershell
 New-Item "$($profile | split-path)\Modules\AudioDeviceCmdlets" -Type directory -Force
 Copy-Item "C:\Path\to\AudioDeviceCmdlets.dll" "$($profile | split-path)\Modules\AudioDeviceCmdlets\AudioDeviceCmdlets.dll"
