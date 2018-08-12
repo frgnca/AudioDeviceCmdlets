@@ -163,8 +163,7 @@ namespace AudioDeviceCmdlets
         {
             // Create a new MMDeviceEnumerator
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
-
-            // Create a MMDeviceCollection of every enabled devices
+            // Create a MMDeviceCollection of every devices that are enabled
             MMDeviceCollection DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
 
             // If the List switch parameter was called
@@ -185,14 +184,14 @@ namespace AudioDeviceCmdlets
                         WriteObject(new AudioDevice(i + 1, DeviceCollection[i]));
                     }
                 }
-
+                
                 // If the ShowDisabled parameter was called
                 if (showdisabled)
                 {
                     // The ShowDisabled parameter was called
 
                     // Get enabled DeviceCollection count
-                    int activeCount = DeviceCollection.Count;
+                    int enabledCount = DeviceCollection.Count;
 
                     // Get MMDeviceCollection of every disabled devices
                     DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_UNPLUGGED);
@@ -201,7 +200,7 @@ namespace AudioDeviceCmdlets
                     for (int i = 0; i < DeviceCollection.Count; i++)
                     {
                         // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself
-                        WriteObject(new AudioDevice(i + 1 + activeCount, DeviceCollection[i]));
+                        WriteObject(new AudioDevice(i + 1 + enabledCount, DeviceCollection[i]));
                     }
                 }
 
