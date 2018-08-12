@@ -68,7 +68,7 @@ namespace AudioDeviceCmdlets
     public class GetAudioDevice : Cmdlet
     {
         // Parameter called to list all devices
-        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "List")]
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "ShowDisabled")]
         public SwitchParameter List
         {
             get { return list; }
@@ -185,6 +185,25 @@ namespace AudioDeviceCmdlets
                     }
                 }
                 
+                // If the ShowDisabled parameter was called
+                if (showdisabled)
+                {
+                    // The ShowDisabled parameter was called
+
+                    // Get enabled DeviceCollection count
+                    int enabledCount = DeviceCollection.Count;
+
+                    // Get MMDeviceCollection of every disabled devices
+                    DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_UNPLUGGED);
+
+                    // For every MMDevice in DeviceCollection
+                    for (int i = 0; i < DeviceCollection.Count; i++)
+                    {
+                        // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself
+                        WriteObject(new AudioDevice(i + 1 + enabledCount, DeviceCollection[i]));
+                    }
+                }
+
                 // Stop checking for other parameters
                 return;
             }
