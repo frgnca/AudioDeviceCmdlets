@@ -427,8 +427,6 @@ namespace AudioDeviceCmdlets
                     {
                         // Create a new audio PolicyConfigClient
                         PolicyConfigClient client = new PolicyConfigClient();
-                        // Using PolicyConfigClient, set the given device as the default playback communication device
-                        client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eCommunications);
                         // Using PolicyConfigClient, set the given device as the default playback device
                         client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eMultimedia);
 
@@ -455,8 +453,6 @@ namespace AudioDeviceCmdlets
                     {
                         // Create a new audio PolicyConfigClient
                         PolicyConfigClient client = new PolicyConfigClient();
-                        // Using PolicyConfigClient, set the given device as the default communication device (for its type)
-                        client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eCommunications);
                         // Using PolicyConfigClient, set the given device as the default device (for its type)
                         client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eMultimedia);
 
@@ -480,8 +476,6 @@ namespace AudioDeviceCmdlets
                 {
                     // Create a new audio PolicyConfigClient
                     PolicyConfigClient client = new PolicyConfigClient();
-                    // Using PolicyConfigClient, set the given device as the default communication device (for its type)
-                    client.SetDefaultEndpoint(DeviceCollection[index.Value - 1].ID, ERole.eCommunications);
                     // Using PolicyConfigClient, set the given device as the default device (for its type)
                     client.SetDefaultEndpoint(DeviceCollection[index.Value - 1].ID, ERole.eMultimedia);
 
