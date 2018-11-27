@@ -657,8 +657,8 @@ namespace AudioDeviceCmdlets
         }
     }
 
-        // Write Cmdlet
-        [Cmdlet(VerbsCommunications.Write, "AudioDevice")]
+    // Write Cmdlet
+    [Cmdlet(VerbsCommunications.Write, "AudioDevice")]
     public class WriteAudioDevice : Cmdlet
     {
         // Parameter called to output audiometer result of the default playback device as a progress bar
