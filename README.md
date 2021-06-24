@@ -11,13 +11,27 @@ Set volume and mute state of default audio device (playback/recording)
 
 
 ## Import Cmdlet to PowerShell
-Download <a href="https://github.com/frgnca/AudioDeviceCmdlets/releases/download/v3.0/AudioDeviceCmdlets.dll">AudioDeviceCmdlets.dll</a>
+You can choose to manually download <a href="https://github.com/frgnca/AudioDeviceCmdlets/releases/download/v3.0/AudioDeviceCmdlets.dll">AudioDeviceCmdlets.dll</a>
 ```powershell
-New-Item "$($profile | split-path)\Modules\AudioDeviceCmdlets" -Type directory -Force
-Copy-Item "C:\Path\to\AudioDeviceCmdlets.dll" "$($profile | split-path)\Modules\AudioDeviceCmdlets\AudioDeviceCmdlets.dll"
-Set-Location "$($profile | Split-Path)\Modules\AudioDeviceCmdlets"
-Get-ChildItem | Unblock-File
-Import-Module AudioDeviceCmdlets
+# Setup
+# Checks if the module is installed, if not, will download from v3.0 release and install the module.
+if (!(get-module -name AudioDeviceCmdlets)) {
+    $modulePath = "$($profile | split-path)\Modules\AudioDeviceCmdlets"
+    $fileName = "AudioDeviceCmdlets.dll"
+    $dllURL = "https://github.com/frgnca/AudioDeviceCmdlets/releases/download/v3.0/$fileName"
+    $dllDownloadPath = "$env:USERPROFILE\Downloads\$fileName"
+    $dllDestinationPath = "$modulePath\$fileName"
+    if (!(test-path $dllDownloadPath)) {
+        Invoke-WebRequest -Uri $dllURL -OutFile $dllDownloadPath
+    }
+    if (!(Test-Path $modulePath)) {
+        New-Item $modulePath -Type directory -Force
+    }
+    Copy-Item  $dllDownloadPath $dllFilePath
+    Set-Location $modulePath
+    Get-ChildItem | Unblock-File
+    Import-Module AudioDeviceCmdlets -Force
+}
 ```
 
 
