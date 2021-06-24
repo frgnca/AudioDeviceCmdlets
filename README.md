@@ -20,7 +20,7 @@ function Get-LatestGitHubVersion {
 
     $releases = "https://api.github.com/repos/$repo/releases"
     $releases
-    $downloadURL = (Invoke-WebRequest $releases | ConvertFrom-Json)[0].assets[0].browser_download_url
+    [uri]$downloadURL = (Invoke-WebRequest $releases | ConvertFrom-Json)[0].assets[0].browser_download_url
 
     return $downloadURL
 }
@@ -31,9 +31,7 @@ if (!(get-module -name AudioDeviceCmdlets)) {
     $dllURL = Get-LatestGitHubVersion
     $dllDownloadPath = "$env:USERPROFILE\Downloads\$fileName"
     $dllDestinationPath = "$modulePath\$fileName"
-    if (!(test-path $dllDownloadPath)) {
-        Invoke-WebRequest -Uri $dllURL -OutFile $dllDownloadPath
-    }
+    Invoke-WebRequest -Uri $dllURL -OutFile $dllDownloadPath
     if (!(Test-Path $modulePath)) {
         New-Item $modulePath -Type directory -Force
     }
