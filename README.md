@@ -15,10 +15,20 @@ You can choose to manually download <a href="https://github.com/frgnca/AudioDevi
 ```powershell
 # Setup
 # Checks if the module is installed, if not, will download from v3.0 release and install the module.
+function Get-LatestGitHubVersion {
+    $repo = "frgnca/AudioDeviceCmdlets"
+
+    $releases = "https://api.github.com/repos/$repo/releases"
+    $releases
+    $downloadURL = (Invoke-WebRequest $releases | ConvertFrom-Json)[0].assets[0].browser_download_url
+
+    return $downloadURL
+}
 if (!(get-module -name AudioDeviceCmdlets)) {
     $modulePath = "$($profile | split-path)\Modules\AudioDeviceCmdlets"
     $fileName = "AudioDeviceCmdlets.dll"
-    $dllURL = "https://github.com/frgnca/AudioDeviceCmdlets/releases/download/v3.0/$fileName"
+    #dllURL = "https://github.com/frgnca/AudioDeviceCmdlets/releases/download/v3.0/AudioDeviceCmdlets.dll"
+    $dllURL = Get-LatestGitHubVersion
     $dllDownloadPath = "$env:USERPROFILE\Downloads\$fileName"
     $dllDestinationPath = "$modulePath\$fileName"
     if (!(test-path $dllDownloadPath)) {
@@ -27,10 +37,11 @@ if (!(get-module -name AudioDeviceCmdlets)) {
     if (!(Test-Path $modulePath)) {
         New-Item $modulePath -Type directory -Force
     }
-    Copy-Item  $dllDownloadPath $dllFilePath
+    Copy-Item  $dllDownloadPath $dllDestinationPath
     Set-Location $modulePath
     Get-ChildItem | Unblock-File
-    Import-Module AudioDeviceCmdlets -Force
+    start-sleep -s 3
+    Import-Module AudioDeviceCmdlets -force
 }
 ```
 
