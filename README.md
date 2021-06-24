@@ -11,7 +11,7 @@ Set volume and mute state of default audio device (playback/recording)
 
 
 ## Import Cmdlet to PowerShell
-You can choose to manually download <a href="https://github.com/frgnca/AudioDeviceCmdlets/releases/download/v3.0/AudioDeviceCmdlets.dll">AudioDeviceCmdlets.dll</a>
+Run the script below for a hands-free installation. This will get the latest dll asset, create the module directory and install the module.
 ```powershell
 # Setup
 # Checks if the module is installed, if not, will download from v3.0 release and install the module.
@@ -40,7 +40,6 @@ if (!(get-module -name AudioDeviceCmdlets)) {
     Copy-Item  $dllDownloadPath $dllDestinationPath
     Set-Location $modulePath
     Get-ChildItem | Unblock-File
-    start-sleep -s 3
     Import-Module AudioDeviceCmdlets -force
 }
 ```
