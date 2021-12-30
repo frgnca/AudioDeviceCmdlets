@@ -22,7 +22,7 @@ Install-Module -Name AudioDeviceCmdlets
 Get-AudioDevice -List             # Outputs a list of all devices as <AudioDevice>
                 -ID <string>      # Outputs the device with the ID corresponding to the given <string>
                 -Index <int>      # Outputs the device with the Index corresponding to the given <int>
-		-Playback         # Outputs the default playback device as <AudioDevice>
+                -Playback         # Outputs the default playback device as <AudioDevice>
                 -PlaybackMute     # Outputs the default playback device's mute state as <bool>
                 -PlaybackVolume   # Outputs the default playback device's volume level on 100 as <float>
                 -Recording        # Outputs the default recording device as <AudioDevice>
@@ -31,8 +31,11 @@ Get-AudioDevice -List             # Outputs a list of all devices as <AudioDevic
 ```
 ```PowerShell
 Set-AudioDevice <AudioDevice>             # Sets the default playback/recording device to the given <AudioDevice>, can be piped
+                    -PlaybackOnly         # Only set default playback device, not communication device
                 -ID <string>              # Sets the default playback/recording device to the device with the ID corresponding to the given <string>
+                    -PlaybackOnly         # Only set default playback device, not communication device
                 -Index <int>              # Sets the default playback/recording device to the device with the Index corresponding to the given <int>
+                    -PlaybackOnly         # Only set default playback device, not communication device
                 -PlaybackMute <bool>      # Sets the default playback device's mute state to the given <bool>
                 -PlaybackMuteToggle       # Toggles the default playback device's mute state
                 -PlaybackVolume <float>   # Sets the default playback device's volume level on 100 to the given <float>
@@ -58,7 +61,7 @@ Write-AudioDevice -PlaybackMeter  # Writes the default playback device's power o
 		Name: AudioDeviceCmdlets
 		Output type: Class Library
 
-2. Install System.Management.Automation NuGet legacy package, which is packaged as part of Microsoft.PowerShell.5.1.ReferenceAssemblies
+2. Install System.Management.Automation NuGet legacy package, which is packaged as part of Microsoft.PowerShell.5.1.ReferenceAssemblies  
     Project -> Manage NuGet Packages...
 
 		Browse: Microsoft.PowerShell.5.1.ReferenceAssemblies
