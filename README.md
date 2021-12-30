@@ -58,11 +58,11 @@ Write-AudioDevice -PlaybackMeter  # Writes the default playback device's power o
 		Name: AudioDeviceCmdlets
 		Output type: Class Library
 
-2. Install System.Management.Automation NuGet package  
+2. Install System.Management.Automation NuGet legacy package, which is packaged as part of Microsoft.PowerShell.5.1.ReferenceAssemblies
     Project -> Manage NuGet Packages...
 
-		Browse: System.Management.Automation
-		Install: v6.3+
+		Browse: Microsoft.PowerShell.5.1.ReferenceAssemblies
+		Install: v1.0.0+
 
 3. Set project properties  
 	Project -> AudioDeviceCmdlets Properties...
