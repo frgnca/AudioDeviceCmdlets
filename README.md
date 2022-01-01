@@ -32,10 +32,13 @@ Get-AudioDevice -List             # Outputs a list of all devices as <AudioDevic
 ```PowerShell
 Set-AudioDevice <AudioDevice>             # Sets the default playback/recording device to the given <AudioDevice>, can be piped
                     -PlaybackOnly         # Only set default playback device, not communication device
+                    -CommunicationOnly    # Only set default communication device, not playback device
                 -ID <string>              # Sets the default playback/recording device to the device with the ID corresponding to the given <string>
                     -PlaybackOnly         # Only set default playback device, not communication device
+                    -CommunicationOnly    # Only set default communication device, not playback device
                 -Index <int>              # Sets the default playback/recording device to the device with the Index corresponding to the given <int>
                     -PlaybackOnly         # Only set default playback device, not communication device
+                    -CommunicationOnly    # Only set default communication device, not playback device
                 -PlaybackMute <bool>      # Sets the default playback device's mute state to the given <bool>
                 -PlaybackMuteToggle       # Toggles the default playback device's mute state
                 -PlaybackVolume <float>   # Sets the default playback device's volume level on 100 to the given <float>
