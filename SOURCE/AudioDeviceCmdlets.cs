@@ -412,12 +412,12 @@ namespace AudioDeviceCmdlets
         [Parameter(Mandatory = false, ParameterSetName = "InputObject")]
         [Parameter(Mandatory = false, ParameterSetName = "ID")]
         [Parameter(Mandatory = false, ParameterSetName = "Index")]
-        public SwitchParameter PlaybackOnly
+        public SwitchParameter DefaultOnly
         {
-            get { return playbackOnly; }
-            set { playbackOnly = value; }
+            get { return defaultOnly; }
+            set { defaultOnly = value; }
         }
-        private SwitchParameter playbackOnly;
+        private SwitchParameter defaultOnly;
 
         // Parameter called to only set device as default communication and not default playback
         [Parameter(Mandatory = false, ParameterSetName = "InputObject")]
@@ -433,8 +433,8 @@ namespace AudioDeviceCmdlets
         // Cmdlet execution
         protected override void ProcessRecord()
         {
-            if (playbackOnly.ToBool() && communicationOnly.ToBool())
-                throw new System.ArgumentException("Impossible to do both PlaybackOnly and CommunicatioOnly at the same time.");
+            if (defaultOnly.ToBool() && communicationOnly.ToBool())
+                throw new System.ArgumentException("Impossible to do both DefaultOnly and CommunicatioOnly at the same time.");
 
             // Create a new MMDeviceEnumerator
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
@@ -453,7 +453,7 @@ namespace AudioDeviceCmdlets
                         // Create a new audio PolicyConfigClient
                         PolicyConfigClient client = new PolicyConfigClient();
                         // Using PolicyConfigClient, set the given device as the default playback communication device
-                        if (!playbackOnly.ToBool())
+                        if (!defaultOnly.ToBool())
                             client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eCommunications);
                         // Using PolicyConfigClient, set the given device as the default playback device
                         if (!communicationOnly.ToBool())
@@ -483,7 +483,7 @@ namespace AudioDeviceCmdlets
                         // Create a new audio PolicyConfigClient
                         PolicyConfigClient client = new PolicyConfigClient();
                         // Using PolicyConfigClient, set the given device as the default communication device (for its type)
-                        if (!playbackOnly.ToBool())
+                        if (!defaultOnly.ToBool())
                             client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eCommunications);
                         // Using PolicyConfigClient, set the given device as the default device (for its type)
                         if (!communicationOnly.ToBool())
@@ -510,7 +510,7 @@ namespace AudioDeviceCmdlets
                     // Create a new audio PolicyConfigClient
                     PolicyConfigClient client = new PolicyConfigClient();
                     // Using PolicyConfigClient, set the given device as the default communication device (for its type)
-                    if (!playbackOnly.ToBool())
+                    if (!defaultOnly.ToBool())
                         client.SetDefaultEndpoint(DeviceCollection[index.Value - 1].ID, ERole.eCommunications);
                     // Using PolicyConfigClient, set the given device as the default device (for its type)
                     if (!communicationOnly.ToBool())

@@ -30,15 +30,15 @@ Get-AudioDevice -List             # Outputs a list of all devices as <AudioDevic
                 -RecordingVolume  # Outputs the default recording device's volume level on 100 as <float>
 ```
 ```PowerShell
-Set-AudioDevice <AudioDevice>             # Sets the default playback/recording device to the given <AudioDevice>, can be piped
-                    -PlaybackOnly         # Only set default playback device, not communication device
-                    -CommunicationOnly    # Only set default communication device, not playback device
-                -ID <string>              # Sets the default playback/recording device to the device with the ID corresponding to the given <string>
-                    -PlaybackOnly         # Only set default playback device, not communication device
-                    -CommunicationOnly    # Only set default communication device, not playback device
-                -Index <int>              # Sets the default playback/recording device to the device with the Index corresponding to the given <int>
-                    -PlaybackOnly         # Only set default playback device, not communication device
-                    -CommunicationOnly    # Only set default communication device, not playback device
+Set-AudioDevice <AudioDevice>             # Set the given playback/recording device as both the default device and the default communication device, for its type. Can be piped.
+                    -DefaultOnly          # Only set default device, not communication device
+                    -CommunicationOnly    # Only set default communication device, not default device
+                -ID <string>              # Set the device with the ID corresponding to the given <string> as both the default device and the default communication device, for its type
+                    -DefaultOnly          # Only set default device, not communication device
+                    -CommunicationOnly    # Only set default communication device, not default device
+                -Index <int>              # Set the device with the Index corresponding to the given <int> as both the default device and the default communication device, for its type
+                    -DefaultOnly          # Only set default device, not communication device
+                    -CommunicationOnly    # Only set default communication device, not default device
                 -PlaybackMute <bool>      # Sets the default playback device's mute state to the given <bool>
                 -PlaybackMuteToggle       # Toggles the default playback device's mute state
                 -PlaybackVolume <float>   # Sets the default playback device's volume level on 100 to the given <float>
