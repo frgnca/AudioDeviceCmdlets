@@ -50,40 +50,46 @@ Write-AudioDevice -PlaybackMeter  # Writes the default playback device's power o
 
 ## Build Cmdlet from source
 
-1. Using Visual Studio Community, create new project from SOURCE folder  
-    File -> New -> Project From Existing Code...
-    
+1. Install Visual Studio 2022
+
+		Workloads: .NET desktop development
+
+2. Create new project from SOURCE folder
+	File -> New -> Project From Existing Code...
+
 		Type of project: Visual C#
 		Folder: SOURCE
 		Name: AudioDeviceCmdlets
 		Output type: Class Library
 
-2. Install System.Management.Automation NuGet package  
-    Project -> Manage NuGet Packages...
-
-		Browse: System.Management.Automation
-		Install: v6.3+
-
-3. Set project properties  
-	Project -> AudioDeviceCmdlets Properties...
+3. Set project properties
+	Project -> AudioDeviceCmdlets Properties
 
 		Assembly name: AudioDeviceCmdlets
-		Target framework: .NET Framework 4.5+
+		Target framework: .NET Framework 4.6.1+
 
-4. Set solution configuration  
-    Build -> Configuration Manager...
+4. Install System.Management.Automation NuGet legacy package
+	Project -> Manage NuGet Packages...
+
+		Package source: nuget.org
+		Browse: Microsoft.PowerShell.5.1.ReferenceAssemblies
+		Install: v1.0.0+
+
+5. Set solution configuration
+	Build -> Configuration Manager...
 
 		Active solution configuration: Release
 
-5. Build Cmdlet  
-    Build -> Build AudioDeviceCmdlets
+6. Build Cmdlet
+	Build -> Build Solution
 
-        AudioDeviceCmdlets\bin\Release\AudioDeviceCmdlets.dll
+		AudioDeviceCmdlets\SOURCE\bin\Release\AudioDeviceCmdlets.dll
 
-6. Import Cmdlet to PowerShell
+7. Import Cmdlet to Windows PowerShell
 	```PowerShell
+	$FilePath = "C:\Path\To\AudioDeviceCmdlets\SOURCE\bin\Release\AudioDeviceCmdlets.dll"
 	New-Item "$($profile | split-path)\Modules\AudioDeviceCmdlets" -Type directory -Force
-	Copy-Item "C:\Path\to\AudioDeviceCmdlets.dll" "$($profile | split-path)\Modules\AudioDeviceCmdlets\AudioDeviceCmdlets.dll"
+	Copy-Item $FilePath "$($profile | split-path)\Modules\AudioDeviceCmdlets\AudioDeviceCmdlets.dll"
 	Set-Location "$($profile | Split-Path)\Modules\AudioDeviceCmdlets"
 	Get-ChildItem | Unblock-File
 	Import-Module AudioDeviceCmdlets
