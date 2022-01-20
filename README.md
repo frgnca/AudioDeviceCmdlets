@@ -54,34 +54,34 @@ Write-AudioDevice -PlaybackMeter  # Writes the default playback device's power o
 
 		Workloads: .NET desktop development
 
-2. Create new project from SOURCE folder
-	File -> New -> Project From Existing Code...
+2. Create new project from SOURCE folder  
+File -> New -> Project From Existing Code...
 
 		Type of project: Visual C#
 		Folder: SOURCE
 		Name: AudioDeviceCmdlets
 		Output type: Class Library
 
-3. Set project properties
-	Project -> AudioDeviceCmdlets Properties
+3. Set project properties  
+Project -> AudioDeviceCmdlets Properties
 
 		Assembly name: AudioDeviceCmdlets
 		Target framework: .NET Framework 4.6.1+
 
-4. Install System.Management.Automation NuGet legacy package
-	Project -> Manage NuGet Packages...
+4. Install System.Management.Automation NuGet legacy package  
+Project -> Manage NuGet Packages...
 
 		Package source: nuget.org
 		Browse: Microsoft.PowerShell.5.1.ReferenceAssemblies
 		Install: v1.0.0+
 
-5. Set solution configuration
-	Build -> Configuration Manager...
+5. Set solution configuration  
+Build -> Configuration Manager...
 
 		Active solution configuration: Release
 
-6. Build Cmdlet
-	Build -> Build Solution
+6. Build Cmdlet  
+Build -> Build Solution
 
 		AudioDeviceCmdlets\SOURCE\bin\Release\AudioDeviceCmdlets.dll
 
