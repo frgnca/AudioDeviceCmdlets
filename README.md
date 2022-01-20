@@ -22,7 +22,7 @@ Install-Module -Name AudioDeviceCmdlets
 Get-AudioDevice -List             # Outputs a list of all devices as <AudioDevice>
                 -ID <string>      # Outputs the device with the ID corresponding to the given <string>
                 -Index <int>      # Outputs the device with the Index corresponding to the given <int>
-		-Playback         # Outputs the default playback device as <AudioDevice>
+                -Playback         # Outputs the default playback device as <AudioDevice>
                 -PlaybackMute     # Outputs the default playback device's mute state as <bool>
                 -PlaybackVolume   # Outputs the default playback device's volume level on 100 as <float>
                 -Recording        # Outputs the default recording device as <AudioDevice>
@@ -30,9 +30,15 @@ Get-AudioDevice -List             # Outputs a list of all devices as <AudioDevic
                 -RecordingVolume  # Outputs the default recording device's volume level on 100 as <float>
 ```
 ```PowerShell
-Set-AudioDevice <AudioDevice>             # Sets the default playback/recording device to the given <AudioDevice>, can be piped
-                -ID <string>              # Sets the default playback/recording device to the device with the ID corresponding to the given <string>
-                -Index <int>              # Sets the default playback/recording device to the device with the Index corresponding to the given <int>
+Set-AudioDevice <AudioDevice>             # Set the given playback/recording device as both the default device and the default communication device, for its type. Can be piped.
+                    -DefaultOnly          # Only set default device, not communication device
+                    -CommunicationOnly    # Only set default communication device, not default device
+                -ID <string>              # Set the device with the ID corresponding to the given <string> as both the default device and the default communication device, for its type
+                    -DefaultOnly          # Only set default device, not communication device
+                    -CommunicationOnly    # Only set default communication device, not default device
+                -Index <int>              # Set the device with the Index corresponding to the given <int> as both the default device and the default communication device, for its type
+                    -DefaultOnly          # Only set default device, not communication device
+                    -CommunicationOnly    # Only set default communication device, not default device
                 -PlaybackMute <bool>      # Sets the default playback device's mute state to the given <bool>
                 -PlaybackMuteToggle       # Toggles the default playback device's mute state
                 -PlaybackVolume <float>   # Sets the default playback device's volume level on 100 to the given <float>
@@ -61,6 +67,12 @@ File -> New -> Project From Existing Code...
 		Folder: SOURCE
 		Name: AudioDeviceCmdlets
 		Output type: Class Library
+
+2. Install System.Management.Automation NuGet legacy package, which is packaged as part of Microsoft.PowerShell.5.1.ReferenceAssemblies  
+    Project -> Manage NuGet Packages...
+
+		Browse: Microsoft.PowerShell.5.1.ReferenceAssemblies
+		Install: v1.0.0+
 
 3. Set project properties  
 Project -> AudioDeviceCmdlets Properties
