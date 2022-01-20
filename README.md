@@ -98,7 +98,7 @@ Build -> Build Solution
 
 ## Attribution
 
-Based on code posted to Code Project by Ray Molenkamp with comments and suggestions by MadMidi  
+Based on code originally posted to Code Project by Ray Molenkamp with comments and suggestions by MadMidi  
 http://www.codeproject.com/Articles/18520/Vista-Core-Audio-API-Master-Volume-Control  
-Based on code posted to GitHub by Chris Hunt  
+Based on code originally posted to GitHub by Chris Hunt  
 https://github.com/cdhunt/WindowsAudioDevice-Powershell-Cmdlet  
