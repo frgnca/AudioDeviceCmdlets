@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("frgn.ca")]
 [assembly: AssemblyProduct("AudioDeviceCmdlets")]
-[assembly: AssemblyCopyright("Copyright (c) 2016-2021 Francois Gendron <fg@frgn.ca>")]
+[assembly: AssemblyCopyright("Copyright (c) 2016-2022 Francois Gendron <fg@frgn.ca>")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
