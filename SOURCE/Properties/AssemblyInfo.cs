@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("frgn.ca")]
 [assembly: AssemblyProduct("AudioDeviceCmdlets")]
-[assembly: AssemblyCopyright("Copyright (c) 2016-2018 Francois Gendron <fg@frgn.ca>")]
+[assembly: AssemblyCopyright("Copyright (c) 2016-2022 Francois Gendron <fg@frgn.ca>")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("3.0.0.0")]
-[assembly: AssemblyFileVersion("3.0.0.0")]
+[assembly: AssemblyVersion("3.0.1.0")]
+[assembly: AssemblyFileVersion("3.0.1.0")]
