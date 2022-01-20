@@ -408,9 +408,34 @@ namespace AudioDeviceCmdlets
         }
         private float? recordingvolume;
 
+        // Parameter called to only set device as default playback and not default communication
+        [Parameter(Mandatory = false, ParameterSetName = "InputObject")]
+        [Parameter(Mandatory = false, ParameterSetName = "ID")]
+        [Parameter(Mandatory = false, ParameterSetName = "Index")]
+        public SwitchParameter DefaultOnly
+        {
+            get { return defaultOnly; }
+            set { defaultOnly = value; }
+        }
+        private SwitchParameter defaultOnly;
+
+        // Parameter called to only set device as default communication and not default playback
+        [Parameter(Mandatory = false, ParameterSetName = "InputObject")]
+        [Parameter(Mandatory = false, ParameterSetName = "ID")]
+        [Parameter(Mandatory = false, ParameterSetName = "Index")]
+        public SwitchParameter CommunicationOnly
+        {
+            get { return communicationOnly; }
+            set { communicationOnly = value; }
+        }
+        private SwitchParameter communicationOnly;
+
         // Cmdlet execution
         protected override void ProcessRecord()
         {
+            if (defaultOnly.ToBool() && communicationOnly.ToBool())
+                throw new System.ArgumentException("Impossible to do both DefaultOnly and CommunicatioOnly at the same time.");
+
             // Create a new MMDeviceEnumerator
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
             // Create a MMDeviceCollection of every devices that are enabled
@@ -428,9 +453,11 @@ namespace AudioDeviceCmdlets
                         // Create a new audio PolicyConfigClient
                         PolicyConfigClient client = new PolicyConfigClient();
                         // Using PolicyConfigClient, set the given device as the default playback communication device
-                        client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eCommunications);
+                        if (!defaultOnly.ToBool())
+                            client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eCommunications);
                         // Using PolicyConfigClient, set the given device as the default playback device
-                        client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eMultimedia);
+                        if (!communicationOnly.ToBool())
+                            client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eMultimedia);
 
                         // Output the result of the creation of a new AudioDevice while assining it the an index, and the MMDevice itself, and a default value of true
                         WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true));
@@ -456,9 +483,11 @@ namespace AudioDeviceCmdlets
                         // Create a new audio PolicyConfigClient
                         PolicyConfigClient client = new PolicyConfigClient();
                         // Using PolicyConfigClient, set the given device as the default communication device (for its type)
-                        client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eCommunications);
+                        if (!defaultOnly.ToBool())
+                            client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eCommunications);
                         // Using PolicyConfigClient, set the given device as the default device (for its type)
-                        client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eMultimedia);
+                        if (!communicationOnly.ToBool())
+                            client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eMultimedia);
 
                         // Output the result of the creation of a new AudioDevice while assining it the index, and the MMDevice itself, and a default value of true
                         WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true));
@@ -481,9 +510,11 @@ namespace AudioDeviceCmdlets
                     // Create a new audio PolicyConfigClient
                     PolicyConfigClient client = new PolicyConfigClient();
                     // Using PolicyConfigClient, set the given device as the default communication device (for its type)
-                    client.SetDefaultEndpoint(DeviceCollection[index.Value - 1].ID, ERole.eCommunications);
+                    if (!defaultOnly.ToBool())
+                        client.SetDefaultEndpoint(DeviceCollection[index.Value - 1].ID, ERole.eCommunications);
                     // Using PolicyConfigClient, set the given device as the default device (for its type)
-                    client.SetDefaultEndpoint(DeviceCollection[index.Value - 1].ID, ERole.eMultimedia);
+                    if (!communicationOnly.ToBool())
+                        client.SetDefaultEndpoint(DeviceCollection[index.Value - 1].ID, ERole.eMultimedia);
 
                     // Output the result of the creation of a new AudioDevice while assining it the index, and the MMDevice itself, and a default value of true
                     WriteObject(new AudioDevice(index.Value, DeviceCollection[index.Value - 1], true));
