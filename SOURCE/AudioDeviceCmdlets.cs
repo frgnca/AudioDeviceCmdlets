@@ -118,6 +118,15 @@ namespace AudioDeviceCmdlets
         }
         private bool playbackcommunicationmute;
 
+        // Parameter called to list the default communication playback device's volume
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "PlaybackCommunicationVolume")]
+        public SwitchParameter PlaybackCommunicationVolume
+        {
+            get { return playbackcommunicationvolume; }
+            set { playbackcommunicationvolume = value; }
+        }
+        private bool playbackcommunicationvolume;
+
         // Parameter called to list the default playback device
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "Playback")]
         public SwitchParameter Playback
@@ -162,6 +171,15 @@ namespace AudioDeviceCmdlets
             set { recordingcommunicationmute = value; }
         }
         private bool recordingcommunicationmute;
+
+        // Parameter called to list the default communication recording device's volume
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "RecordingCommunicationVolume")]
+        public SwitchParameter RecordingCommunicationVolume
+        {
+            get { return recordingcommunicationvolume; }
+            set { recordingcommunicationvolume = value; }
+        }
+        private bool recordingcommunicationvolume;
 
         // Parameter called to list the default recording device
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "Recording")]
@@ -374,6 +392,16 @@ namespace AudioDeviceCmdlets
                 return;
             }
 
+            // If the PlaybackCommunicationVolume switch parameter was called
+            if (playbackcommunicationvolume)
+            {
+                // Output the current volume level of the default communication playback device
+                WriteObject(string.Format("{0}%", DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.MasterVolumeLevelScalar * 100));
+
+                // Stop checking for other parameters
+                return;
+            }
+
             // If the Playback switch parameter was called
             if (playback)
             {
@@ -455,6 +483,16 @@ namespace AudioDeviceCmdlets
             {
                 // Output the mute state of the default communication recording device
                 WriteObject(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioEndpointVolume.Mute);
+
+                // Stop checking for other parameters
+                return;
+            }
+
+            // If the RecordingCommunicationVolume switch parameter was called
+            if (recordingcommunicationvolume)
+            {
+                // Output the current volume level of the default communication recording device
+                WriteObject(string.Format("{0}%", DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioEndpointVolume.MasterVolumeLevelScalar * 100));
 
                 // Stop checking for other parameters
                 return;
