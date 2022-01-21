@@ -109,6 +109,15 @@ namespace AudioDeviceCmdlets
         }
         private bool playbackcommunication;
 
+        // Parameter called to list the default communication playback device's mute state
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "PlaybackCommunicationMute")]
+        public SwitchParameter PlaybackCommunicationMute
+        {
+            get { return playbackcommunicationmute; }
+            set { playbackcommunicationmute = value; }
+        }
+        private bool playbackcommunicationmute;
+
         // Parameter called to list the default playback device
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "Playback")]
         public SwitchParameter Playback
@@ -145,6 +154,15 @@ namespace AudioDeviceCmdlets
         }
         private bool recordingcommunication;
 
+        // Parameter called to list the default communication recording device's mute state
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "RecordingCommunicationMute")]
+        public SwitchParameter RecordingCommunicationMute
+        {
+            get { return recordingcommunicationmute; }
+            set { recordingcommunicationmute = value; }
+        }
+        private bool recordingcommunicationmute;
+
         // Parameter called to list the default recording device
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "Recording")]
         public SwitchParameter Recording
@@ -154,7 +172,7 @@ namespace AudioDeviceCmdlets
         }
         private bool recording;
 
-        // Parameter called to list the default recording device' mute state
+        // Parameter called to list the default recording device's mute state
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "RecordingMute")]
         public SwitchParameter RecordingMute
         {
@@ -163,7 +181,7 @@ namespace AudioDeviceCmdlets
         }
         private bool recordingmute;
 
-        // Parameter called to list the default recording device' volume
+        // Parameter called to list the default recording device's volume
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "RecordingVolume")]
         public SwitchParameter RecordingVolume
         {
@@ -346,6 +364,16 @@ namespace AudioDeviceCmdlets
                 return;
             }
 
+            // If the PlaybackCommunicationMute switch parameter was called
+            if (playbackcommunicationmute)
+            {
+                // Output the mute state of the default communication playback device
+                WriteObject(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.Mute);
+
+                // Stop checking for other parameters
+                return;
+            }
+
             // If the Playback switch parameter was called
             if (playback)
             {
@@ -417,6 +445,16 @@ namespace AudioDeviceCmdlets
                         }
                     }
                 }
+
+                // Stop checking for other parameters
+                return;
+            }
+
+            // If the RecordingCommunicationMute switch parameter was called
+            if (recordingcommunicationmute)
+            {
+                // Output the mute state of the default communication recording device
+                WriteObject(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioEndpointVolume.Mute);
 
                 // Stop checking for other parameters
                 return;
