@@ -100,6 +100,15 @@ namespace AudioDeviceCmdlets
         }
         private int? index;
 
+        // Parameter called to list the default communication playback device
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "PlaybackCommunication")]
+        public SwitchParameter PlaybackCommunication
+        {
+            get { return playbackcommunication; }
+            set { playbackcommunication = value; }
+        }
+        private bool playbackcommunication;
+
         // Parameter called to list the default playback device
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "Playback")]
         public SwitchParameter Playback
@@ -126,6 +135,15 @@ namespace AudioDeviceCmdlets
             set { playbackvolume = value; }
         }
         private bool playbackvolume;
+
+        // Parameter called to list the default communication recording device
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "RecordingCommunication")]
+        public SwitchParameter RecordingCommunication
+        {
+            get { return recordingcommunication; }
+            set { recordingcommunication = value; }
+        }
+        private bool recordingcommunication;
 
         // Parameter called to list the default recording device
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "Recording")]
@@ -300,6 +318,34 @@ namespace AudioDeviceCmdlets
                 }
             }
 
+            // If the PlaybackCommunication switch parameter was called
+            if (playbackcommunication)
+            {
+                // For every MMDevice in DeviceCollection
+                for (int i = 0; i < DeviceCollection.Count; i++)
+                {
+                    // If this MMDevice's ID is the same as the default communication playback device's ID
+                    if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID)
+                    {
+
+                        // If the MMDevice's ID is the same as the default playback device's ID
+                        if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID)
+                        {
+                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of true
+                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, true));
+                        }
+                        else
+                        {
+                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of true
+                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, true));
+                        }
+                    }
+                }
+
+                // Stop checking for other parameters
+                return;
+            }
+
             // If the Playback switch parameter was called
             if (playback)
             {
@@ -343,6 +389,34 @@ namespace AudioDeviceCmdlets
             {
                 // Output the current volume level of the default playback device
                 WriteObject(string.Format("{0}%", DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioEndpointVolume.MasterVolumeLevelScalar * 100));
+
+                // Stop checking for other parameters
+                return;
+            }
+
+            // If the RecordingCommunication switch parameter was called
+            if (recordingcommunication)
+            {
+                // For every MMDevice in DeviceCollection
+                for (int i = 0; i < DeviceCollection.Count; i++)
+                {
+                    // If this MMDevice's ID is the same as the default communication recording device's ID
+                    if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID)
+                    {
+
+                        // If the MMDevice's ID is the same as the default recording device's ID
+                        if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).ID)
+                        {
+                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of true
+                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, true));
+                        }
+                        else
+                        {
+                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of true
+                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, true));
+                        }
+                    }
+                }
 
                 // Stop checking for other parameters
                 return;
