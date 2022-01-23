@@ -91,7 +91,7 @@ Build -> Build Solution
 
 		AudioDeviceCmdlets\SOURCE\bin\Release\AudioDeviceCmdlets.dll
 
-7. Import Cmdlet to Windows PowerShell
+7. Import Cmdlet to PowerShell on Windows
 	```PowerShell
 	$FilePath = "C:\Path\To\AudioDeviceCmdlets\SOURCE\bin\Release\AudioDeviceCmdlets.dll"
 	New-Item "$($profile | split-path)\Modules\AudioDeviceCmdlets" -Type directory -Force
