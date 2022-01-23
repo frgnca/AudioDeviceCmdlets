@@ -64,14 +64,14 @@ Set-AudioDevice -RecordingMute <bool>			# Set the default recording device's mut
 Set-AudioDevice -RecordingVolume <float>		# Set the default recording device's volume level on 100 to the given <float>
 ```
 ```PowerShell
-Write-AudioDevice -PlaybackCommunicationMeter	# Writes the default playback device's power output on 100 as a meter
-Write-AudioDevice -PlaybackCommunicationStream	# Writes the default playback device's power output on 100 as a stream of <int>
-Write-AudioDevice -PlaybackMeter		# Writes the default playback device's power output on 100 as a meter
-Write-AudioDevice -PlaybackStream		# Writes the default playback device's power output on 100 as a stream of <int>
-Write-AudioDevice -RecordingCommunicationMeter	# Writes the default recording device's power output on 100 as a meter
-Write-AudioDevice -RecordingCommunicationStream	# Writes the default recording device's power output on 100 as a stream of <int>
-Write-AudioDevice -RecordingMeter		# Writes the default recording device's power output on 100 as a meter
-Write-AudioDevice -RecordingStream		# Writes the default recording device's power output on 100 as a stream of <int>
+Write-AudioDevice -PlaybackCommunicationMeter	# Write the default playback device's power output on 100 as a meter
+Write-AudioDevice -PlaybackCommunicationStream	# Write the default playback device's power output on 100 as a stream of <int>
+Write-AudioDevice -PlaybackMeter		# Write the default playback device's power output on 100 as a meter
+Write-AudioDevice -PlaybackStream		# Write the default playback device's power output on 100 as a stream of <int>
+Write-AudioDevice -RecordingCommunicationMeter	# Write the default recording device's power output on 100 as a meter
+Write-AudioDevice -RecordingCommunicationStream	# Write the default recording device's power output on 100 as a stream of <int>
+Write-AudioDevice -RecordingMeter		# Write the default recording device's power output on 100 as a meter
+Write-AudioDevice -RecordingStream		# Write the default recording device's power output on 100 as a stream of <int>
 ```
 
 
