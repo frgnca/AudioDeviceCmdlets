@@ -580,6 +580,15 @@ namespace AudioDeviceCmdlets
         }
         private int? index;
 
+        // Parameter called to set the default communication playback device's mute state
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "PlaybackCommunicationMute")]
+        public bool? PlaybackCommunicationMute
+        {
+            get { return playbackcommunicationmute; }
+            set { playbackcommunicationmute = value; }
+        }
+        private bool? playbackcommunicationmute;
+
         // Parameter called to toggle the default communication playback device's mute state
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "PlaybackCommunicationMuteToggle")]
         public SwitchParameter PlaybackCommunicationMuteToggle
@@ -616,6 +625,15 @@ namespace AudioDeviceCmdlets
             set { playbackvolume = value; }
         }
         private float? playbackvolume;
+
+        // Parameter called to set the default communication recording device's mute state
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "RecordingCommunicationMute")]
+        public bool? RecordingCommunicationMute
+        {
+            get { return recordingcommunicationmute; }
+            set { recordingcommunicationmute = value; }
+        }
+        private bool? recordingcommunicationmute;
 
         // Parameter called to toggle the default communication recording device's mute state
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "RecordingCommunicationMuteToggle")]
@@ -859,6 +877,13 @@ namespace AudioDeviceCmdlets
                 }
             }
 
+            // If the PlaybackCommunicationMute parameter received a value
+            if (playbackcommunicationmute != null)
+            {
+                // Set the mute state of the default communication playback device to that of the boolean value received by the Cmdlet
+                DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.Mute = (bool)playbackcommunicationmute;
+            }
+
             // If the PlaybackCommunicationMuteToggle paramter was called
             if (playbackcommunicationmutetoggle)
             {
@@ -866,8 +891,8 @@ namespace AudioDeviceCmdlets
                 DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.Mute = !DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.Mute;
             }
 
-                // If the PlaybackMute parameter received a value
-                if (playbackmute != null)
+            // If the PlaybackMute parameter received a value
+            if (playbackmute != null)
             {
                 // Set the mute state of the default playback device to that of the boolean value received by the Cmdlet
                 DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioEndpointVolume.Mute = (bool)playbackmute;
@@ -885,6 +910,13 @@ namespace AudioDeviceCmdlets
             {
                 // Set the volume level of the default playback device to that of the float value received by the PlaybackVolume parameter
                 DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioEndpointVolume.MasterVolumeLevelScalar = (float)playbackvolume / 100.0f;
+            }
+
+            // If the RecordingCommunicationMute parameter received a value
+            if (recordingcommunicationmute != null)
+            {
+                // Set the mute state of the default communication recording device to that of the boolean value received by the Cmdlet
+                DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioEndpointVolume.Mute = (bool)recordingcommunicationmute;
             }
 
             // If the RecordingCommunicationMuteToggle paramter was called
