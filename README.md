@@ -23,38 +23,55 @@ Install-Module -Name AudioDeviceCmdlets
 
 ## Usage
 ```PowerShell
-Get-AudioDevice -List             # Outputs a list of all devices as <AudioDevice>
-                -ID <string>      # Outputs the device with the ID corresponding to the given <string>
-                -Index <int>      # Outputs the device with the Index corresponding to the given <int>
-                -Playback         # Outputs the default playback device as <AudioDevice>
-                -PlaybackMute     # Outputs the default playback device's mute state as <bool>
-                -PlaybackVolume   # Outputs the default playback device's volume level on 100 as <float>
-                -Recording        # Outputs the default recording device as <AudioDevice>
-                -RecordingMute    # Outputs the default recording device's mute state as <bool>
-                -RecordingVolume  # Outputs the default recording device's volume level on 100 as <float>
+Get-AudioDevice -ID <string>			# Get the device with the ID corresponding to the given <string>
+Get-AudioDevice -Index <int>			# Get the device with the Index corresponding to the given <int>
+Get-AudioDevice -List				# Get a list of all enabled devices as <AudioDevice>
+Get-AudioDevice -PlaybackCommunication		# Get the default communication playback device as <AudioDevice>
+Get-AudioDevice -PlaybackCommunicationMute	# Get the default communication playback device's mute state as <bool>
+Get-AudioDevice -PlaybackCommunicationVolume	# Get the default communication playback device's volume level on 100 as <float>
+Get-AudioDevice	-Playback			# Get the default playback device as <AudioDevice>
+Get-AudioDevice -PlaybackMute			# Get the default playback device's mute state as <bool>
+Get-AudioDevice -PlaybackVolume			# Get the default playback device's volume level on 100 as <float>
+Get-AudioDevice -RecordingCommunication		# Get the default communication recording device as <AudioDevice>
+Get-AudioDevice -RecordingCommunicationMute	# Get the default communication recording device's mute state as <bool>
+Get-AudioDevice -RecordingCommunicationVolume	# Get the default communication recording device's volume level on 100 as <float>
+Get-AudioDevice -Recording			# Get the default recording device as <AudioDevice>
+Get-AudioDevice -RecordingMute			# Get the default recording device's mute state as <bool>
+Get-AudioDevice -RecordingVolume		# Get the default recording device's volume level on 100 as <float>
+
 ```
 ```PowerShell
-Set-AudioDevice <AudioDevice>             # Set the given playback/recording device as both the default device and the default communication device, for its type. Can be piped.
-                    -DefaultOnly          # Only set default device, not communication device
-                    -CommunicationOnly    # Only set default communication device, not default device
-                -ID <string>              # Set the device with the ID corresponding to the given <string> as both the default device and the default communication device, for its type
-                    -DefaultOnly          # Only set default device, not communication device
-                    -CommunicationOnly    # Only set default communication device, not default device
-                -Index <int>              # Set the device with the Index corresponding to the given <int> as both the default device and the default communication device, for its type
-                    -DefaultOnly          # Only set default device, not communication device
-                    -CommunicationOnly    # Only set default communication device, not default device
-                -PlaybackMute <bool>      # Sets the default playback device's mute state to the given <bool>
-                -PlaybackMuteToggle       # Toggles the default playback device's mute state
-                -PlaybackVolume <float>   # Sets the default playback device's volume level on 100 to the given <float>
-                -RecordingMute <bool>     # Sets the default recording device's mute state to the given <bool>
-                -RecordingMuteToggle      # Toggles the default recording device's mute state
-                -RecordingVolume <float>  # Sets the default recording device's volume level on 100 to the given <float>
+Set-AudioDevice	<AudioDevice>				# Set the given playback/recording device as both the default device and the default communication device, for its type
+Set-AudioDevice <AudioDevice> -CommunicationOnly	# Set the given playback/recording device as the default communication device and not the default device, for its type
+Set-AudioDevice <AudioDevice> -DefaultOnly		# Set the given playback/recording device as the default device and not the default communication device, for its type
+Set-AudioDevice -ID <string>				# Set the device with the ID corresponding to the given <string> as both the default device and the default communication device, for its type
+Set-AudioDevice -ID <string> -CommunicationOnly		# Set the device with the ID corresponding to the given <string> as the default communication device and not the default device, for its type
+Set-AudioDevice -ID <string> -DefaultOnly		# Set the device with the ID corresponding to the given <string> as the default device and not the default communication device, for its type
+Set-AudioDevice -Index <int>				# Set the device with the Index corresponding to the given <int> as both the default device and the default communication device, for its type
+Set-AudioDevice -Index <int> -CommunicationOnly		# Set the device with the Index corresponding to the given <int> as the default communication device and not the default device, for its type
+Set-AudioDevice -Index <int> -DefaultOnly		# Set the device with the Index corresponding to the given <int> as the default device and not the default communication device, for its type
+Set-AudioDevice -PlaybackCommunicationMuteToggle	# Set the default communication playback device's mute state to the opposite of its current mute state
+Set-AudioDevice -PlaybackCommunicationMute <bool>	# Set the default communication playback device's mute state to the given <bool>
+Set-AudioDevice -PlaybackCommunicationVolume <float>	# Set the default communication playback device's volume level on 100 to the given <float>
+Set-AudioDevice -PlaybackMuteToggle			# Set the default playback device's mute state to the opposite of its current mute state
+Set-AudioDevice -PlaybackMute <bool>			# Set the default playback device's mute state to the given <bool>
+Set-AudioDevice -PlaybackVolume <float>			# Set the default playback device's volume level on 100 to the given <float>
+Set-AudioDevice -RecordingCommunicationMuteToggle	# Set the default communication recording device's mute state to the opposite of its current mute state
+Set-AudioDevice -RecordingCommunicationMute <bool>	# Set the default communication recording device's mute state to the given <bool>
+Set-AudioDevice -RecordingCommunicationVolume <float>	# Set the default communication recording device's volume level on 100 to the given <float>
+Set-AudioDevice -RecordingMuteToggle			# Set the default recording device's mute state to the opposite of its current mute state
+Set-AudioDevice -RecordingMute <bool>			# Set the default recording device's mute state to the given <bool>
+Set-AudioDevice -RecordingVolume <float>		# Set the default recording device's volume level on 100 to the given <float>
 ```
 ```PowerShell
-Write-AudioDevice -PlaybackMeter  # Writes the default playback device's power output on 100 as a meter
-                  -PlaybackSteam  # Writes the default playback device's power output on 100 as a stream of <int>
-                  -RecordingMeter # Writes the default recording device's power output on 100 as a meter
-                  -RecordingSteam # Writes the default recording device's power output on 100 as a stream of <int>
+Write-AudioDevice -PlaybackCommunicationMeter	# Writes the default playback device's power output on 100 as a meter
+Write-AudioDevice -PlaybackCommunicationStream	# Writes the default playback device's power output on 100 as a stream of <int>
+Write-AudioDevice -PlaybackMeter		# Writes the default playback device's power output on 100 as a meter
+Write-AudioDevice -PlaybackStream		# Writes the default playback device's power output on 100 as a stream of <int>
+Write-AudioDevice -RecordingCommunicationMeter	# Writes the default recording device's power output on 100 as a meter
+Write-AudioDevice -RecordingCommunicationStream	# Writes the default recording device's power output on 100 as a stream of <int>
+Write-AudioDevice -RecordingMeter		# Writes the default recording device's power output on 100 as a meter
+Write-AudioDevice -RecordingStream		# Writes the default recording device's power output on 100 as a stream of <int>
 ```
 
 
