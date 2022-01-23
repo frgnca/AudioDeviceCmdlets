@@ -10,14 +10,10 @@ Set default audio device (playback/recording)
 Set volume and mute state of default audio device (playback/recording)  
 
 
-## Import Cmdlet to PowerShell
-Download <a href="https://github.com/frgnca/AudioDeviceCmdlets/releases/download/v3.1/AudioDeviceCmdlets.dll">AudioDeviceCmdlets.dll</a>
-```powershell
-New-Item "$($profile | split-path)\Modules\AudioDeviceCmdlets" -Type directory -Force
-Copy-Item "C:\Path\to\AudioDeviceCmdlets.dll" "$($profile | split-path)\Modules\AudioDeviceCmdlets\AudioDeviceCmdlets.dll"
-Set-Location "$($profile | Split-Path)\Modules\AudioDeviceCmdlets"
-Get-ChildItem | Unblock-File
-Import-Module AudioDeviceCmdlets
+## Installation
+Run as administrator
+```PowerShell
+Install-Module -Name AudioDeviceCmdlets
 ```
 
 
@@ -83,6 +79,15 @@ Write-AudioDevice -PlaybackMeter  # Writes the default playback device's power o
     Build -> Build AudioDeviceCmdlets
 
         AudioDeviceCmdlets\bin\Release\AudioDeviceCmdlets.dll
+
+6. Import Cmdlet to PowerShell
+	```PowerShell
+	New-Item "$($profile | split-path)\Modules\AudioDeviceCmdlets" -Type directory -Force
+	Copy-Item "C:\Path\to\AudioDeviceCmdlets.dll" "$($profile | split-path)\Modules\AudioDeviceCmdlets\AudioDeviceCmdlets.dll"
+	Set-Location "$($profile | Split-Path)\Modules\AudioDeviceCmdlets"
+	Get-ChildItem | Unblock-File
+	Import-Module AudioDeviceCmdlets
+	```
 
 
 ## Attribution
