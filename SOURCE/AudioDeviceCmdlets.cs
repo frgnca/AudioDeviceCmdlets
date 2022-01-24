@@ -953,6 +953,24 @@ namespace AudioDeviceCmdlets
     [Cmdlet(VerbsCommunications.Write, "AudioDevice")]
     public class WriteAudioDevice : Cmdlet
     {
+        // Parameter called to output audiometer result of the default communication playback device as a progress bar
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "PlaybackCommunicationMeter")]
+        public SwitchParameter PlaybackCommunicationMeter
+        {
+            get { return playbackcommunicationmeter; }
+            set { playbackcommunicationmeter = value; }
+        }
+        private bool playbackcommunicationmeter;
+
+        // Parameter called to output audiometer result of the default communication playback device as a stream of values
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "PlaybackCommunicationStream")]
+        public SwitchParameter PlaybackCommunicationStream
+        {
+            get { return playbackcommunicationstream; }
+            set { playbackcommunicationstream = value; }
+        }
+        private bool playbackcommunicationstream;
+
         // Parameter called to output audiometer result of the default playback device as a progress bar
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "PlaybackMeter")]
         public SwitchParameter PlaybackMeter
@@ -970,6 +988,24 @@ namespace AudioDeviceCmdlets
             set { playbackstream = value; }
         }
         private bool playbackstream;
+
+        // Parameter called to output audiometer result of the default communication recording device as a progress bar
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "RecordingCommunicationMeter")]
+        public SwitchParameter RecordingCommunicationMeter
+        {
+            get { return recordingcommunicationmeter; }
+            set { recordingcommunicationmeter = value; }
+        }
+        private bool recordingcommunicationmeter;
+
+        // Parameter called to output audiometer result of the default communication recording device as a stream of values
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "RecordingCommunicationStream")]
+        public SwitchParameter RecordingCommunicationStream
+        {
+            get { return recordingcommunicationstream; }
+            set { recordingcommunicationstream = value; }
+        }
+        private bool recordingcommunicationstream;
 
         // Parameter called to output audiometer result of the default recording device as a progress bar
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "RecordingMeter")]
@@ -994,6 +1030,46 @@ namespace AudioDeviceCmdlets
         {
             // Create a new MMDeviceEnumerator
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
+
+            // If the PlaybackCommunicationMeter parameter was called
+            if (playbackcommunicationmeter)
+            {
+                // Create a new progress bar to output current audiometer result of the default communication playback device
+                ProgressRecord pr = new ProgressRecord(0, DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).FriendlyName, "Peak Value");
+                // Set the progress bar to zero
+                pr.PercentComplete = 0;
+
+                // Loop until interruption ex: CTRL+C
+                do
+                {
+                    // Set progress bar to current audiometer result
+                    pr.PercentComplete = System.Convert.ToInt32(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioMeterInformation.MasterPeakValue * 100);
+
+                    // Write current audiometer result as a progress bar
+                    WriteProgress(pr);
+
+                    // Wait 100 milliseconds
+                    System.Threading.Thread.Sleep(100);
+                }
+                // Loop interrupted ex: CTRL+C
+                while (!Stopping);
+            }
+
+            // If the PlaybackCommunicationStream parameter was called
+            if (playbackcommunicationstream)
+            {
+                // Loop until interruption ex: CTRL+C
+                do
+                {
+                    // Write current audiometer result as a value
+                    WriteObject(System.Convert.ToInt32(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioMeterInformation.MasterPeakValue * 100));
+
+                    // Wait 100 milliseconds
+                    System.Threading.Thread.Sleep(100);
+                }
+                // Loop interrupted ex: CTRL+C
+                while (!Stopping);
+            }
 
             // If the PlaybackMeter parameter was called
             if (playbackmeter)
@@ -1027,6 +1103,46 @@ namespace AudioDeviceCmdlets
                 {
                     // Write current audiometer result as a value
                     WriteObject(System.Convert.ToInt32(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue * 100));
+
+                    // Wait 100 milliseconds
+                    System.Threading.Thread.Sleep(100);
+                }
+                // Loop interrupted ex: CTRL+C
+                while (!Stopping);
+            }
+
+            // If the RecordingCommunicationMeter parameter was called
+            if (recordingcommunicationmeter)
+            {
+                // Create a new progress bar to output current audiometer result of the default communication recording device
+                ProgressRecord pr = new ProgressRecord(0, DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).FriendlyName, "Peak Value");
+                // Set the progress bar to zero
+                pr.PercentComplete = 0;
+
+                // Loop until interruption ex: CTRL+C
+                do
+                {
+                    // Set progress bar to current audiometer result
+                    pr.PercentComplete = System.Convert.ToInt32(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioMeterInformation.MasterPeakValue * 100);
+
+                    // Write current audiometer result as a progress bar
+                    WriteProgress(pr);
+
+                    // Wait 100 milliseconds
+                    System.Threading.Thread.Sleep(100);
+                }
+                // Loop interrupted ex: CTRL+C
+                while (!Stopping);
+            }
+
+            // If the RecordingCommunicationStream parameter was called
+            if (recordingcommunicationstream)
+            {
+                // Loop until interruption ex: CTRL+C
+                do
+                {
+                    // Write current audiometer result as a value
+                    WriteObject(System.Convert.ToInt32(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioMeterInformation.MasterPeakValue * 100));
 
                     // Wait 100 milliseconds
                     System.Threading.Thread.Sleep(100);
