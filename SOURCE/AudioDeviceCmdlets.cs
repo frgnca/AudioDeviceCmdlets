@@ -616,7 +616,7 @@ namespace AudioDeviceCmdlets
         }
         private SwitchParameter playbackmutetoggle;
 
-        // Parameter receiving the volume level to set to the defaut playback device
+        // Parameter receiving the volume level to set to the default playback device
         [ValidateRange(0, 100.0f)]
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "PlaybackVolume")]
         public float? PlaybackVolume
@@ -662,7 +662,7 @@ namespace AudioDeviceCmdlets
         }
         private SwitchParameter recordingmutetoggle;
 
-        // Parameter receiving the volume level to set to the defaut recording device
+        // Parameter receiving the volume level to set to the default recording device
         [ValidateRange(0, 100.0f)]
         [Parameter(Mandatory = true, Position = 0, ParameterSetName = "RecordingVolume")]
         public float? RecordingVolume
@@ -672,7 +672,7 @@ namespace AudioDeviceCmdlets
         }
         private float? recordingvolume;
 
-        // Parameter called to only set device as default playback and not default communication
+        // Parameter called to only set device as default and not default communication
         [Parameter(Mandatory = false, ParameterSetName = "InputObject")]
         [Parameter(Mandatory = false, ParameterSetName = "ID")]
         [Parameter(Mandatory = false, ParameterSetName = "Index")]
@@ -683,7 +683,7 @@ namespace AudioDeviceCmdlets
         }
         private SwitchParameter defaultOnly;
 
-        // Parameter called to only set device as default communication and not default playback
+        // Parameter called to only set device as default communication and not default
         [Parameter(Mandatory = false, ParameterSetName = "InputObject")]
         [Parameter(Mandatory = false, ParameterSetName = "ID")]
         [Parameter(Mandatory = false, ParameterSetName = "Index")]
