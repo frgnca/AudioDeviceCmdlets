@@ -216,35 +216,35 @@ namespace AudioDeviceCmdlets
             // Create a MMDeviceCollection of every devices that are enabled
             MMDeviceCollection DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
 
+            // Get the ID of the default device and the default communication device for both type
+            string DefaultPlaybackID = null;
+            string DefaultRecordingID = null;
+            string DefaultCommunicationPlaybackID = null;
+            string DefaultCommunicationRecordingID = null;
+            try
+            {
+                DefaultPlaybackID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID;
+            }
+            catch { }
+            try
+            {
+                DefaultRecordingID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).ID;
+            }
+            catch { }
+            try
+            {
+                DefaultCommunicationPlaybackID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID;
+            }
+            catch { }
+            try
+            {
+                DefaultCommunicationRecordingID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID;
+            }
+            catch { }
+
             // If the List switch parameter was called
             if (list)
             {
-                // Get the ID of the default device and the default communication device for both type
-                string DefaultPlaybackID = null;
-                string DefaultRecordingID = null;
-                string DefaultCommunicationPlaybackID = null;
-                string DefaultCommunicationRecordingID = null;
-                try
-                {
-                    DefaultPlaybackID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID;
-                }
-                catch { }
-                try
-                {
-                    DefaultRecordingID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).ID;
-                }
-                catch { }
-                try
-                {
-                    DefaultCommunicationPlaybackID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID;
-                }
-                catch { }
-                try
-                {
-                    DefaultCommunicationRecordingID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID;
-                }
-                catch { }
-
                 // For every MMDevice in DeviceCollection
                 for (int i = 0; i < DeviceCollection.Count; i++)
                 {
@@ -286,32 +286,6 @@ namespace AudioDeviceCmdlets
             // If the ID parameter received a value
             if (!string.IsNullOrEmpty(id))
             {
-                // Get the ID of the default device and the default communication device for both type
-                string DefaultPlaybackID = null;
-                string DefaultRecordingID = null;
-                string DefaultCommunicationPlaybackID = null;
-                string DefaultCommunicationRecordingID = null;
-                try
-                {
-                    DefaultPlaybackID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID;
-                }
-                catch { }
-                try
-                {
-                    DefaultRecordingID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).ID;
-                }
-                catch { }
-                try
-                {
-                    DefaultCommunicationPlaybackID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID;
-                }
-                catch { }
-                try
-                {
-                    DefaultCommunicationRecordingID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID;
-                }
-                catch { }
-
                 // For every MMDevice in DeviceCollection
                 for (int i = 0; i < DeviceCollection.Count; i++)
                 {
@@ -365,32 +339,6 @@ namespace AudioDeviceCmdlets
                 {
                     // Use valid Index as iterative
                     int i = index.Value - 1;
-
-                    // Get the ID of the default device and the default communication device for both type
-                    string DefaultPlaybackID = null;
-                    string DefaultRecordingID = null;
-                    string DefaultCommunicationPlaybackID = null;
-                    string DefaultCommunicationRecordingID = null;
-                    try
-                    {
-                        DefaultPlaybackID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID;
-                    }
-                    catch { }
-                    try
-                    {
-                        DefaultRecordingID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).ID;
-                    }
-                    catch { }
-                    try
-                    {
-                        DefaultCommunicationPlaybackID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID;
-                    }
-                    catch { }
-                    try
-                    {
-                        DefaultCommunicationRecordingID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID;
-                    }
-                    catch { }
 
                     // If this MMDevice's ID is either, the same as the default playback device's ID, or the same as the default recording device's ID
                     if (DeviceCollection[i].ID == DefaultPlaybackID || DeviceCollection[i].ID == DefaultRecordingID)
