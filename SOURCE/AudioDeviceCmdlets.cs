@@ -286,6 +286,32 @@ namespace AudioDeviceCmdlets
             // If the ID parameter received a value
             if (!string.IsNullOrEmpty(id))
             {
+                // Get the ID of the default device and the default communication device for both type
+                string DefaultPlaybackID = null;
+                string DefaultRecordingID = null;
+                string DefaultCommunicationPlaybackID = null;
+                string DefaultCommunicationRecordingID = null;
+                try
+                {
+                    DefaultPlaybackID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID;
+                }
+                catch { }
+                try
+                {
+                    DefaultRecordingID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).ID;
+                }
+                catch { }
+                try
+                {
+                    DefaultCommunicationPlaybackID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID;
+                }
+                catch { }
+                try
+                {
+                    DefaultCommunicationRecordingID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID;
+                }
+                catch { }
+
                 // For every MMDevice in DeviceCollection
                 for (int i = 0; i < DeviceCollection.Count; i++)
                 {
@@ -293,10 +319,10 @@ namespace AudioDeviceCmdlets
                     if (string.Compare(DeviceCollection[i].ID, id, System.StringComparison.CurrentCultureIgnoreCase) == 0)
                     {
                         // If this MMDevice's ID is either, the same as the default playback device's ID, or the same as the default recording device's ID
-                        if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID || DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).ID)
+                        if (DeviceCollection[i].ID == DefaultPlaybackID || DeviceCollection[i].ID == DefaultRecordingID)
                         {
                             // If the MMDevice's ID is either, the same as the default communication playback device's ID, or the same as the default communication recording device's ID
-                            if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID || DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID)
+                            if (DeviceCollection[i].ID == DefaultCommunicationPlaybackID || DeviceCollection[i].ID == DefaultCommunicationRecordingID)
                             {
                                 // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of true
                                 WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, true));
@@ -310,7 +336,7 @@ namespace AudioDeviceCmdlets
                         else
                         {
                             // If the MMDevice's ID is either, the same as the default communication playback device's ID, or the same as the default communication recording device's ID
-                            if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID || DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID)
+                            if (DeviceCollection[i].ID == DefaultCommunicationPlaybackID || DeviceCollection[i].ID == DefaultCommunicationRecordingID)
                             {
                                 // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of true
                                 WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, true));
