@@ -68,6 +68,117 @@ namespace AudioDeviceCmdlets
         }
     }
 
+    public class AudioDeviceCreationToolkit
+    {
+        // The MMDeviceEnumerator
+        public MMDeviceEnumerator DeviceEnumerator;
+
+        // To be created, a new AudioDeviceCreationToolkit needs a MMDeviceEnumerator it will use to compare the ID its methods receive
+        public AudioDeviceCreationToolkit(MMDeviceEnumerator DeviceEnumerator)
+        {
+            // Set this object's DeviceEnumerator to the received MMDeviceEnumerator
+            this.DeviceEnumerator = DeviceEnumerator;
+        }
+
+        // Method to find out, in a collection of all enabled MMDevice, the Index of a MMDevice, given its ID
+        public int FindIndex(string ID)
+        {
+            // Enumarate all enabled devices in a collection
+            MMDeviceCollection DeviceCollection = null;
+            try
+            {
+                DeviceCollection = DeviceEnumerator.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+            }
+            catch
+            {
+                // Error
+                throw new System.Exception("Error in AudioDeviceCreationToolkit.FindIndex(string ID) - Failed to create the collection of all enabled MMDevice using MMDeviceEnumerator");
+            }
+
+            // For each device in the collection
+            for (int i = 0; i < DeviceCollection.Count; i++)
+            {
+                // If the received ID is the same as this device's ID
+                if(DeviceCollection[i].ID == ID)
+                {
+                    // Return this device's Index
+                    return (i + 1);
+                }
+            }
+
+            // Error
+            throw new System.Exception("Error in AudioDeviceCreationToolkit.FindIndex(string ID) - No MMDevice with the given ID was found in the collection of all enabled MMDevice");
+        }
+
+        // Method to find out if a MMDevice is the default MMDevice of its type, given its ID
+        public bool IsDefault(string ID)
+        {
+            // Try to get the ID of the default playback device
+            string PlaybackID = "";
+            try
+            {
+                PlaybackID = (DeviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia)).ID;
+            }
+            catch { }
+
+            // If the received ID is the same as the default playback device's ID
+            if(ID == PlaybackID)
+            {
+                return (true);
+            }
+
+            // Try to get the ID of the default recording device
+            string RecordingID = "";
+            try
+            {
+                RecordingID = (DeviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia)).ID;
+            }
+            catch { }
+
+            // If the received ID is the same as the default recording device's ID
+            if (ID == RecordingID)
+            {
+                return (true);
+            }
+
+            return (false);
+        }
+
+        // Method to find out if a MMDevice is the default communication MMDevice of its type, given its ID
+        public bool IsDefaultCommunication(string ID)
+        {
+            // Try to get the ID of the default communication playback device
+            string PlaybackCommunicationID = "";
+            try
+            {
+                PlaybackCommunicationID = (DeviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications)).ID;
+            }
+            catch { }
+
+            // If the received ID is the same as the default communication playback device's ID
+            if (ID == PlaybackCommunicationID)
+            {
+                return (true);
+            }
+
+            // Try to get the ID of the default communication recording device
+            string RecordingCommunicationID = "";
+            try
+            {
+                RecordingCommunicationID = (DeviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications)).ID;
+            }
+            catch { }
+
+            // If the received ID is the same as the default communication recording device's ID
+            if (ID == RecordingCommunicationID)
+            {
+                return (true);
+            }
+
+            return (false);
+        }
+    }
+
     // Get Cmdlet
     [Cmdlet(VerbsCommon.Get, "AudioDevice")]
     public class GetAudioDevice : Cmdlet
@@ -213,70 +324,21 @@ namespace AudioDeviceCmdlets
         {
             // Create a new MMDeviceEnumerator
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
-            // Create a MMDeviceCollection of every devices that are enabled
-            MMDeviceCollection DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
-
-            // Get the ID of the default device and the default communication device for both type
-            string DefaultPlaybackID = null;
-            string DefaultRecordingID = null;
-            string DefaultCommunicationPlaybackID = null;
-            string DefaultCommunicationRecordingID = null;
-            try
-            {
-                DefaultPlaybackID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID;
-            }
-            catch { }
-            try
-            {
-                DefaultRecordingID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).ID;
-            }
-            catch { }
-            try
-            {
-                DefaultCommunicationPlaybackID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID;
-            }
-            catch { }
-            try
-            {
-                DefaultCommunicationRecordingID = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID;
-            }
-            catch { }
 
             // If the List switch parameter was called
             if (list)
             {
+                // Create a AudioDeviceCreationToolkit
+                AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
+
+                // Create a MMDeviceCollection of every devices that are enabled
+                MMDeviceCollection DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+
                 // For every MMDevice in DeviceCollection
                 for (int i = 0; i < DeviceCollection.Count; i++)
                 {
-                    // If this MMDevice's ID is either, the same as the default playback device's ID, or the same as the default recording device's ID
-                    if (DeviceCollection[i].ID == DefaultPlaybackID || DeviceCollection[i].ID == DefaultRecordingID)
-                    {
-                        // If the MMDevice's ID is either, the same as the default communication playback device's ID, or the same as the default communication recording device's ID
-                        if (DeviceCollection[i].ID == DefaultCommunicationPlaybackID || DeviceCollection[i].ID == DefaultCommunicationRecordingID)
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of true
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, true));
-                        }
-                        else
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of false
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, false));
-                        }
-                    }
-                    else
-                    {
-                        // If the MMDevice's ID is either, the same as the default communication playback device's ID, or the same as the default communication recording device's ID
-                        if (DeviceCollection[i].ID == DefaultCommunicationPlaybackID || DeviceCollection[i].ID == DefaultCommunicationRecordingID)
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of true
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, true));
-                        }
-                        else
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of false
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, false));
-                        }
-                    }
+                    // Output the result of the creation of a new AudioDevice, while assining it its index, the MMDevice itself, its default state, and its default communication state
+                    WriteObject(new AudioDevice(i + 1, DeviceCollection[i], Toolkit.IsDefault(DeviceCollection[i].ID), Toolkit.IsDefaultCommunication(DeviceCollection[i].ID)));
                 }
                 
                 // Stop checking for other parameters
@@ -286,41 +348,20 @@ namespace AudioDeviceCmdlets
             // If the ID parameter received a value
             if (!string.IsNullOrEmpty(id))
             {
+                // Create a AudioDeviceCreationToolkit
+                AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
+
+                // Create a MMDeviceCollection of every devices that are enabled
+                MMDeviceCollection DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+
                 // For every MMDevice in DeviceCollection
                 for (int i = 0; i < DeviceCollection.Count; i++)
                 {
                     // If this MMDevice's ID is the same as the string received by the ID parameter
                     if (string.Compare(DeviceCollection[i].ID, id, System.StringComparison.CurrentCultureIgnoreCase) == 0)
                     {
-                        // If this MMDevice's ID is either, the same as the default playback device's ID, or the same as the default recording device's ID
-                        if (DeviceCollection[i].ID == DefaultPlaybackID || DeviceCollection[i].ID == DefaultRecordingID)
-                        {
-                            // If the MMDevice's ID is either, the same as the default communication playback device's ID, or the same as the default communication recording device's ID
-                            if (DeviceCollection[i].ID == DefaultCommunicationPlaybackID || DeviceCollection[i].ID == DefaultCommunicationRecordingID)
-                            {
-                                // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of true
-                                WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, true));
-                            }
-                            else
-                            {
-                                // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of false
-                                WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, false));
-                            }
-                        }
-                        else
-                        {
-                            // If the MMDevice's ID is either, the same as the default communication playback device's ID, or the same as the default communication recording device's ID
-                            if (DeviceCollection[i].ID == DefaultCommunicationPlaybackID || DeviceCollection[i].ID == DefaultCommunicationRecordingID)
-                            {
-                                // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of true
-                                WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, true));
-                            }
-                            else
-                            {
-                                // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of false
-                                WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, false));
-                            }
-                        }
+                        // Output the result of the creation of a new AudioDevice, while assining it its index, the MMDevice itself, its default state, and its default communication state
+                        WriteObject(new AudioDevice(i + 1, DeviceCollection[i], Toolkit.IsDefault(DeviceCollection[i].ID), Toolkit.IsDefaultCommunication(DeviceCollection[i].ID)));
 
                         // Stop checking for other parameters
                         return;
@@ -334,41 +375,20 @@ namespace AudioDeviceCmdlets
             // If the Index parameter received a value
             if (index != null)
             {
+                // Create a AudioDeviceCreationToolkit
+                AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
+
+                // Create a MMDeviceCollection of every devices that are enabled
+                MMDeviceCollection DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+
                 // If the Index is valid
                 if (index.Value >= 1 && index.Value <= DeviceCollection.Count)
                 {
                     // Use valid Index as iterative
                     int i = index.Value - 1;
 
-                    // If this MMDevice's ID is either, the same as the default playback device's ID, or the same as the default recording device's ID
-                    if (DeviceCollection[i].ID == DefaultPlaybackID || DeviceCollection[i].ID == DefaultRecordingID)
-                    {
-                        // If the MMDevice's ID is either, the same as the default communication playback device's ID, or the same as the default communication recording device's ID
-                        if (DeviceCollection[i].ID == DefaultCommunicationPlaybackID || DeviceCollection[i].ID == DefaultCommunicationRecordingID)
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of true
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, true));
-                        }
-                        else
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of false
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, false));
-                        }
-                    }
-                    else
-                    {
-                        // If the MMDevice's ID is either, the same as the default communication playback device's ID, or the same as the default communication recording device's ID
-                        if (DeviceCollection[i].ID == DefaultCommunicationPlaybackID || DeviceCollection[i].ID == DefaultCommunicationRecordingID)
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of true
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, true));
-                        }
-                        else
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of false
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, false));
-                        }
-                    }
+                    // Output the result of the creation of a new AudioDevice, while assining it its index, the MMDevice itself, its default state, and its default communication state
+                    WriteObject(new AudioDevice(i + 1, DeviceCollection[i], Toolkit.IsDefault(DeviceCollection[i].ID), Toolkit.IsDefaultCommunication(DeviceCollection[i].ID)));
 
                     // Stop checking for other parameters
                     return;
@@ -383,26 +403,23 @@ namespace AudioDeviceCmdlets
             // If the PlaybackCommunication switch parameter was called
             if (playbackcommunication)
             {
-                // For every MMDevice in DeviceCollection
-                for (int i = 0; i < DeviceCollection.Count; i++)
-                {
-                    // If this MMDevice's ID is the same as the default communication playback device's ID
-                    if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID)
-                    {
+                // Create a AudioDeviceCreationToolkit
+                AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
 
-                        // If the MMDevice's ID is the same as the default playback device's ID
-                        if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID)
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of true
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, true));
-                        }
-                        else
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of true
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, true));
-                        }
-                    }
+                // Get the default communication playback device
+                MMDevice Device = null;
+                try
+                {
+                    Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications);
                 }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No playback AudioDevice found with the default communication role");
+                }
+
+                // Output the result of the creation of a new AudioDevice, while assining it its index, the MMDevice itself, its default state, and its default communication state
+                WriteObject(new AudioDevice(Toolkit.FindIndex(Device.ID), Device, Toolkit.IsDefault(Device.ID), Toolkit.IsDefaultCommunication(Device.ID)));
 
                 // Stop checking for other parameters
                 return;
@@ -411,8 +428,20 @@ namespace AudioDeviceCmdlets
             // If the PlaybackCommunicationMute switch parameter was called
             if (playbackcommunicationmute)
             {
+                // Get the default communication playback device
+                MMDevice Device = null;
+                try
+                {
+                    Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications);
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No playback AudioDevice found with the default communication role");
+                }
+
                 // Output the mute state of the default communication playback device
-                WriteObject(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.Mute);
+                WriteObject(Device.AudioEndpointVolume.Mute);
 
                 // Stop checking for other parameters
                 return;
@@ -421,8 +450,20 @@ namespace AudioDeviceCmdlets
             // If the PlaybackCommunicationVolume switch parameter was called
             if (playbackcommunicationvolume)
             {
+                // Get the default communication playback device
+                MMDevice Device = null;
+                try
+                {
+                    Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications);
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No playback AudioDevice found with the default communication role");
+                }
+
                 // Output the current volume level of the default communication playback device
-                WriteObject(string.Format("{0}%", DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.MasterVolumeLevelScalar * 100));
+                WriteObject(string.Format("{0}%", Device.AudioEndpointVolume.MasterVolumeLevelScalar * 100));
 
                 // Stop checking for other parameters
                 return;
@@ -431,27 +472,24 @@ namespace AudioDeviceCmdlets
             // If the Playback switch parameter was called
             if (playback)
             {
-                // For every MMDevice in DeviceCollection
-                for (int i = 0; i < DeviceCollection.Count; i++)
-                {
-                    // If this MMDevice's ID is the same as the default playback device's ID
-                    if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID)
-                    {
+                // Create a AudioDeviceCreationToolkit
+                AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
 
-                        // If the MMDevice's ID is the same as the default communication playback device's ID
-                        if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID)
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of true
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, true));
-                        }
-                        else
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of false
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, false));
-                        }
-                    }
+                // Get the default playback device
+                MMDevice Device = null;
+                try
+                {
+                    Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
                 }
-                
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No playback AudioDevice found with the default role");
+                }
+
+                // Output the result of the creation of a new AudioDevice, while assining it its index, the MMDevice itself, its default state, and its default communication state
+                WriteObject(new AudioDevice(Toolkit.FindIndex(Device.ID), Device, Toolkit.IsDefault(Device.ID), Toolkit.IsDefaultCommunication(Device.ID)));
+
                 // Stop checking for other parameters
                 return;
             }
@@ -459,8 +497,20 @@ namespace AudioDeviceCmdlets
             // If the PlaybackMute switch parameter was called
             if (playbackmute)
             {
+                // Get the default playback device
+                MMDevice Device = null;
+                try
+                {
+                    Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No playback AudioDevice found with the default role");
+                }
+
                 // Output the mute state of the default playback device
-                WriteObject(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioEndpointVolume.Mute);
+                WriteObject(Device.AudioEndpointVolume.Mute);
 
                 // Stop checking for other parameters
                 return;
@@ -469,8 +519,20 @@ namespace AudioDeviceCmdlets
             // If the PlaybackVolume switch parameter was called
             if(playbackvolume)
             {
+                // Get the default playback device
+                MMDevice Device = null;
+                try
+                {
+                    Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No playback AudioDevice found with the default role");
+                }
+
                 // Output the current volume level of the default playback device
-                WriteObject(string.Format("{0}%", DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioEndpointVolume.MasterVolumeLevelScalar * 100));
+                WriteObject(string.Format("{0}%", Device.AudioEndpointVolume.MasterVolumeLevelScalar * 100));
 
                 // Stop checking for other parameters
                 return;
@@ -479,26 +541,23 @@ namespace AudioDeviceCmdlets
             // If the RecordingCommunication switch parameter was called
             if (recordingcommunication)
             {
-                // For every MMDevice in DeviceCollection
-                for (int i = 0; i < DeviceCollection.Count; i++)
-                {
-                    // If this MMDevice's ID is the same as the default communication recording device's ID
-                    if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID)
-                    {
+                // Create a AudioDeviceCreationToolkit
+                AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
 
-                        // If the MMDevice's ID is the same as the default recording device's ID
-                        if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).ID)
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of true
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, true));
-                        }
-                        else
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of true
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, true));
-                        }
-                    }
+                // Get the default communication recording device
+                MMDevice Device = null;
+                try
+                {
+                    Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications);
                 }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No recording AudioDevice found with the default communication role");
+                }
+
+                // Output the result of the creation of a new AudioDevice, while assining it its index, the MMDevice itself, its default state, and its default communication state
+                WriteObject(new AudioDevice(Toolkit.FindIndex(Device.ID), Device, Toolkit.IsDefault(Device.ID), Toolkit.IsDefaultCommunication(Device.ID)));
 
                 // Stop checking for other parameters
                 return;
@@ -507,8 +566,20 @@ namespace AudioDeviceCmdlets
             // If the RecordingCommunicationMute switch parameter was called
             if (recordingcommunicationmute)
             {
+                // Get the default communication recording device
+                MMDevice Device = null;
+                try
+                {
+                    Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications);
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No recording AudioDevice found with the default communication role");
+                }
+
                 // Output the mute state of the default communication recording device
-                WriteObject(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioEndpointVolume.Mute);
+                WriteObject(Device.AudioEndpointVolume.Mute);
 
                 // Stop checking for other parameters
                 return;
@@ -517,8 +588,20 @@ namespace AudioDeviceCmdlets
             // If the RecordingCommunicationVolume switch parameter was called
             if (recordingcommunicationvolume)
             {
+                // Get the default communication recording device
+                MMDevice Device = null;
+                try
+                {
+                    Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications);
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No recording AudioDevice found with the default communication role");
+                }
+
                 // Output the current volume level of the default communication recording device
-                WriteObject(string.Format("{0}%", DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioEndpointVolume.MasterVolumeLevelScalar * 100));
+                WriteObject(string.Format("{0}%", Device.AudioEndpointVolume.MasterVolumeLevelScalar * 100));
 
                 // Stop checking for other parameters
                 return;
@@ -527,26 +610,24 @@ namespace AudioDeviceCmdlets
             // If the Recording switch parameter was called
             if (recording)
             {
-                // For every MMDevice in DeviceCollection
-                for (int i = 0; i < DeviceCollection.Count; i++)
+                // Create a AudioDeviceCreationToolkit
+                AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
+
+                // Get the default recording device
+                MMDevice Device = null;
+                try
                 {
-                    // If this MMDevice's ID is the same as the default recording device's ID
-                    if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).ID)
-                    {
-                        // If the MMDevice's ID is the same as the default communication recording device's ID
-                        if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID)
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of true
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, true));
-                        }
-                        else
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of false
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, false));
-                        }
-                    }
+                    Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia);
                 }
-                
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No recording AudioDevice found with the default role");
+                }
+
+                // Output the result of the creation of a new AudioDevice, while assining it its index, the MMDevice itself, its default state, and its default communication state
+                WriteObject(new AudioDevice(Toolkit.FindIndex(Device.ID), Device, Toolkit.IsDefault(Device.ID), Toolkit.IsDefaultCommunication(Device.ID)));
+
                 // Stop checking for other parameters
                 return;
             }
@@ -554,8 +635,20 @@ namespace AudioDeviceCmdlets
             // If the RecordingMute switch parameter was called
             if (recordingmute)
             {
+                // Get the default recording device
+                MMDevice Device = null;
+                try
+                {
+                    Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia);
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No recording AudioDevice found with the default role");
+                }
+
                 // Output the mute state of the default recording device
-                WriteObject(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioEndpointVolume.Mute);
+                WriteObject(Device.AudioEndpointVolume.Mute);
 
                 // Stop checking for other parameters
                 return;
@@ -564,8 +657,20 @@ namespace AudioDeviceCmdlets
             // If the RecordingVolume switch parameter was called
             if (recordingvolume)
             {
+                // Get the default recording device
+                MMDevice Device = null;
+                try
+                {
+                    Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia);
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No recording AudioDevice found with the default role");
+                }
+
                 // Output the current volume level of the default recording device
-                WriteObject(string.Format("{0}%", DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioEndpointVolume.MasterVolumeLevelScalar * 100));
+                WriteObject(string.Format("{0}%", Device.AudioEndpointVolume.MasterVolumeLevelScalar * 100));
 
                 // Stop checking for other parameters
                 return;
