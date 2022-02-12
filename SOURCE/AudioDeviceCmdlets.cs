@@ -71,13 +71,13 @@ namespace AudioDeviceCmdlets
     public class AudioDeviceCreationToolkit
     {
         // The MMDeviceEnumerator
-        public MMDeviceEnumerator DeviceEnumerator;
+        public MMDeviceEnumerator DevEnum;
 
         // To be created, a new AudioDeviceCreationToolkit needs a MMDeviceEnumerator it will use to compare the ID its methods receive
-        public AudioDeviceCreationToolkit(MMDeviceEnumerator DeviceEnumerator)
+        public AudioDeviceCreationToolkit(MMDeviceEnumerator DevEnum)
         {
             // Set this object's DeviceEnumerator to the received MMDeviceEnumerator
-            this.DeviceEnumerator = DeviceEnumerator;
+            this.DevEnum = DevEnum;
         }
 
         // Method to find out, in a collection of all enabled MMDevice, the Index of a MMDevice, given its ID
@@ -87,12 +87,12 @@ namespace AudioDeviceCmdlets
             MMDeviceCollection DeviceCollection = null;
             try
             {
-                DeviceCollection = DeviceEnumerator.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+                DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
             }
             catch
             {
                 // Error
-                throw new System.Exception("Error in AudioDeviceCreationToolkit.FindIndex(string ID) - Failed to create the collection of all enabled MMDevice using MMDeviceEnumerator");
+                throw new System.Exception("Error in method AudioDeviceCreationToolkit.FindIndex(string ID) - Failed to create the collection of all enabled MMDevice using MMDeviceEnumerator");
             }
 
             // For each device in the collection
@@ -107,7 +107,7 @@ namespace AudioDeviceCmdlets
             }
 
             // Error
-            throw new System.Exception("Error in AudioDeviceCreationToolkit.FindIndex(string ID) - No MMDevice with the given ID was found in the collection of all enabled MMDevice");
+            throw new System.Exception("Error in method AudioDeviceCreationToolkit.FindIndex(string ID) - No MMDevice with the given ID was found in the collection of all enabled MMDevice");
         }
 
         // Method to find out if a MMDevice is the default MMDevice of its type, given its ID
@@ -117,7 +117,7 @@ namespace AudioDeviceCmdlets
             string PlaybackID = "";
             try
             {
-                PlaybackID = (DeviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia)).ID;
+                PlaybackID = (DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia)).ID;
             }
             catch { }
 
@@ -131,7 +131,7 @@ namespace AudioDeviceCmdlets
             string RecordingID = "";
             try
             {
-                RecordingID = (DeviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia)).ID;
+                RecordingID = (DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia)).ID;
             }
             catch { }
 
@@ -151,7 +151,7 @@ namespace AudioDeviceCmdlets
             string PlaybackCommunicationID = "";
             try
             {
-                PlaybackCommunicationID = (DeviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications)).ID;
+                PlaybackCommunicationID = (DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications)).ID;
             }
             catch { }
 
@@ -165,7 +165,7 @@ namespace AudioDeviceCmdlets
             string RecordingCommunicationID = "";
             try
             {
-                RecordingCommunicationID = (DeviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications)).ID;
+                RecordingCommunicationID = (DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications)).ID;
             }
             catch { }
 
@@ -331,8 +331,17 @@ namespace AudioDeviceCmdlets
                 // Create a AudioDeviceCreationToolkit
                 AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
 
-                // Create a MMDeviceCollection of every devices that are enabled
-                MMDeviceCollection DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+                // Enumarate all enabled devices in a collection
+                MMDeviceCollection DeviceCollection = null;
+                try
+                {
+                    DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+                }
+                catch
+                {
+                    // Error
+                    throw new System.Exception("Error in parameter List - Failed to create the collection of all enabled MMDevice using MMDeviceEnumerator");
+                }
 
                 // For every MMDevice in DeviceCollection
                 for (int i = 0; i < DeviceCollection.Count; i++)
@@ -351,8 +360,17 @@ namespace AudioDeviceCmdlets
                 // Create a AudioDeviceCreationToolkit
                 AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
 
-                // Create a MMDeviceCollection of every devices that are enabled
-                MMDeviceCollection DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+                // Enumarate all enabled devices in a collection
+                MMDeviceCollection DeviceCollection = null;
+                try
+                {
+                    DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+                }
+                catch
+                {
+                    // Error
+                    throw new System.Exception("Error in parameter ID - Failed to create the collection of all enabled MMDevice using MMDeviceEnumerator");
+                }
 
                 // For every MMDevice in DeviceCollection
                 for (int i = 0; i < DeviceCollection.Count; i++)
@@ -378,8 +396,17 @@ namespace AudioDeviceCmdlets
                 // Create a AudioDeviceCreationToolkit
                 AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
 
-                // Create a MMDeviceCollection of every devices that are enabled
-                MMDeviceCollection DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+                // Enumarate all enabled devices in a collection
+                MMDeviceCollection DeviceCollection = null;
+                try
+                {
+                    DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+                }
+                catch
+                {
+                    // Error
+                    throw new System.Exception("Error in parameter Index - Failed to create the collection of all enabled MMDevice using MMDeviceEnumerator");
+                }
 
                 // If the Index is valid
                 if (index.Value >= 1 && index.Value <= DeviceCollection.Count)
@@ -853,8 +880,18 @@ namespace AudioDeviceCmdlets
 
             // Create a new MMDeviceEnumerator
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
-            // Create a MMDeviceCollection of every devices that are enabled
-            MMDeviceCollection DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+
+            // Enumarate all enabled devices in a collection
+            MMDeviceCollection DeviceCollection = null;
+            try
+            {
+                DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+            }
+            catch
+            {
+                // Error
+                throw new System.Exception("Error in cmdlet Set - Failed to create the collection of all enabled MMDevice using MMDeviceEnumerator");
+            }
 
             // If the InputObject parameter received a value
             if (inputObject != null)
