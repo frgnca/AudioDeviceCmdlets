@@ -902,44 +902,56 @@ namespace AudioDeviceCmdlets
                     // If this MMDevice's ID is the same as the ID of the MMDevice received by the InputObject parameter
                     if (DeviceCollection[i].ID == inputObject.ID)
                     {
+                        // To use during creation of corresponding AudioDevice, assuming it is impossible to do both DefaultOnly and CommunicatioOnly at the same time
+                        bool DefaultState;
+                        bool CommunicationState;
+
                         // Create a new audio PolicyConfigClient
                         PolicyConfigClient client = new PolicyConfigClient();
-                        // Using PolicyConfigClient, set the given device as the default communication device (for its type)
-                        if (!defaultOnly.ToBool())
-                            client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eCommunications);
-                        // Using PolicyConfigClient, set the given device as the default device (for its type)
-                        if (!communicationOnly.ToBool())
-                            client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eMultimedia);
 
-                        // If this MMDevice's ID is either, the same as the default playback device's ID, or the same as the default recording device's ID
-                        if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID || DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).ID)
+                        // Create a AudioDeviceCreationToolkit
+                        AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
+
+                        // Unless the DefaultOnly parameter was called
+                        if (!defaultOnly.ToBool())
                         {
-                            // If the MMDevice's ID is either, the same as the default communication playback device's ID, or the same as the default communication recording device's ID
-                            if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID || DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID)
-                            {
-                                // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of true
-                                WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, true));
-                            }
-                            else
-                            {
-                                // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of false
-                                WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, false));
-                            }
+                            // The DefaultOnly parameter was not called
+
+                            // Using PolicyConfigClient, set the given device as the default communication device (for its type)
+                            client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eCommunications);
+
+                            // Set default communication state to use
+                            CommunicationState = true;
                         }
                         else
                         {
-                            // If the MMDevice's ID is either, the same as the default communication playback device's ID, or the same as the default communication recording device's ID
-                            if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID || DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID)
-                            {
-                                // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of true
-                                WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, true));
-                            }
-                            else
-                            {
-                                // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of false
-                                WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, false));
-                            }
+                            // The DefaultOnly parameter was called
+
+                            // Set default communication state to use
+                            CommunicationState = Toolkit.IsDefaultCommunication(DeviceCollection[i].ID);
                         }
+
+                        // Unless the CommunicationOnly parameter was called
+                        if (!communicationOnly.ToBool())
+                        {
+                            // The CommunicationOnly parameter was not called
+
+                            // Using PolicyConfigClient, set the given device as the default device (for its type)
+                            client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eMultimedia);
+
+                            // Set default state to use
+                            DefaultState = true;
+                        }
+                        else
+                        {
+                            // The CommunicationOnly parameter was called
+
+                            // Set default state to use
+                            DefaultState = Toolkit.IsDefault(DeviceCollection[i].ID);
+                        }
+
+                        // Output the result of the creation of a new AudioDevice, while assining it its index, the MMDevice itself, its default state, and its default communication state
+                        WriteObject(new AudioDevice(i + 1, DeviceCollection[i], DefaultState, CommunicationState));
 
                         // Stop checking for other parameters
                         return;
@@ -959,44 +971,56 @@ namespace AudioDeviceCmdlets
                     // If this MMDevice's ID is the same as the string received by the ID parameter
                     if (string.Compare(DeviceCollection[i].ID, id, System.StringComparison.CurrentCultureIgnoreCase) == 0)
                     {
+                        // To use during creation of corresponding AudioDevice, assuming it is impossible to do both DefaultOnly and CommunicatioOnly at the same time
+                        bool DefaultState;
+                        bool CommunicationState;
+
                         // Create a new audio PolicyConfigClient
                         PolicyConfigClient client = new PolicyConfigClient();
-                        // Using PolicyConfigClient, set the given device as the default communication device (for its type)
-                        if (!defaultOnly.ToBool())
-                            client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eCommunications);
-                        // Using PolicyConfigClient, set the given device as the default device (for its type)
-                        if (!communicationOnly.ToBool())
-                            client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eMultimedia);
 
-                        // If this MMDevice's ID is either, the same as the default playback device's ID, or the same as the default recording device's ID
-                        if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID || DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).ID)
+                        // Create a AudioDeviceCreationToolkit
+                        AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
+
+                        // Unless the DefaultOnly parameter was called
+                        if (!defaultOnly.ToBool())
                         {
-                            // If the MMDevice's ID is either, the same as the default communication playback device's ID, or the same as the default communication recording device's ID
-                            if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID || DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID)
-                            {
-                                // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of true
-                                WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, true));
-                            }
-                            else
-                            {
-                                // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of false
-                                WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, false));
-                            }
+                            // The DefaultOnly parameter was not called
+
+                            // Using PolicyConfigClient, set the given device as the default communication device (for its type)
+                            client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eCommunications);
+
+                            // Set default communication state to use
+                            CommunicationState = true;
                         }
                         else
                         {
-                            // If the MMDevice's ID is either, the same as the default communication playback device's ID, or the same as the default communication recording device's ID
-                            if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID || DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID)
-                            {
-                                // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of true
-                                WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, true));
-                            }
-                            else
-                            {
-                                // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of false
-                                WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, false));
-                            }
+                            // The DefaultOnly parameter was called
+
+                            // Set default communication state to use
+                            CommunicationState = Toolkit.IsDefaultCommunication(DeviceCollection[i].ID);
                         }
+
+                        // Unless the CommunicationOnly parameter was called
+                        if (!communicationOnly.ToBool())
+                        {
+                            // The CommunicationOnly parameter was not called
+
+                            // Using PolicyConfigClient, set the given device as the default device (for its type)
+                            client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eMultimedia);
+
+                            // Set default state to use
+                            DefaultState = true;
+                        }
+                        else
+                        {
+                            // The CommunicationOnly parameter was called
+
+                            // Set default state to use
+                            DefaultState = Toolkit.IsDefault(DeviceCollection[i].ID);
+                        }
+
+                        // Output the result of the creation of a new AudioDevice, while assining it its index, the MMDevice itself, its default state, and its default communication state
+                        WriteObject(new AudioDevice(i + 1, DeviceCollection[i], DefaultState, CommunicationState));
 
                         // Stop checking for other parameters
                         return;
@@ -1016,44 +1040,56 @@ namespace AudioDeviceCmdlets
                     // Use valid Index as iterative
                     int i = index.Value - 1;
 
+                    // To use during creation of corresponding AudioDevice, assuming it is impossible to do both DefaultOnly and CommunicatioOnly at the same time
+                    bool DefaultState;
+                    bool CommunicationState;
+
                     // Create a new audio PolicyConfigClient
                     PolicyConfigClient client = new PolicyConfigClient();
-                    // Using PolicyConfigClient, set the given device as the default communication device (for its type)
-                    if (!defaultOnly.ToBool())
-                        client.SetDefaultEndpoint(DeviceCollection[index.Value - 1].ID, ERole.eCommunications);
-                    // Using PolicyConfigClient, set the given device as the default device (for its type)
-                    if (!communicationOnly.ToBool())
-                        client.SetDefaultEndpoint(DeviceCollection[index.Value - 1].ID, ERole.eMultimedia);
 
-                    // If this MMDevice's ID is either, the same as the default playback device's ID, or the same as the default recording device's ID
-                    if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).ID || DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).ID)
+                    // Create a AudioDeviceCreationToolkit
+                    AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
+
+                    // Unless the DefaultOnly parameter was called
+                    if (!defaultOnly.ToBool())
                     {
-                        // If the MMDevice's ID is either, the same as the default communication playback device's ID, or the same as the default communication recording device's ID
-                        if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID || DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID)
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of true
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, true));
-                        }
-                        else
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of true, and a default communication value of false
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], true, false));
-                        }
+                        // The DefaultOnly parameter was not called
+
+                        // Using PolicyConfigClient, set the given device as the default communication device (for its type)
+                        client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eCommunications);
+
+                        // Set default communication state to use
+                        CommunicationState = true;
                     }
                     else
                     {
-                        // If the MMDevice's ID is either, the same as the default communication playback device's ID, or the same as the default communication recording device's ID
-                        if (DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).ID || DeviceCollection[i].ID == DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).ID)
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of true
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, true));
-                        }
-                        else
-                        {
-                            // Output the result of the creation of a new AudioDevice while assining it an index, and the MMDevice itself, a default value of false, and a default communication value of false
-                            WriteObject(new AudioDevice(i + 1, DeviceCollection[i], false, false));
-                        }
+                        // The DefaultOnly parameter was called
+
+                        // Set default communication state to use
+                        CommunicationState = Toolkit.IsDefaultCommunication(DeviceCollection[i].ID);
                     }
+
+                    // Unless the CommunicationOnly parameter was called
+                    if (!communicationOnly.ToBool())
+                    {
+                        // The CommunicationOnly parameter was not called
+
+                        // Using PolicyConfigClient, set the given device as the default device (for its type)
+                        client.SetDefaultEndpoint(DeviceCollection[i].ID, ERole.eMultimedia);
+
+                        // Set default state to use
+                        DefaultState = true;
+                    }
+                    else
+                    {
+                        // The CommunicationOnly parameter was called
+
+                        // Set default state to use
+                        DefaultState = Toolkit.IsDefault(DeviceCollection[i].ID);
+                    }
+
+                    // Output the result of the creation of a new AudioDevice, while assining it its index, the MMDevice itself, its default state, and its default communication state
+                    WriteObject(new AudioDevice(i + 1, DeviceCollection[i], DefaultState, CommunicationState));
 
                     // Stop checking for other parameters
                     return;
