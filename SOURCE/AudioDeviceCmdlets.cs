@@ -1104,85 +1104,181 @@ namespace AudioDeviceCmdlets
             // If the PlaybackCommunicationMute parameter received a value
             if (playbackcommunicationmute != null)
             {
-                // Set the mute state of the default communication playback device to that of the boolean value received by the Cmdlet
-                DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.Mute = (bool)playbackcommunicationmute;
+                try
+                {
+                    // Set the mute state of the default communication playback device to that of the boolean value received by the Cmdlet
+                    DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.Mute = (bool)playbackcommunicationmute;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No playback AudioDevice found with the default communication role");
+                }                
             }
 
             // If the PlaybackCommunicationMuteToggle parameter was called
             if (playbackcommunicationmutetoggle)
             {
-                // Toggle the mute state of the default communication playback device
-                DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.Mute = !DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.Mute;
+                try
+                {
+                    // Toggle the mute state of the default communication playback device
+                    DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.Mute = !DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.Mute;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No playback AudioDevice found with the default communication role");
+                }
             }
 
             // If the PlaybackCommunicationVolume parameter received a value
             if(playbackcommunicationvolume != null)
             {
-                // Set the volume level of the default communication playback device to that of the float value received by the PlaybackCommunicationVolume parameter
-                DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.MasterVolumeLevelScalar = (float)playbackcommunicationvolume / 100.0f;
+                try
+                {
+                    // Set the volume level of the default communication playback device to that of the float value received by the PlaybackCommunicationVolume parameter
+                    DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioEndpointVolume.MasterVolumeLevelScalar = (float)playbackcommunicationvolume / 100.0f;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No playback AudioDevice found with the default communication role");
+                }
             }
 
             // If the PlaybackMute parameter received a value
             if (playbackmute != null)
             {
-                // Set the mute state of the default playback device to that of the boolean value received by the Cmdlet
-                DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioEndpointVolume.Mute = (bool)playbackmute;
+                try
+                {
+                    // Set the mute state of the default playback device to that of the boolean value received by the Cmdlet
+                    DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioEndpointVolume.Mute = (bool)playbackmute;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No playback AudioDevice found with the default role");
+                }
             }
 
             // If the PlaybackMuteToggle parameter was called
             if (playbackmutetoggle)
             {
-                // Toggle the mute state of the default playback device
-                DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioEndpointVolume.Mute = !DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioEndpointVolume.Mute;
+                try
+                {
+                    // Toggle the mute state of the default playback device
+                    DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioEndpointVolume.Mute = !DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioEndpointVolume.Mute;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No playback AudioDevice found with the default role");
+                }
             }
 
             // If the PlaybackVolume parameter received a value
             if(playbackvolume != null)
             {
-                // Set the volume level of the default playback device to that of the float value received by the PlaybackVolume parameter
-                DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioEndpointVolume.MasterVolumeLevelScalar = (float)playbackvolume / 100.0f;
+                try
+                {
+                    // Set the volume level of the default playback device to that of the float value received by the PlaybackVolume parameter
+                    DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioEndpointVolume.MasterVolumeLevelScalar = (float)playbackvolume / 100.0f;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No playback AudioDevice found with the default role");
+                }
             }
 
             // If the RecordingCommunicationMute parameter received a value
             if (recordingcommunicationmute != null)
             {
-                // Set the mute state of the default communication recording device to that of the boolean value received by the Cmdlet
-                DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioEndpointVolume.Mute = (bool)recordingcommunicationmute;
+                try
+                {
+                    // Set the mute state of the default communication recording device to that of the boolean value received by the Cmdlet
+                    DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioEndpointVolume.Mute = (bool)recordingcommunicationmute;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No recording AudioDevice found with the default communication role");
+                }
             }
 
             // If the RecordingCommunicationMuteToggle parameter was called
             if (recordingcommunicationmutetoggle)
             {
-                // Toggle the mute state of the default communication recording device
-                DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioEndpointVolume.Mute = !DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioEndpointVolume.Mute;
+                try
+                {
+                    // Toggle the mute state of the default communication recording device
+                    DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioEndpointVolume.Mute = !DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioEndpointVolume.Mute;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No recording AudioDevice found with the default communication role");
+                }
             }
 
             // If the RecordingCommunicationVolume parameter received a value
             if (recordingcommunicationvolume != null)
             {
-                // Set the volume level of the default communication recording device to that of the float value received by the RecordingCommunicationVolume parameter
-                DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioEndpointVolume.MasterVolumeLevelScalar = (float)recordingcommunicationvolume / 100.0f;
+                try
+                {
+                    // Set the volume level of the default communication recording device to that of the float value received by the RecordingCommunicationVolume parameter
+                    DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioEndpointVolume.MasterVolumeLevelScalar = (float)recordingcommunicationvolume / 100.0f;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No recording AudioDevice found with the default communication role");
+                }
             }
 
             // If the RecordingMute parameter received a value
             if (recordingmute != null)
             {
-                // Set the mute state of the default recording device to that of the boolean value received by the Cmdlet
-                DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioEndpointVolume.Mute = (bool)recordingmute;
+                try
+                {
+                    // Set the mute state of the default recording device to that of the boolean value received by the Cmdlet
+                    DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioEndpointVolume.Mute = (bool)recordingmute;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No recording AudioDevice found with the default role");
+                }
             }
 
             // If the RecordingMuteToggle parameter was called
             if (recordingmutetoggle)
             {
-                // Toggle the mute state of the default recording device
-                DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioEndpointVolume.Mute = !DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioEndpointVolume.Mute;
+                try
+                {
+                    // Toggle the mute state of the default recording device
+                    DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioEndpointVolume.Mute = !DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioEndpointVolume.Mute;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No recording AudioDevice found with the default role");
+                }
             }
 
             // If the RecordingVolume parameter received a value
             if (recordingvolume != null)
             {
-                // Set the volume level of the default recording device to that of the float value received by the RecordingVolume parameter
-                DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioEndpointVolume.MasterVolumeLevelScalar = (float)recordingvolume / 100.0f;
+                try
+                {
+                    // Set the volume level of the default recording device to that of the float value received by the RecordingVolume parameter
+                    DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioEndpointVolume.MasterVolumeLevelScalar = (float)recordingvolume / 100.0f;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No recording AudioDevice found with the default role");
+                }
             }
         }
     }
