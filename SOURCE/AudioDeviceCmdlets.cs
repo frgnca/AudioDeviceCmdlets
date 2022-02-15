@@ -1368,16 +1368,44 @@ namespace AudioDeviceCmdlets
             // If the PlaybackCommunicationMeter parameter was called
             if (playbackcommunicationmeter)
             {
+                // Get the name of the default communication playback device
+                string FriendlyName = null;
+                try
+                {
+                    FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).FriendlyName;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No playback AudioDevice found with the default communication role");
+                }
                 // Create a new progress bar to output current audiometer result of the default communication playback device
-                ProgressRecord pr = new ProgressRecord(0, DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).FriendlyName, "Peak Value");
+                ProgressRecord pr = new ProgressRecord(0, FriendlyName, "Peak Value");
+
                 // Set the progress bar to zero
                 pr.PercentComplete = 0;
 
                 // Loop until interruption ex: CTRL+C
                 do
                 {
+                    // Get the name of the default communication playback device
+                    // Get current audio meter master peak value
+                    float MasterPeakValue;
+                    try
+                    {
+                        FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).FriendlyName;
+                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioMeterInformation.MasterPeakValue;
+                    }
+                    catch
+                    {
+                        // Throw an exception about the device not being found
+                        throw new System.ArgumentException("No playback AudioDevice found with the default communication role");
+                    }
+                    // Set progress bar title
+                    pr.Activity = FriendlyName;
+
                     // Set progress bar to current audiometer result
-                    pr.PercentComplete = System.Convert.ToInt32(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioMeterInformation.MasterPeakValue * 100);
+                    pr.PercentComplete = System.Convert.ToInt32(MasterPeakValue * 100);
 
                     // Write current audiometer result as a progress bar
                     WriteProgress(pr);
@@ -1395,9 +1423,20 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
+                    // Get current audio meter master peak value
+                    float MasterPeakValue;
+                    try
+                    {
+                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioMeterInformation.MasterPeakValue;
+                    }
+                    catch
+                    {
+                        // Throw an exception about the device not being found
+                        throw new System.ArgumentException("No playback AudioDevice found with the default communication role");
+                    }
                     // Write current audiometer result as a value
-                    WriteObject(System.Convert.ToInt32(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioMeterInformation.MasterPeakValue * 100));
-
+                    WriteObject(System.Convert.ToInt32(MasterPeakValue * 100));
+                    
                     // Wait 100 milliseconds
                     System.Threading.Thread.Sleep(100);
                 }
@@ -1408,16 +1447,44 @@ namespace AudioDeviceCmdlets
             // If the PlaybackMeter parameter was called
             if (playbackmeter)
             {
+                // Get the name of the default playback device
+                string FriendlyName = null;
+                try
+                {
+                    FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).FriendlyName;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No playback AudioDevice found with the default role");
+                }
                 // Create a new progress bar to output current audiometer result of the default playback device
-                ProgressRecord pr = new ProgressRecord(0, DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).FriendlyName, "Peak Value");
+                ProgressRecord pr = new ProgressRecord(0, FriendlyName, "Peak Value");
+
                 // Set the progress bar to zero
                 pr.PercentComplete = 0;
 
                 // Loop until interruption ex: CTRL+C
                 do
                 {
+                    // Get the name of the default playback device
+                    // Get current audio meter master peak value
+                    float MasterPeakValue;
+                    try
+                    {
+                        FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).FriendlyName;
+                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue;
+                    }
+                    catch
+                    {
+                        // Throw an exception about the device not being found
+                        throw new System.ArgumentException("No playback AudioDevice found with the default role");
+                    }
+                    // Set progress bar title
+                    pr.Activity = FriendlyName;
+
                     // Set progress bar to current audiometer result
-                    pr.PercentComplete = System.Convert.ToInt32(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue * 100);
+                    pr.PercentComplete = System.Convert.ToInt32(MasterPeakValue * 100);
 
                     // Write current audiometer result as a progress bar
                     WriteProgress(pr);
@@ -1435,8 +1502,19 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
+                    // Get current audio meter master peak value
+                    float MasterPeakValue;
+                    try
+                    {
+                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue;
+                    }
+                    catch
+                    {
+                        // Throw an exception about the device not being found
+                        throw new System.ArgumentException("No playback AudioDevice found with the default role");
+                    }
                     // Write current audiometer result as a value
-                    WriteObject(System.Convert.ToInt32(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue * 100));
+                    WriteObject(System.Convert.ToInt32(MasterPeakValue * 100));
 
                     // Wait 100 milliseconds
                     System.Threading.Thread.Sleep(100);
@@ -1448,16 +1526,44 @@ namespace AudioDeviceCmdlets
             // If the RecordingCommunicationMeter parameter was called
             if (recordingcommunicationmeter)
             {
+                // Get the name of the default communication recording device
+                string FriendlyName = null;
+                try
+                {
+                    FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).FriendlyName;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No recording AudioDevice found with the default communication role");
+                }
                 // Create a new progress bar to output current audiometer result of the default communication recording device
-                ProgressRecord pr = new ProgressRecord(0, DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).FriendlyName, "Peak Value");
+                ProgressRecord pr = new ProgressRecord(0, FriendlyName, "Peak Value");
+
                 // Set the progress bar to zero
                 pr.PercentComplete = 0;
 
                 // Loop until interruption ex: CTRL+C
                 do
                 {
+                    // Get the name of the default communication recording device
+                    // Get current audio meter master peak value
+                    float MasterPeakValue;
+                    try
+                    {
+                        FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).FriendlyName;
+                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioMeterInformation.MasterPeakValue;
+                    }
+                    catch
+                    {
+                        // Throw an exception about the device not being found
+                        throw new System.ArgumentException("No recording AudioDevice found with the default communication role");
+                    }
+                    // Set progress bar title
+                    pr.Activity = FriendlyName;
+
                     // Set progress bar to current audiometer result
-                    pr.PercentComplete = System.Convert.ToInt32(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioMeterInformation.MasterPeakValue * 100);
+                    pr.PercentComplete = System.Convert.ToInt32(MasterPeakValue * 100);
 
                     // Write current audiometer result as a progress bar
                     WriteProgress(pr);
@@ -1475,8 +1581,19 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
+                    // Get current audio meter master peak value
+                    float MasterPeakValue;
+                    try
+                    {
+                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioMeterInformation.MasterPeakValue;
+                    }
+                    catch
+                    {
+                        // Throw an exception about the device not being found
+                        throw new System.ArgumentException("No recording AudioDevice found with the default communication role");
+                    }
                     // Write current audiometer result as a value
-                    WriteObject(System.Convert.ToInt32(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioMeterInformation.MasterPeakValue * 100));
+                    WriteObject(System.Convert.ToInt32(MasterPeakValue * 100));
 
                     // Wait 100 milliseconds
                     System.Threading.Thread.Sleep(100);
@@ -1488,16 +1605,44 @@ namespace AudioDeviceCmdlets
             // If the RecordingMeter parameter was called
             if (recordingmeter)
             {
+                // Get the name of the default recording device
+                string FriendlyName = null;
+                try
+                {
+                    FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).FriendlyName;
+                }
+                catch
+                {
+                    // Throw an exception about the device not being found
+                    throw new System.ArgumentException("No recording AudioDevice found with the default role");
+                }
                 // Create a new progress bar to output current audiometer result of the default recording device
-                ProgressRecord pr = new ProgressRecord(0, DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).FriendlyName, "Peak Value");
+                ProgressRecord pr = new ProgressRecord(0, FriendlyName, "Peak Value");
+
                 // Set the progress bar to zero
                 pr.PercentComplete = 0;
 
                 // Loop until interruption ex: CTRL+C
                 do
                 {
+                    // Get the name of the default recording device
+                    // Get current audio meter master peak value
+                    float MasterPeakValue;
+                    try
+                    {
+                        FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).FriendlyName;
+                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue;
+                    }
+                    catch
+                    {
+                        // Throw an exception about the device not being found
+                        throw new System.ArgumentException("No recording AudioDevice found with the default role");
+                    }
+                    // Set progress bar title
+                    pr.Activity = FriendlyName;
+
                     // Set progress bar to current audiometer result
-                    pr.PercentComplete = System.Convert.ToInt32(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue * 100);
+                    pr.PercentComplete = System.Convert.ToInt32(MasterPeakValue * 100);
 
                     // Write current audiometer result as a progress bar
                     WriteProgress(pr);
@@ -1515,8 +1660,19 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
+                    // Get current audio meter master peak value
+                    float MasterPeakValue;
+                    try
+                    {
+                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue;
+                    }
+                    catch
+                    {
+                        // Throw an exception about the device not being found
+                        throw new System.ArgumentException("No recording AudioDevice found with the default role");
+                    }
                     // Write current audiometer result as a value
-                    WriteObject(System.Convert.ToInt32(DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue * 100));
+                    WriteObject(System.Convert.ToInt32(MasterPeakValue * 100));
 
                     // Wait 100 milliseconds
                     System.Threading.Thread.Sleep(100);
