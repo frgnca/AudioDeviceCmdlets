@@ -882,21 +882,21 @@ namespace AudioDeviceCmdlets
             // Create a new MMDeviceEnumerator
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
 
-            MMDeviceCollection DeviceCollection = null;
-            try
-            {
-                // Enumerate all enabled devices in a collection
-                DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
-            }
-            catch
-            {
-                // Error
-                throw new System.Exception("Error in cmdlet Set - Failed to create the collection of all enabled MMDevice using MMDeviceEnumerator");
-            }
-
             // If the InputObject parameter received a value
             if (inputObject != null)
             {
+                MMDeviceCollection DeviceCollection = null;
+                try
+                {
+                    // Enumerate all enabled devices in a collection
+                    DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+                }
+                catch
+                {
+                    // Error
+                    throw new System.Exception("Error in parameter InputObject - Failed to create the collection of all enabled MMDevice using MMDeviceEnumerator");
+                }
+
                 // For every MMDevice in DeviceCollection
                 for (int i = 0; i < DeviceCollection.Count; i++)
                 {
@@ -966,6 +966,18 @@ namespace AudioDeviceCmdlets
             // If the ID parameter received a value
             if (!string.IsNullOrEmpty(id))
             {
+                MMDeviceCollection DeviceCollection = null;
+                try
+                {
+                    // Enumerate all enabled devices in a collection
+                    DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+                }
+                catch
+                {
+                    // Error
+                    throw new System.Exception("Error in parameter ID - Failed to create the collection of all enabled MMDevice using MMDeviceEnumerator");
+                }
+
                 // For every MMDevice in DeviceCollection
                 for (int i = 0; i < DeviceCollection.Count; i++)
                 {
@@ -1035,6 +1047,18 @@ namespace AudioDeviceCmdlets
             // If the Index parameter received a value
             if (index != null)
             {
+                MMDeviceCollection DeviceCollection = null;
+                try
+                {
+                    // Enumerate all enabled devices in a collection
+                    DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
+                }
+                catch
+                {
+                    // Error
+                    throw new System.Exception("Error in parameter Index - Failed to create the collection of all enabled MMDevice using MMDeviceEnumerator");
+                }
+
                 // If the Index is valid
                 if (index.Value >= 1 && index.Value <= DeviceCollection.Count)
                 {
