@@ -68,6 +68,7 @@ namespace AudioDeviceCmdlets
         }
     }
 
+    // Class to get information on a MMDevice towards the creation of a corresponding AudioDevice
     public class AudioDeviceCreationToolkit
     {
         // The MMDeviceEnumerator
@@ -86,7 +87,7 @@ namespace AudioDeviceCmdlets
             MMDeviceCollection DeviceCollection = null;
             try
             {
-                // Enumarate all enabled devices in a collection
+                // Enumerate all enabled devices in a collection
                 DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
             }
             catch
@@ -334,7 +335,7 @@ namespace AudioDeviceCmdlets
                 MMDeviceCollection DeviceCollection = null;
                 try
                 {
-                    // Enumarate all enabled devices in a collection
+                    // Enumerate all enabled devices in a collection
                     DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
                 }
                 catch
@@ -363,7 +364,7 @@ namespace AudioDeviceCmdlets
                 MMDeviceCollection DeviceCollection = null;
                 try
                 {
-                    // Enumarate all enabled devices in a collection
+                    // Enumerate all enabled devices in a collection
                     DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
                 }
                 catch
@@ -399,7 +400,7 @@ namespace AudioDeviceCmdlets
                 MMDeviceCollection DeviceCollection = null;
                 try
                 {
-                    // Enumarate all enabled devices in a collection
+                    // Enumerate all enabled devices in a collection
                     DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
                 }
                 catch
@@ -884,7 +885,7 @@ namespace AudioDeviceCmdlets
             MMDeviceCollection DeviceCollection = null;
             try
             {
-                // Enumarate all enabled devices in a collection
+                // Enumerate all enabled devices in a collection
                 DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
             }
             catch
