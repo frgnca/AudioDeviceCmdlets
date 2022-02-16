@@ -83,10 +83,10 @@ namespace AudioDeviceCmdlets
         // Method to find out, in a collection of all enabled MMDevice, the Index of a MMDevice, given its ID
         public int FindIndex(string ID)
         {
-            // Enumarate all enabled devices in a collection
             MMDeviceCollection DeviceCollection = null;
             try
             {
+                // Enumarate all enabled devices in a collection
                 DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
             }
             catch
@@ -113,10 +113,10 @@ namespace AudioDeviceCmdlets
         // Method to find out if a MMDevice is the default MMDevice of its type, given its ID
         public bool IsDefault(string ID)
         {
-            // Try to get the ID of the default playback device
             string PlaybackID = "";
             try
             {
+                // Get the ID of the default playback device
                 PlaybackID = (DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia)).ID;
             }
             catch { }
@@ -127,10 +127,10 @@ namespace AudioDeviceCmdlets
                 return (true);
             }
 
-            // Try to get the ID of the default recording device
             string RecordingID = "";
             try
             {
+                // Get the ID of the default recording device
                 RecordingID = (DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia)).ID;
             }
             catch { }
@@ -147,10 +147,10 @@ namespace AudioDeviceCmdlets
         // Method to find out if a MMDevice is the default communication MMDevice of its type, given its ID
         public bool IsDefaultCommunication(string ID)
         {
-            // Try to get the ID of the default communication playback device
             string PlaybackCommunicationID = "";
             try
             {
+                // Get the ID of the default communication playback device
                 PlaybackCommunicationID = (DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications)).ID;
             }
             catch { }
@@ -161,10 +161,10 @@ namespace AudioDeviceCmdlets
                 return (true);
             }
 
-            // Try to get the ID of the default communication recording device
             string RecordingCommunicationID = "";
             try
             {
+                // Get the ID of the default communication recording device
                 RecordingCommunicationID = (DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications)).ID;
             }
             catch { }
@@ -331,10 +331,10 @@ namespace AudioDeviceCmdlets
                 // Create a AudioDeviceCreationToolkit
                 AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
 
-                // Enumarate all enabled devices in a collection
                 MMDeviceCollection DeviceCollection = null;
                 try
                 {
+                    // Enumarate all enabled devices in a collection
                     DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
                 }
                 catch
@@ -360,10 +360,10 @@ namespace AudioDeviceCmdlets
                 // Create a AudioDeviceCreationToolkit
                 AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
 
-                // Enumarate all enabled devices in a collection
                 MMDeviceCollection DeviceCollection = null;
                 try
                 {
+                    // Enumarate all enabled devices in a collection
                     DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
                 }
                 catch
@@ -396,10 +396,10 @@ namespace AudioDeviceCmdlets
                 // Create a AudioDeviceCreationToolkit
                 AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
 
-                // Enumarate all enabled devices in a collection
                 MMDeviceCollection DeviceCollection = null;
                 try
                 {
+                    // Enumarate all enabled devices in a collection
                     DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
                 }
                 catch
@@ -433,10 +433,10 @@ namespace AudioDeviceCmdlets
                 // Create a AudioDeviceCreationToolkit
                 AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
 
-                // Get the default communication playback device
                 MMDevice Device = null;
                 try
                 {
+                    // Get the default communication playback device
                     Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications);
                 }
                 catch
@@ -455,10 +455,10 @@ namespace AudioDeviceCmdlets
             // If the PlaybackCommunicationMute switch parameter was called
             if (playbackcommunicationmute)
             {
-                // Get the default communication playback device
                 MMDevice Device = null;
                 try
                 {
+                    // Get the default communication playback device
                     Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications);
                 }
                 catch
@@ -477,10 +477,10 @@ namespace AudioDeviceCmdlets
             // If the PlaybackCommunicationVolume switch parameter was called
             if (playbackcommunicationvolume)
             {
-                // Get the default communication playback device
                 MMDevice Device = null;
                 try
                 {
+                    // Get the default communication playback device
                     Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications);
                 }
                 catch
@@ -502,10 +502,10 @@ namespace AudioDeviceCmdlets
                 // Create a AudioDeviceCreationToolkit
                 AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
 
-                // Get the default playback device
                 MMDevice Device = null;
                 try
                 {
+                    // Get the default playback device
                     Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
                 }
                 catch
@@ -524,10 +524,10 @@ namespace AudioDeviceCmdlets
             // If the PlaybackMute switch parameter was called
             if (playbackmute)
             {
-                // Get the default playback device
                 MMDevice Device = null;
                 try
                 {
+                    // Get the default playback device
                     Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
                 }
                 catch
@@ -546,10 +546,10 @@ namespace AudioDeviceCmdlets
             // If the PlaybackVolume switch parameter was called
             if(playbackvolume)
             {
-                // Get the default playback device
                 MMDevice Device = null;
                 try
                 {
+                    // Get the default playback device
                     Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
                 }
                 catch
@@ -571,10 +571,10 @@ namespace AudioDeviceCmdlets
                 // Create a AudioDeviceCreationToolkit
                 AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
 
-                // Get the default communication recording device
                 MMDevice Device = null;
                 try
                 {
+                    // Get the default communication recording device
                     Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications);
                 }
                 catch
@@ -593,10 +593,10 @@ namespace AudioDeviceCmdlets
             // If the RecordingCommunicationMute switch parameter was called
             if (recordingcommunicationmute)
             {
-                // Get the default communication recording device
                 MMDevice Device = null;
                 try
                 {
+                    // Get the default communication recording device
                     Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications);
                 }
                 catch
@@ -615,10 +615,10 @@ namespace AudioDeviceCmdlets
             // If the RecordingCommunicationVolume switch parameter was called
             if (recordingcommunicationvolume)
             {
-                // Get the default communication recording device
                 MMDevice Device = null;
                 try
                 {
+                    // Get the default communication recording device
                     Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications);
                 }
                 catch
@@ -640,10 +640,10 @@ namespace AudioDeviceCmdlets
                 // Create a AudioDeviceCreationToolkit
                 AudioDeviceCreationToolkit Toolkit = new AudioDeviceCreationToolkit(DevEnum);
 
-                // Get the default recording device
                 MMDevice Device = null;
                 try
                 {
+                    // Get the default recording device
                     Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia);
                 }
                 catch
@@ -662,10 +662,10 @@ namespace AudioDeviceCmdlets
             // If the RecordingMute switch parameter was called
             if (recordingmute)
             {
-                // Get the default recording device
                 MMDevice Device = null;
                 try
                 {
+                    // Get the default recording device
                     Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia);
                 }
                 catch
@@ -684,10 +684,10 @@ namespace AudioDeviceCmdlets
             // If the RecordingVolume switch parameter was called
             if (recordingvolume)
             {
-                // Get the default recording device
                 MMDevice Device = null;
                 try
                 {
+                    // Get the default recording device
                     Device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia);
                 }
                 catch
@@ -881,10 +881,10 @@ namespace AudioDeviceCmdlets
             // Create a new MMDeviceEnumerator
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
 
-            // Enumarate all enabled devices in a collection
             MMDeviceCollection DeviceCollection = null;
             try
             {
+                // Enumarate all enabled devices in a collection
                 DeviceCollection = DevEnum.EnumerateAudioEndPoints(EDataFlow.eAll, EDeviceState.DEVICE_STATE_ACTIVE);
             }
             catch
@@ -1368,10 +1368,10 @@ namespace AudioDeviceCmdlets
             // If the PlaybackCommunicationMeter parameter was called
             if (playbackcommunicationmeter)
             {
-                // Get the name of the default communication playback device
                 string FriendlyName = null;
                 try
                 {
+                    // Get the name of the default communication playback device
                     FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).FriendlyName;
                 }
                 catch
@@ -1388,12 +1388,13 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    // Get the name of the default communication playback device
-                    // Get current audio meter master peak value
                     float MasterPeakValue;
                     try
                     {
+                        // Get the name of the default communication playback device
                         FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).FriendlyName;
+
+                        // Get current audio meter master peak value
                         MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioMeterInformation.MasterPeakValue;
                     }
                     catch
@@ -1423,10 +1424,10 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    // Get current audio meter master peak value
                     float MasterPeakValue;
                     try
                     {
+                        // Get current audio meter master peak value
                         MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioMeterInformation.MasterPeakValue;
                     }
                     catch
@@ -1447,10 +1448,10 @@ namespace AudioDeviceCmdlets
             // If the PlaybackMeter parameter was called
             if (playbackmeter)
             {
-                // Get the name of the default playback device
                 string FriendlyName = null;
                 try
                 {
+                    // Get the name of the default playback device
                     FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).FriendlyName;
                 }
                 catch
@@ -1467,12 +1468,13 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    // Get the name of the default playback device
-                    // Get current audio meter master peak value
                     float MasterPeakValue;
                     try
                     {
+                        // Get the name of the default playback device
                         FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).FriendlyName;
+
+                        // Get current audio meter master peak value
                         MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue;
                     }
                     catch
@@ -1502,10 +1504,10 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    // Get current audio meter master peak value
                     float MasterPeakValue;
                     try
                     {
+                        // Get current audio meter master peak value
                         MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue;
                     }
                     catch
@@ -1526,10 +1528,10 @@ namespace AudioDeviceCmdlets
             // If the RecordingCommunicationMeter parameter was called
             if (recordingcommunicationmeter)
             {
-                // Get the name of the default communication recording device
                 string FriendlyName = null;
                 try
                 {
+                    // Get the name of the default communication recording device
                     FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).FriendlyName;
                 }
                 catch
@@ -1546,12 +1548,13 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    // Get the name of the default communication recording device
-                    // Get current audio meter master peak value
                     float MasterPeakValue;
                     try
                     {
+                        // Get the name of the default communication recording device
                         FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).FriendlyName;
+
+                        // Get current audio meter master peak value
                         MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioMeterInformation.MasterPeakValue;
                     }
                     catch
@@ -1581,10 +1584,10 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    // Get current audio meter master peak value
                     float MasterPeakValue;
                     try
                     {
+                        // Get current audio meter master peak value
                         MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioMeterInformation.MasterPeakValue;
                     }
                     catch
@@ -1605,10 +1608,10 @@ namespace AudioDeviceCmdlets
             // If the RecordingMeter parameter was called
             if (recordingmeter)
             {
-                // Get the name of the default recording device
                 string FriendlyName = null;
                 try
                 {
+                    // Get the name of the default recording device
                     FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).FriendlyName;
                 }
                 catch
@@ -1625,12 +1628,13 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    // Get the name of the default recording device
-                    // Get current audio meter master peak value
                     float MasterPeakValue;
                     try
                     {
+                        // Get the name of the default recording device
                         FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).FriendlyName;
+
+                        // Get current audio meter master peak value
                         MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue;
                     }
                     catch
@@ -1660,10 +1664,10 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    // Get current audio meter master peak value
                     float MasterPeakValue;
                     try
                     {
+                        // Get current audio meter master peak value
                         MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue;
                     }
                     catch
