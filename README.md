@@ -38,7 +38,6 @@ Get-AudioDevice -RecordingCommunicationVolume	# Get the default communication re
 Get-AudioDevice -Recording			# Get the default recording device as <AudioDevice>
 Get-AudioDevice -RecordingMute			# Get the default recording device's mute state as <bool>
 Get-AudioDevice -RecordingVolume		# Get the default recording device's volume level on 100 as <float>
-
 ```
 ```PowerShell
 Set-AudioDevice	<AudioDevice>				# Set the given playback/recording device as both the default device and the default communication device, for its type
@@ -76,6 +75,10 @@ Write-AudioDevice -RecordingStream		# Write the default recording device's power
 
 
 ## Build Cmdlet from source
+
+
+<details>
+  <summary>Build instructions</summary>
 
 1. Install Visual Studio 2022
 
@@ -121,6 +124,7 @@ Build -> Build Solution
 	Get-ChildItem | Unblock-File
 	Import-Module AudioDeviceCmdlets
 	```
+</details>
 
 
 ## Donation
