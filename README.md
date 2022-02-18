@@ -123,6 +123,17 @@ Build -> Build Solution
 	```
 
 
+## Donation
+
+<details>
+  <summary>Thank you for considering</summary>
+
+* BTC [3AffczXX4Jb2iN8QWQhHQAsj9AqGFXgYUF](bitcoin:3AffczXX4Jb2iN8QWQhHQAsj9AqGFXgYUF)
+* BCH [qraf6a3fklta7xkvwkh49zqn6mgnm2eyz589rkfvl3](bitcoincash:qraf6a3fklta7xkvwkh49zqn6mgnm2eyz589rkfvl3)
+* ETH [0xE4EA2A2356C04c8054Db452dCBd6f958F74722dE](ethereum:0xE4EA2A2356C04c8054Db452dCBd6f958F74722dE)
+</details>
+
+
 ## Attribution
 
 Based on code originally posted to Code Project by Ray Molenkamp with comments and suggestions by MadMidi  
