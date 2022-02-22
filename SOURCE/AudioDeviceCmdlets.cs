@@ -320,6 +320,15 @@ namespace AudioDeviceCmdlets
         }
         private bool recordingvolume;
 
+        // Parameter called to display version and credit info
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "Version")]
+        public SwitchParameter Version
+        {
+            get { return version; }
+            set { version = value; }
+        }
+        private bool version;
+
         // Cmdlet execution
         protected override void ProcessRecord()
         {
@@ -703,6 +712,29 @@ namespace AudioDeviceCmdlets
                 // Stop checking for other parameters
                 return;
             }
+
+            // If the Version parameter was called
+            if (version)
+            {
+                // Version text
+                string text = @"
+  AudioDeviceCmdlets v3.1
+
+  Copyright (c) 2016-2022 Francois Gendron <fg@frgn.ca>
+  MIT License
+
+  Thank you for considering
+  BTC 3AffczXX4Jb2iN8QWQhHQAsj9AqGFXgYUF
+  BCH qraf6a3fklta7xkvwkh49zqn6mgnm2eyz589rkfvl3
+  ETH 0xE4EA2A2356C04c8054Db452dCBd6f958F74722dE
+";
+
+                // Write version text
+                WriteObject(text);
+
+                // Stop checking for other parameters
+                return;
+            }
         }
     }
 
@@ -872,6 +904,15 @@ namespace AudioDeviceCmdlets
             set { communicationOnly = value; }
         }
         private SwitchParameter communicationOnly;
+
+        // Parameter called to display version and credit info
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "Version")]
+        public SwitchParameter Version
+        {
+            get { return version; }
+            set { version = value; }
+        }
+        private bool version;
 
         // Cmdlet execution
         protected override void ProcessRecord()
@@ -1305,6 +1346,29 @@ namespace AudioDeviceCmdlets
                     throw new System.ArgumentException("No recording AudioDevice found with the default role");
                 }
             }
+
+            // If the Version parameter was called
+            if (version)
+            {
+                // Version text
+                string text = @"
+  AudioDeviceCmdlets v3.1
+
+  Copyright (c) 2016-2022 Francois Gendron <fg@frgn.ca>
+  MIT License
+
+  Thank you for considering
+  BTC 3AffczXX4Jb2iN8QWQhHQAsj9AqGFXgYUF
+  BCH qraf6a3fklta7xkvwkh49zqn6mgnm2eyz589rkfvl3
+  ETH 0xE4EA2A2356C04c8054Db452dCBd6f958F74722dE
+";
+
+                // Write version text
+                WriteObject(text);
+
+                // Stop checking for other parameters
+                return;
+            }
         }
     }
 
@@ -1383,6 +1447,15 @@ namespace AudioDeviceCmdlets
             set { recordingstream = value; }
         }
         private bool recordingstream;
+
+        // Parameter called to display version and credit info
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "Version")]
+        public SwitchParameter Version
+        {
+            get { return version; }
+            set { version = value; }
+        }
+        private bool version;
 
         // Cmdlet execution
         protected override void ProcessRecord()
@@ -1708,6 +1781,29 @@ namespace AudioDeviceCmdlets
                 }
                 // Loop interrupted ex: CTRL+C
                 while (!Stopping);
+            }
+
+            // If the Version parameter was called
+            if (version)
+            {
+                // Version text
+                string text = @"
+  AudioDeviceCmdlets v3.1
+
+  Copyright (c) 2016-2022 Francois Gendron <fg@frgn.ca>
+  MIT License
+
+  Thank you for considering
+  BTC 3AffczXX4Jb2iN8QWQhHQAsj9AqGFXgYUF
+  BCH qraf6a3fklta7xkvwkh49zqn6mgnm2eyz589rkfvl3
+  ETH 0xE4EA2A2356C04c8054Db452dCBd6f958F74722dE
+";
+
+                // Write version text
+                WriteObject(text);
+
+                // Stop checking for other parameters
+                return;
             }
         }
     }
