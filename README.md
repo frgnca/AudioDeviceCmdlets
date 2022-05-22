@@ -130,11 +130,11 @@ Build -> Build Solution
 ## Donation
 
 <details>
-  <summary>Thank you for considering</summary>
+  <summary>Thank you for considering a donation</summary>
 
-* BTC [3AffczXX4Jb2iN8QWQhHQAsj9AqGFXgYUF](bitcoin:3AffczXX4Jb2iN8QWQhHQAsj9AqGFXgYUF)
-* BCH [qraf6a3fklta7xkvwkh49zqn6mgnm2eyz589rkfvl3](bitcoincash:qraf6a3fklta7xkvwkh49zqn6mgnm2eyz589rkfvl3)
-* ETH [0xE4EA2A2356C04c8054Db452dCBd6f958F74722dE](ethereum:0xE4EA2A2356C04c8054Db452dCBd6f958F74722dE)
+	Bitcoin		(BTC) 3AffczXX4Jb2iN8QWQhHQAsj9AqGFXgYUF
+	BitcoinCash	(BCH) qraf6a3fklta7xkvwkh49zqn6mgnm2eyz589rkfvl3
+	Ethereum	(ETH) 0xE4EA2A2356C04c8054Db452dCBd6f958F74722dE
 </details>
 
 
