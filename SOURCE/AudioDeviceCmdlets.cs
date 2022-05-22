@@ -723,10 +723,10 @@ namespace AudioDeviceCmdlets
   Copyright (c) 2016-2022 Francois Gendron <fg@frgn.ca>
   MIT License
 
-  Thank you for considering
-  BTC 3AffczXX4Jb2iN8QWQhHQAsj9AqGFXgYUF
-  BCH qraf6a3fklta7xkvwkh49zqn6mgnm2eyz589rkfvl3
-  ETH 0xE4EA2A2356C04c8054Db452dCBd6f958F74722dE
+  Thank you for considering a donation
+  Bitcoin     (BTC) 3AffczXX4Jb2iN8QWQhHQAsj9AqGFXgYUF
+  BitcoinCash (BCH) qraf6a3fklta7xkvwkh49zqn6mgnm2eyz589rkfvl3
+  Ethereum    (ETH) 0xE4EA2A2356C04c8054Db452dCBd6f958F74722dE
 ";
 
                 // Write version text
@@ -1357,10 +1357,10 @@ namespace AudioDeviceCmdlets
   Copyright (c) 2016-2022 Francois Gendron <fg@frgn.ca>
   MIT License
 
-  Thank you for considering
-  BTC 3AffczXX4Jb2iN8QWQhHQAsj9AqGFXgYUF
-  BCH qraf6a3fklta7xkvwkh49zqn6mgnm2eyz589rkfvl3
-  ETH 0xE4EA2A2356C04c8054Db452dCBd6f958F74722dE
+  Thank you for considering a donation
+  Bitcoin     (BTC) 3AffczXX4Jb2iN8QWQhHQAsj9AqGFXgYUF
+  BitcoinCash (BCH) qraf6a3fklta7xkvwkh49zqn6mgnm2eyz589rkfvl3
+  Ethereum    (ETH) 0xE4EA2A2356C04c8054Db452dCBd6f958F74722dE
 ";
 
                 // Write version text
@@ -1793,10 +1793,10 @@ namespace AudioDeviceCmdlets
   Copyright (c) 2016-2022 Francois Gendron <fg@frgn.ca>
   MIT License
 
-  Thank you for considering
-  BTC 3AffczXX4Jb2iN8QWQhHQAsj9AqGFXgYUF
-  BCH qraf6a3fklta7xkvwkh49zqn6mgnm2eyz589rkfvl3
-  ETH 0xE4EA2A2356C04c8054Db452dCBd6f958F74722dE
+  Thank you for considering a donation
+  Bitcoin     (BTC) 3AffczXX4Jb2iN8QWQhHQAsj9AqGFXgYUF
+  BitcoinCash (BCH) qraf6a3fklta7xkvwkh49zqn6mgnm2eyz589rkfvl3
+  Ethereum    (ETH) 0xE4EA2A2356C04c8054Db452dCBd6f958F74722dE
 ";
 
                 // Write version text
