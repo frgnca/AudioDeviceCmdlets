@@ -718,7 +718,7 @@ namespace AudioDeviceCmdlets
             {
                 // Version text
                 string text = @"
-  AudioDeviceCmdlets v3.1.0.1
+  AudioDeviceCmdlets v3.1.0.2
 
   Copyright (c) 2016-2022 Francois Gendron <fg@frgn.ca>
   MIT License
@@ -1352,7 +1352,7 @@ namespace AudioDeviceCmdlets
             {
                 // Version text
                 string text = @"
-  AudioDeviceCmdlets v3.1.0.1
+  AudioDeviceCmdlets v3.1.0.2
 
   Copyright (c) 2016-2022 Francois Gendron <fg@frgn.ca>
   MIT License
@@ -1788,7 +1788,7 @@ namespace AudioDeviceCmdlets
             {
                 // Version text
                 string text = @"
-  AudioDeviceCmdlets v3.1.0.1
+  AudioDeviceCmdlets v3.1.0.2
 
   Copyright (c) 2016-2022 Francois Gendron <fg@frgn.ca>
   MIT License
