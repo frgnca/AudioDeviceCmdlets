@@ -1457,16 +1457,40 @@ namespace AudioDeviceCmdlets
         }
         private bool version;
 
+        [Parameter(Position=1)]
+        public TimeSpan SampleInterval {
+            get { return sampleInterval; }
+            set { sampleInterval = value;}
+        }
+
+        [Parameter(ParameterSetName = "RecordingStream")]
+        [Parameter(ParameterSetName = "RecordingCommunicationStream")]
+        [Parameter(ParameterSetName = "PlaybackStream")]
+        [Parameter(ParameterSetName = "PlaybackCommunicationStream")]
+        public SwitchParameter AsFloat {
+            get; set;
+        }
+
+        [Parameter()]
+        public SwitchParameter MultiChannel {
+            get; set;
+        }
+
+        private TimeSpan sampleInterval = TimeSpan.FromMilliseconds(100);
+
         // Cmdlet execution
         protected override void ProcessRecord()
         {
             // Create a new MMDeviceEnumerator
             MMDeviceEnumerator DevEnum = new MMDeviceEnumerator();
+            MMDevice device = null;
+            float MasterPeakValue;
+            float[] ChannelPeakVolume;
+            string FriendlyName = null;
 
             // If the PlaybackCommunicationMeter parameter was called
             if (playbackcommunicationmeter)
-            {
-                string FriendlyName = null;
+            {                
                 try
                 {
                     // Get the name of the default communication playback device
@@ -1486,31 +1510,24 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    float MasterPeakValue;
+            
                     try
                     {
                         // Get the name of the default communication playback device
-                        FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).FriendlyName;
-
-                        // Get current audio meter master peak value
-                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioMeterInformation.MasterPeakValue;
+                        device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications);                        
                     }
                     catch
                     {
                         // Throw an exception about the device not being found
                         throw new System.ArgumentException("No playback AudioDevice found with the default communication role");
                     }
-                    // Set progress bar title
-                    pr.Activity = FriendlyName;
 
-                    // Set progress bar to current audiometer result
-                    pr.PercentComplete = System.Convert.ToInt32(MasterPeakValue * 100);
-
-                    // Write current audiometer result as a progress bar
-                    WriteProgress(pr);
-
-                    // Wait 100 milliseconds
-                    System.Threading.Thread.Sleep(100);
+                    WriteDeviceProgress(device);                    
+                    
+                    // Wait for SampleInterval milliseconds
+                    if (SampleInterval.TotalMilliseconds > 0) {
+                        System.Threading.Thread.Sleep((int)SampleInterval.TotalMilliseconds);
+                    }
                 }
                 // Loop interrupted ex: CTRL+C
                 while (!Stopping);
@@ -1522,22 +1539,25 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    float MasterPeakValue;
                     try
                     {
                         // Get current audio meter master peak value
-                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications).AudioMeterInformation.MasterPeakValue;
+                        device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eCommunications);                        
                     }
                     catch
                     {
                         // Throw an exception about the device not being found
                         throw new System.ArgumentException("No playback AudioDevice found with the default communication role");
                     }
-                    // Write current audiometer result as a value
-                    WriteObject(System.Convert.ToInt32(MasterPeakValue * 100));
+
+                    WriteDeviceOutput(device);
                     
-                    // Wait 100 milliseconds
-                    System.Threading.Thread.Sleep(100);
+                    
+                    // Wait for SampleInterval milliseconds
+                    if (SampleInterval.TotalMilliseconds > 0) {
+                        System.Threading.Thread.Sleep((int)SampleInterval.TotalMilliseconds);
+                    }
+                    
                 }
                 // Loop interrupted ex: CTRL+C
                 while (!Stopping);
@@ -1545,8 +1565,7 @@ namespace AudioDeviceCmdlets
 
             // If the PlaybackMeter parameter was called
             if (playbackmeter)
-            {
-                string FriendlyName = null;
+            {                
                 try
                 {
                     // Get the name of the default playback device
@@ -1566,31 +1585,22 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    float MasterPeakValue;
                     try
                     {
-                        // Get the name of the default playback device
-                        FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).FriendlyName;
-
-                        // Get current audio meter master peak value
-                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue;
+                        device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);                        
                     }
                     catch
                     {
                         // Throw an exception about the device not being found
                         throw new System.ArgumentException("No playback AudioDevice found with the default role");
                     }
-                    // Set progress bar title
-                    pr.Activity = FriendlyName;
 
-                    // Set progress bar to current audiometer result
-                    pr.PercentComplete = System.Convert.ToInt32(MasterPeakValue * 100);
-
-                    // Write current audiometer result as a progress bar
-                    WriteProgress(pr);
-
-                    // Wait 100 milliseconds
-                    System.Threading.Thread.Sleep(100);
+                    WriteDeviceProgress(device);
+                    
+                    // Wait for SampleInterval milliseconds
+                    if (SampleInterval.TotalMilliseconds > 0) {
+                        System.Threading.Thread.Sleep((int)SampleInterval.TotalMilliseconds);
+                    }
                 }
                 // Loop interrupted ex: CTRL+C
                 while (!Stopping);
@@ -1602,11 +1612,9 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    float MasterPeakValue;
                     try
                     {
-                        // Get current audio meter master peak value
-                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue;
+                        device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
                     }
                     catch
                     {
@@ -1614,10 +1622,13 @@ namespace AudioDeviceCmdlets
                         throw new System.ArgumentException("No playback AudioDevice found with the default role");
                     }
                     // Write current audiometer result as a value
-                    WriteObject(System.Convert.ToInt32(MasterPeakValue * 100));
+                    WriteDeviceOutput(device);
 
-                    // Wait 100 milliseconds
-                    System.Threading.Thread.Sleep(100);
+                    // Wait for SampleInterval milliseconds
+                    if (SampleInterval.TotalMilliseconds > 0) {
+                        System.Threading.Thread.Sleep((int)SampleInterval.TotalMilliseconds);
+                    }
+                    
                 }
                 // Loop interrupted ex: CTRL+C
                 while (!Stopping);
@@ -1625,8 +1636,7 @@ namespace AudioDeviceCmdlets
 
             // If the RecordingCommunicationMeter parameter was called
             if (recordingcommunicationmeter)
-            {
-                string FriendlyName = null;
+            {                
                 try
                 {
                     // Get the name of the default communication recording device
@@ -1646,31 +1656,23 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    float MasterPeakValue;
                     try
                     {
-                        // Get the name of the default communication recording device
-                        FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).FriendlyName;
-
-                        // Get current audio meter master peak value
-                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioMeterInformation.MasterPeakValue;
+                        device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications);                        
                     }
                     catch
                     {
                         // Throw an exception about the device not being found
                         throw new System.ArgumentException("No recording AudioDevice found with the default communication role");
                     }
-                    // Set progress bar title
-                    pr.Activity = FriendlyName;
-
-                    // Set progress bar to current audiometer result
-                    pr.PercentComplete = System.Convert.ToInt32(MasterPeakValue * 100);
 
                     // Write current audiometer result as a progress bar
-                    WriteProgress(pr);
+                    WriteDeviceProgress(device);
 
-                    // Wait 100 milliseconds
-                    System.Threading.Thread.Sleep(100);
+                    // Wait for SampleInterval milliseconds
+                    if (SampleInterval.TotalMilliseconds > 0) {
+                        System.Threading.Thread.Sleep((int)SampleInterval.TotalMilliseconds);
+                    }
                 }
                 // Loop interrupted ex: CTRL+C
                 while (!Stopping);
@@ -1682,11 +1684,9 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    float MasterPeakValue;
                     try
                     {
-                        // Get current audio meter master peak value
-                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications).AudioMeterInformation.MasterPeakValue;
+                        device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eCommunications);
                     }
                     catch
                     {
@@ -1694,10 +1694,12 @@ namespace AudioDeviceCmdlets
                         throw new System.ArgumentException("No recording AudioDevice found with the default communication role");
                     }
                     // Write current audiometer result as a value
-                    WriteObject(System.Convert.ToInt32(MasterPeakValue * 100));
+                    WriteDeviceOutput(device);
 
-                    // Wait 100 milliseconds
-                    System.Threading.Thread.Sleep(100);
+                    // Wait for SampleInterval milliseconds
+                    if (SampleInterval.TotalMilliseconds > 0) {
+                        System.Threading.Thread.Sleep((int)SampleInterval.TotalMilliseconds);
+                    }
                 }
                 // Loop interrupted ex: CTRL+C
                 while (!Stopping);
@@ -1705,8 +1707,7 @@ namespace AudioDeviceCmdlets
 
             // If the RecordingMeter parameter was called
             if (recordingmeter)
-            {
-                string FriendlyName = null;
+            {                
                 try
                 {
                     // Get the name of the default recording device
@@ -1726,31 +1727,22 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    float MasterPeakValue;
                     try
                     {
-                        // Get the name of the default recording device
-                        FriendlyName = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).FriendlyName;
-
-                        // Get current audio meter master peak value
-                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue;
+                        device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia);
                     }
                     catch
                     {
                         // Throw an exception about the device not being found
                         throw new System.ArgumentException("No recording AudioDevice found with the default role");
                     }
-                    // Set progress bar title
-                    pr.Activity = FriendlyName;
 
-                    // Set progress bar to current audiometer result
-                    pr.PercentComplete = System.Convert.ToInt32(MasterPeakValue * 100);
+                    WriteDeviceProgress(device);
 
-                    // Write current audiometer result as a progress bar
-                    WriteProgress(pr);
-
-                    // Wait 100 milliseconds
-                    System.Threading.Thread.Sleep(100);
+                    // Wait for SampleInterval milliseconds
+                    if (SampleInterval.TotalMilliseconds > 0) {
+                        System.Threading.Thread.Sleep((int)SampleInterval.TotalMilliseconds);
+                    }
                 }
                 // Loop interrupted ex: CTRL+C
                 while (!Stopping);
@@ -1762,11 +1754,9 @@ namespace AudioDeviceCmdlets
                 // Loop until interruption ex: CTRL+C
                 do
                 {
-                    float MasterPeakValue;
                     try
                     {
-                        // Get current audio meter master peak value
-                        MasterPeakValue = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia).AudioMeterInformation.MasterPeakValue;
+                        device = DevEnum.GetDefaultAudioEndpoint(EDataFlow.eCapture, ERole.eMultimedia);                        
                     }
                     catch
                     {
@@ -1774,10 +1764,13 @@ namespace AudioDeviceCmdlets
                         throw new System.ArgumentException("No recording AudioDevice found with the default role");
                     }
                     // Write current audiometer result as a value
-                    WriteObject(System.Convert.ToInt32(MasterPeakValue * 100));
+                    WriteDeviceOutput(device);
+                    
 
-                    // Wait 100 milliseconds
-                    System.Threading.Thread.Sleep(100);
+                    // Wait for SampleInterval milliseconds
+                    if (SampleInterval.TotalMilliseconds > 0) {
+                        System.Threading.Thread.Sleep((int)SampleInterval.TotalMilliseconds);
+                    }
                 }
                 // Loop interrupted ex: CTRL+C
                 while (!Stopping);
@@ -1805,6 +1798,87 @@ namespace AudioDeviceCmdlets
                 // Stop checking for other parameters
                 return;
             }
+        }
+
+        protected void WriteDeviceProgress(MMDevice device) {
+            ProgressRecord pr;
+            AudioMeterInformation audioMeter = device.AudioMeterInformation;
+            if (MultiChannel) {
+                
+                for (int channelNumber = 0; channelNumber < audioMeter.PeakValues.Count;channelNumber++) {
+                    int channelPeak = System.Convert.ToInt32(
+                        audioMeter.PeakValues[channelNumber] * 100);
+                    
+                    if (audioMeter.PeakValues.Count == 2) {
+                        string leftOrRight = String.Empty;
+                        if (channelNumber == 0) {
+                            leftOrRight = "L";
+                        } else {
+                            leftOrRight = "R";
+                        }
+                        pr = new ProgressRecord(channelNumber,
+                            device.FriendlyName + String.Format(" ({0})", leftOrRight),
+                            String.Format("{0:P}", audioMeter.PeakValues[channelNumber]));
+                        pr.PercentComplete = channelPeak;
+                    } else {
+                        pr = new ProgressRecord(channelNumber,
+                            device.FriendlyName,
+                            String.Format("{0:P}", audioMeter.PeakValues[channelNumber]));
+                        pr.PercentComplete = channelPeak;
+                    }                    
+                    WriteProgress(pr);
+                }                
+            } else {
+                int masterPeak = System.Convert.ToInt32(device.AudioMeterInformation.MasterPeakValue * 100);
+                pr = new ProgressRecord(0, device.FriendlyName, String.Format("{0}", masterPeak));                
+                pr.PercentComplete = masterPeak;
+                WriteProgress(pr);
+            }
+        }
+
+        protected void WriteDeviceOutput(MMDevice device) {
+            AudioMeterInformation audioMeter = device.AudioMeterInformation;
+            if (MultiChannel) {                                
+                PSObject output = new PSObject();
+                output.Members.Add(
+                    (PSMemberInfo)new PSNoteProperty("Device", device.FriendlyName)
+                );
+
+                for (int channelNumber = 0; channelNumber < audioMeter.PeakValues.Count;channelNumber++) {
+                    string channelName = "Channel " + channelNumber;
+                    float channelPeak  = audioMeter.PeakValues[channelNumber];
+                    if (AsFloat) {
+                        WriteObject(channelPeak);
+                        continue;
+                    }
+                    if (audioMeter.PeakValues.Count == 2) {
+                        if (channelNumber == 0) {
+                            channelName = "Left";
+                        }
+                        else {
+                            channelName = "Right";
+                        }
+                    }                    
+                    output.Members.Add(
+                        (PSMemberInfo)(new PSNoteProperty(channelName, channelPeak))
+                    );                
+                }
+                if (! AsFloat) {
+                    WriteObject(output);
+                }
+                return;
+            }
+
+            if (AsFloat) {
+                WriteObject(audioMeter.MasterPeakValue);
+                return;
+            }            
+
+            WriteObject(
+                Convert.ToInt32(
+                    audioMeter.MasterPeakValue * 100
+                )
+            );            
         }
     }
 }
