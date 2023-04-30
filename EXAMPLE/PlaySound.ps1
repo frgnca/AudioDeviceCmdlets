@@ -15,19 +15,10 @@ https://github.com/frgnca/AudioDeviceCmdlets
 # Bonus: Run this PowerShell script from a VBScript to avoid visible window
 # Toggle-AudioDevice.vbs
 <#
-command = "powershell.exe -nologo -command C:\Path\To\Toggle-AudioDevice.ps1"
+command = "powershell.exe -nologo -command C:\Path\To\PlaySound.ps1"
 set shell = CreateObject("WScript.Shell")
 shell.Run command,0
 #>
-
-# Define AudioDevice by ID (ex: "{0.0.0.00000000}.{c4aadd95-74c7-4b3b-9508-b0ef36ff71ba}")
-$AudioDevice_A = "{0.0.0.00000000}.{48300fc4-2125-492d-ab28-c6b01b9eee6b}"
-$AudioDevice_B = "{0.0.0.00000000}.{c4aadd95-74c7-4b3b-9508-b0ef36ff71ba}"
-
-# Toggle default playback device
-$DefaultPlayback = Get-AudioDevice -Playback
-If ($DefaultPlayback.ID -eq $AudioDevice_A) {Set-AudioDevice -ID $AudioDevice_B | Out-Null}
-Else {Set-AudioDevice -ID $AudioDevice_A | Out-Null}
 
 # Play sound
 $Sound = new-Object System.Media.SoundPlayer
